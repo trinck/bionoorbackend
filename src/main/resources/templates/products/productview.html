@@ -1,10 +1,54 @@
 <!DOCTYPE html>
-<html>
+<html  lang="en" data-bs-theme="light"  xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="index">
 <head>
 <meta charset="UTF-8">
 <title>Product View</title>
 </head>
 <body>
+
+	
+	 <div	class="container d-flex flex-column gap-5 mb-3" layout:fragment="content">
+
+
+			<!-- start hearder commun with all pages -->
+			<header class="row border-bottom p-1">
+				<h5>View product #F45G3</h5>
+			</header>
+	
+			<!-- end hearder commun with all pages -->
+			
+			
+			<div class="d-flex flex-row container bg-white p-5" style="width: 95%;" id="orderview-content">
+				<!-- productview left -->
+				<div class="d-flex flex-column">
+					
+					<div id="sliderid" class="card w-50 border-0 shadow-sm carousel slide" data-ride="carousel" >
+						<img class="product-image-first card-img-top" alt=""  src="https://urlz.fr/lAUR">
+					
+						<ol class="product-images card-body text-center carousel-indicators">
+							<li><img style="width: 75px; height: auto"  src="https://urlz.fr/lC2M"></li>
+							<li><img src="https://urlz.fr/lC2N" style="width: 75px; height: auto"></li>
+							<li><img style="width: 75px; height: auto" src="https://urlz.fr/lC2O"></li> 
+								  
+						 </ol>
+					</div>
+				
+				</div>
+				<!-- productview left end -->
+				
+				
+				<!-- productview right -->
+				<div class="d-flex flex-column">
+				
+				</div>
+				<!-- productview right end -->
+			</div>
+	
+
+
+	</div>
+	
 
 </body>
 </html>

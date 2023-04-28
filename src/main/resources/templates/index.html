@@ -31,37 +31,138 @@
 			<!--(ul) liens nav sidebar -->
 
 			<ul
-				class="d-block nav nav-pills flex-grow-1 overflow-auto px-1 gap-3">
+				class="d-block nav flex-grow-1 nav-pills bio-list-hover overflow-auto px-1 py-1 gap-3">
 
-				<li><a href="#" class="nav-link text-white active d-flex gap-2">
+				<li><a href="#" class="nav-link text-bg-warning d-flex gap-2">
 						<i class="bi bi-speedometer2"></i> Dashboard
 				</a></li>
 
 				<!-- divider pages-->
 				<li class="text-muted bio-sidebar-title">PAGES</li>
 
-				<li><a href="#" class="nav-link text-white d-flex gap-2"> <i
+				<li><a th:href="@{/orders}" class="nav-link text-white d-flex gap-2"> <i
 						class="bi bi-folder-fill"></i> Orders
 				</a></li>
-				<li><a th:href="@{/products}" class="nav-link text-white d-flex gap-2"> <i
-						class="bi bi-basket3-fill"></i> Products
+				
+				<!-- collapse product nav item----------------- -->
+				
+				<li><a href="#collapseproduct" data-bs-toggle="collapse" class="nav-link text-white d-flex gap-2"> <i
+						class="bi bi-basket3-fill"></i> Products <span class="badge bg-warning text-black rounded-pill ms-auto">4</span>
 				</a></li>
-				<li><a href="#" class="nav-link text-white d-flex gap-2"> <i
+				
+				<!-- menu Products -->
+
+
+							<li class="collapse border my-2  rounded" id="collapseproduct">
+			
+								<ul class="d-block bio-list-hover p-1">
+									<li><a th:href="@{/products}" class="nav-link text-white d-flex ">
+											Products list </a></li>
+											
+									<li><a href="#" class="nav-link text-white d-flex ">
+											Product range </a></li>
+											
+									<li><a href="/categories" class="nav-link text-white d-flex ">
+											Categories</a></li>
+								</ul>
+			
+			
+							</li>
+
+
+				<!-- end collapse products -->
+				
+				
+				
+				<!-- collapse customers -->
+				
+				<li><a data-bs-toggle="collapse" href="#collapsecustomers" class="nav-link text-white d-flex gap-2"> <i
 						class="bi bi-people-fill"></i> Customers
 				</a></li>
 				
-				<li><a href="#" class="nav-link text-white d-flex gap-2">
-				<i class="bi bi-chat-left-text-fill"></i></i>Blog
-				</a></li>
+				<!-- menu customers -->
+
+
+							<li class="collapse border my-2  rounded" id="collapsecustomers">
+			
+								<ul class="d-block bio-list-hover p-1">
+									<li><a href="#" class="nav-link text-white d-flex ">
+											Customers list </a></li>
+											
+									<li><a href="#" class="nav-link text-white d-flex ">
+											New customer </a></li>
+								</ul>
+			
+			
+							</li>
+				
+				
+				
+				<!--end collapse customers -->
+				
+				
+				
+				<!-- collapse blog nav item----------------- -->
+				
+				<li>
+					<a href="#collapseblog"	data-bs-toggle="collapse" class="nav-link text-white d-flex gap-2">
+						<i class="bi bi-chat-left-text-fill"></i>Blog
+					</a>
+					
+				</li>
+				<!-- menu blog -->
+
+
+							<li class="collapse my-2 border rounded" id="collapseblog">
+			
+								<ul class="d-block bio-list-hover p-1 gap-3">
+									<li><a href="#" class="nav-link text-white d-flex gap-2">
+											Edit </a></li>
+											
+									<li><a href="#" class="nav-link text-white d-flex gap-2">
+											Posts </a></li>
+								</ul>
+			
+			
+							</li>
+			
+
+				<!-- end collapse blog -->
+				
 				
 				<li><a th:href="@{/users}" class="nav-link text-white d-flex gap-2">
 				<i class="bi bi-person-badge-fill"></i></i></i>Users
 				</a></li>
 				
-				<li><a href="#" class="nav-link text-white d-flex gap-2">
+				
+				<!-- collapse Professional nav item----------------- -->
+				
+				<li><a href="#collapseprofessional" data-bs-toggle="collapse" class="nav-link text-white d-flex gap-2">
 				<i class="bi bi-person-vcard-fill"></i>Professional
 				</a></li>
 				
+				<!-- menu Professional -->
+
+
+							<li class="collapse border my-2  rounded" id="collapseprofessional">
+			
+								<ul class="d-block bio-list-hover p-1">
+									<li><a href="#" class="nav-link text-white d-flex ">
+											Distributor </a></li>
+											
+									<li><a href="#" class="nav-link text-white d-flex ">
+											White mark </a></li>
+											
+									<li><a href="#" class="nav-link text-white d-flex ">
+											Franchise </a></li>
+								</ul>
+			
+			
+							</li>
+				
+				
+				
+				<!--end collapse Professional -->
 				
 				
 				<!-- divider APPS-->
@@ -71,14 +172,63 @@
 				 <i class="bi bi-film"></i>Medias
 				</a></li>
 				
-				<li><a href="#" class="nav-link text-white d-flex gap-2">
+				
+				<!-- start collapse service sals -->
+				<li><a href="#collapsesals" data-bs-toggle="collapse" class="nav-link text-white d-flex gap-2">
 				 <i class="bi bi-receipt-cutoff"></i>Sals service
 				</a></li>
+				<!-- menu sals sevice -->
+
+
+							<li class="collapse border my-2  rounded" id="collapsesals">
+			
+								<ul class="d-block bio-list-hover p-1">
+									<li><a href="#" class="nav-link text-white d-flex ">
+											Taxes </a></li>
+											
+									<li><a href="#" class="nav-link text-white d-flex ">
+											Transport </a></li>
+											
+									<li><a href="#" class="nav-link text-white d-flex ">
+											Sals </a></li>
+											
+									<li><a href="#" class="nav-link text-white d-flex ">
+											Payment </a></li>
+								</ul>
+			
+			
+							</li>
+				
+				
+				
+				<!--end collapse sals service -->
+				
+				
+				
+				<!-- shop nav-item -->
+				<li><a href="#" class="nav-link text-white d-flex gap-2">
+				 <i class="bi bi-bag-fill"></i>Shop
+				</a></li>
+				
+				
+				<!-- invoices  nav-item -->
+				<li><a href="#" class="nav-link text-white d-flex gap-2">
+				 <i class="bi bi-receipt"></i>Invoice builder
+				</a></li>
+				
+				
 				
 				<li><a href="#" class="nav-link text-white d-flex gap-2">
 				 <i class="bi bi-envelope-at-fill"></i>Mailling
 				</a></li>
 				
+				<!-- divider Options-->
+				<li  class=" text-muted bio-sidebar-title">OPTIONS</li>
+				
+				<!-- setting nav-item -->
+				<li><a href="#" class="nav-link text-white d-flex gap-2">
+				 <i class="bi bi-gear-wide-connected"></i>Setting
+				</a></li>
 				
 				
 
@@ -96,16 +246,16 @@
         <div id="content-wrapper" class="flex-grow-1 d-flex flex-column">
 
             <!-- Main Content -->
-            <div id="content">
+            <div id="content" style="background-color: #F7F7F7">
 
                 <!-- Topbar -->
-                <nav class="navbar navbar-expand bio-toolbar navbar-light p-4 bg-white topbar mb-4 shadow">
+                <nav class="navbar navbar-expand bio-toolbar navbar-light p-4 bg-white topbar mb-4 shadow ">
 
                         <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - User Information -->
                         
-                            <span >Douglas McGee</span>
+                            <span ></span>
 
                 </nav>
                 
@@ -116,7 +266,7 @@
 
              <!-- start content template fluid -->
              
-             <section class="bg-danger" layout:fragment="content">
+             <section  layout:fragment="content">
             
              </section>
              
@@ -131,8 +281,8 @@
             <!-- Footer -->
             <footer class="py-3 bin-footer bg-warning">
                 <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright © Your Website 2021</span>
+                    <div class="copyright text-center text-black my-auto">
+                        <span>Copyright © Your Website 2023</span>
                     </div>
                 </div>
             </footer>

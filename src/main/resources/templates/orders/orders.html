@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light"  xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="index">
+<head>
+<meta charset="UTF-8">
+<title>Orders's listt</title>
+</head>
+<body>
+    <div	class="container d-flex flex-column gap-5"	layout:fragment="content">
+    
+    <!-- start hearder commun with all pages -->
+    	<header class="row border-bottom p-1" >
+    		<h5 >Orders List</h5>
+    	</header>
+    	
+     <!-- end hearder commun with all pages -->
+    
+    
+    
+    <!-- start content -->
+    <section class="row container pb-5">
+	    	
+	    	
+	    	<div class="d-flex flex-column gap-4 ">
+	    	<!-- table header -->
+				<div class="bio-table-head d-flex gap-2">
+					<div class="input-group w-25">
+						<input type="search" class="form-control"
+							placeholder="search">
+						<a class="btn btn-outline-primary" type="button"
+							id="button-addon2"><i class="bi bi-search"></i></a>
+																												
+					</div>
+					
+					
+					
+					<a class="btn btn-primary">
+						<i class="bi bi-filter"></i> sort
+					</a>
+					
+					<!-- add new order -->
+					<a class="btn btn-outline-primary ms-auto">
+							<i class="bi bi-plus-lg"></i>new
+					</a>
+					
+
+				</div>
+				<!-- table header end -->
+	    	
+	    	
+	    	
+	    	<!-- table card start -->
+	    		<div class="card">
+	    	
+	    		<div class="card-body">
+	    		
+	    			<table class="table table-sm table-responsive table-hover align-middle">
+	    				<thead>
+	    					<tr>
+	    						<th>#No</th> <th>customer</th> <th> Date</th> <th>total amount</th> <th>products number</th> <th>Status</th> <th>Invoiced</th> <th>Method</th> <th>Edit</th>
+	    					</tr>
+	    				</thead>
+	    				<tbody class=" ">
+	    					<tr>
+	    						<td>12</td><td> alban  marwan</td> <td> 2 April, 2023</td> <td>452 MD</td> <td>45</td> <td><span class="badge text-bg-warning"> processing</span></td> <td><i class="bi bi-check-circle text-success"></i></td> <td>Pay as delivered</td> <td><div class="d-flex gap-3"><a href="#"><i class="bi bi-check-lg text-success"></i></a> <a href="#"><i class="bi bi-x-lg text-danger"></i> </a> <a href="#"><i class="bi bi-arrow-right text-secondary"></i></a></div> </td>
+	    					</tr>
+	    					
+	    					<tr>
+	    						<td>19</td><td>mazdak dioup</td> <td> 7 April, 2023</td> <td>452 MD</td> <td>25</td> <td><span class="badge text-bg-success"> delivered</span></td> <td><i class="bi bi-check-circle text-success"></i></td> <td>Pay as delivered</td> <td><div class="d-flex gap-3"><a href="#"><i class="bi bi-check-lg text-success"></i></a> <a href="#"><i class="bi bi-x-lg text-danger"></i> </a> <a href="#"><i class="bi bi-arrow-right text-secondary"></i></a></div> </td>
+	    					</tr>
+	    					
+	    					
+	    					<tr>
+	    						<td>72</td><td> yousouf  marwan</td> <td> 15 April, 2023</td> <td>45 MD</td> <td>4</td> <td><span class="badge text-bg-secondary"> pending</span></td> <td><i class="bi bi-x-circle text-danger"></i></td> <td>Pay as delivered</td> <td><div class="d-flex gap-3"><a href="#"><i class="bi bi-check-lg text-success"></i></a> <a href="#"><i class="bi bi-x-lg text-danger"></i> </a> <a href="#"><i class="bi bi-arrow-right text-secondary"></i></a></div> </td>
+	    					</tr>
+	    					
+	    					<tr>
+	    						<td>19</td><td>mazdak dioup</td> <td> 7 April, 2023</td> <td>452 MD</td> <td>25</td> <td><span class="badge text-bg-success"> delivered</span></td> <td><i class="bi bi-check-circle text-success"></i></td> <td>Pay as delivered</td> <td><div class="d-flex gap-3"><a href="#"><i class="bi bi-check-lg text-success"></i></a> <a href="#"><i class="bi bi-x-lg text-danger"></i> </a> <a href="#"><i class="bi bi-arrow-right text-secondary"></i></a></div> </td>
+	    					</tr>
+	    					
+	    					
+	    					<tr>
+	    						<td>72</td><td> yousouf  marwan</td> <td> 15 April, 2023</td> <td>45 MD</td> <td>4</td> <td><span class="badge text-bg-secondary"> pending</span></td> <td><i class="bi bi-x-circle text-danger"></i></td> <td>Pay as delivered</td> <td><div class="d-flex gap-3"><a href="#"><i class="bi bi-check-lg text-success"></i></a> <a href="#"><i class="bi bi-x-lg text-danger"></i> </a> <a href="#"><i class="bi bi-arrow-right text-secondary"></i></a></div> </td>
+	    					</tr>
+	    					
+	    					<tr>
+	    						<td>19</td><td>mazdak dioup</td> <td> 7 April, 2023</td> <td>452 MD</td> <td>25</td> <td><span class="badge text-bg-success"> delivered</span></td> <td><i class="bi bi-check-circle text-success"></i></td> <td>Pay as delivered</td> <td><div class="d-flex gap-3"><a href="#"><i class="bi bi-check-lg text-success"></i></a> <a href="#"><i class="bi bi-x-lg text-danger"></i> </a> <a th:href="@{order(id=1)}"><i class="bi bi-arrow-right text-secondary"></i></a></div> </td>
+	    					</tr>
+	    					
+	    					<tr>
+	    						<td>19</td><td>mazdak dioup</td> <td> 7 April, 2023</td> <td>452 MD</td> <td>25</td> <td><span class="badge text-bg-success"> delivered</span></td> <td><i class="bi bi-check-circle text-success"></i></td> <td>Pay as delivered</td> <td><div class="d-flex gap-3"><a href="#"><i class="bi bi-check-lg text-success"></i></a> <a href="#"><i class="bi bi-x-lg text-danger"></i> </a> <a href="#"><i class="bi bi-arrow-right text-secondary"></i></a></div> </td>
+	    					</tr>
+	    					
+	    					
+	    					<tr>
+	    						<td>72</td><td> yousouf  marwan</td> <td> 15 April, 2023</td> <td>45 MD</td> <td>4</td> <td><span class="badge text-bg-secondary"> pending</span></td> <td><i class="bi bi-x-circle text-danger"></i></td> <td>Pay as delivered</td> <td><div class="d-flex gap-3"><a href="#"><i class="bi bi-check-lg text-success"></i></a> <a href="#"><i class="bi bi-x-lg text-danger"></i> </a> <a href="#"><i class="bi bi-arrow-right text-secondary"></i></a></div> </td>
+	    					</tr>
+	    					
+	    					<tr>
+	    						<td>19</td><td>mazdak dioup</td> <td> 7 April, 2023</td> <td>452 MD</td> <td>25</td> <td><span class="badge text-bg-success"> delivered</span></td> <td><i class="bi bi-check-circle text-success"></i></td> <td>Pay as delivered</td> <td><div class="d-flex gap-3"><a href="#"><i class="bi bi-check-lg text-success"></i></a> <a href="#"><i class="bi bi-x-lg text-danger"></i> </a> <a href="#"><i class="bi bi-arrow-right text-secondary"></i></a></div> </td>
+	    					</tr>
+	    					
+	    				</tbody>
+	    				
+	    				<tfoot>
+
+							
+						</tfoot>
+	    			</table>
+							    		
+	    		</div>
+	    		
+	    		<div class="card-footer">
+	    		
+	    				<nav aria-label="Page navigation example">
+								<ul class="pagination">
+									<li class="page-item"><a class="page-link" href="#">Previous</a></li>
+									<li class="page-item"><a class="page-link" href="#">1</a></li>
+									<li class="page-item"><a class="page-link" href="#">2</a></li>
+									<li class="page-item"><a class="page-link" href="#">3</a></li>
+									<li class="page-item"><a class="page-link" href="#">Next</a></li>
+								</ul>
+							</nav>
+	    		
+	    		</div>
+	    	
+	    	</div>
+	    	
+	    	<!-- table card end -->
+	    	
+	    	</div>
+	    	
+	    	
+	    </section>
+    
+    </div>
+    
+</body>
+</html>

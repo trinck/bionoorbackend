@@ -3,12 +3,143 @@
 	layout:decorate="index">
 <head>
 <meta charset="UTF-8">
-<title>Products List</title>
+<title>Products's listt</title>
 </head>
 <body>
-    <div	class="container"	layout:fragment="content">
+    <div	class="container d-flex flex-column gap-5"	layout:fragment="content">
     
-    	<h1 class="text-center">Products List</h1>
+    <!-- start hearder commun with all pages -->
+    	<header class="row border-bottom p-1" >
+    		<h5 >Products List</h5>
+    	</header>
+    	
+     <!-- end hearder commun with all pages -->
+    
+    
+    
+    <!-- start content -->
+    <section class="row container pb-5">
+	    	
+	    	
+	    	<div class="d-flex flex-column gap-4 ">
+	    	<!-- table header -->
+				<div class="bio-table-head d-flex gap-2">
+					<div class="input-group w-25">
+						<input type="search" class="form-control"
+							placeholder="search">
+						<a class="btn btn-outline-primary" type="button"
+							id="button-addon2"><i class="bi bi-search"></i></a>
+																												
+					</div>
+					
+					
+
+
+					<select  class="form-select w-25 " >
+					
+						 <option selected value="tile">Title</option>
+						<option value="Code">Code</option>
+						
+					</select>
+					
+					
+					<a class="btn btn-primary">
+						<i class="bi bi-filter"></i> sort
+					</a>
+					
+					
+					<div class="btn-group ms-auto">
+						<a class="btn btn-outline-primary ">
+							<i class="bi bi-plus-lg"></i>new
+						</a>
+						
+						<a class="btn btn-outline-primary ">
+							<i class="bi bi-filetype-csv"></i> import csv
+						</a>
+					</div>
+					
+
+				</div>
+				<!-- table header end -->
+	    	
+	    	
+	    	
+	    	<!-- table card start -->
+	    		<div class="card">
+	    	
+	    		<div class="card-body">
+	    		
+	    			<table class="table table-sm table-responsive table-hover align-middle">
+	    				<thead>
+	    					<tr>
+	    						<th>Image</th> <th>Title</th> <th>Price</th> <th>Code</th> <th>category</th> <th>Quantity</th> <th>Selt</th> <th>Edit</th>
+	    					</tr>
+	    				</thead>
+	    				<tbody class=" ">
+	    					<tr>
+	    						<td><img style="width: 70px;height: auto" src="https://urlz.fr/lAUR"></td><td>huile argan 1</td> <td>452</td> <td><span class="">45</span></td> <td>category 4</td> <td><span class="badge text-bg-success">485</span></td> <td>45</td> <td><div class="d-flex gap-3"><a class="" href="#"><i class="bi bi-pencil-fill text-secondary"></i></a><a href="#"><i class="bi bi-arrow-right text-secondary"></i></a></div> </td>
+	    					</tr>
+	    					
+	    					<tr>
+	    						<td><img style="width: 70px;height: auto" src="https://urlz.fr/lAUR"></td><td>huile argan 1</td> <td>452</td> <td><span class="">45</span></td> <td>category 4</td> <td><span class="badge text-bg-danger">48</span></td> <td>45</td> <td><div class="d-flex gap-3"><a href="#"><i class="bi bi-pencil-fill"></i></a><a href="#"><i class="bi bi-arrow-right"></i></a></div> </td>
+	    					</tr>
+	    					
+	    					<tr>
+	    						<td><img style="width: 70px;height: auto" src="https://urlz.fr/lAUR"></td><td>huile argan 1</td> <td>452</td> <td><span class="">45</span></td> <td>category 4</td> <td><span class="badge text-bg-danger">5</span></td> <td>45</td> <td><div class="d-flex gap-3"><a href="#"><i class="bi bi-pencil-fill"></i></a><a href="#"><i class="bi bi-arrow-right"></i></a></div> </td>
+	    					</tr>
+	    					
+	    					
+	    					<tr>
+	    						<td><img style="width: 70px;height: auto" src="https://urlz.fr/lAUR"></td><td>huile argan 1</td> <td>452</td> <td><span class="">45</span></td> <td>category 4</td> <td><span class="badge text-bg-danger">5</span></td> <td>45</td> <td><div class="d-flex gap-3"><a href="#"><i class="bi bi-pencil-fill"></i></a><a th:href="@{/product(id=1)}"><i class="bi bi-arrow-right"></i></a></div> </td>
+	    					</tr>
+	    					
+	    					<tr>
+	    						<td><img style="width: 70px;height: auto" src="https://urlz.fr/lAUR"></td><td>huile argan 1</td> <td>452</td> <td><span class="">45</span></td> <td>category 4</td> <td><span class="badge text-bg-danger">5</span></td> <td>45</td> <td><div class="d-flex gap-3"><a href="#"><i class="bi bi-pencil-fill"></i></a><a th:href="@{/product(id=1)}"><i class="bi bi-arrow-right"></i></a></div> </td>
+	    					</tr>
+	    					
+	    					<tr>
+	    						<td><img style="width: 70px;height: auto" src="https://urlz.fr/lAUR"></td><td>huile argan 1</td> <td>452</td> <td><span class="">45</span></td> <td>category 4</td> <td><span class="badge text-bg-danger">5</span></td> <td>45</td> <td><div class="d-flex gap-3"><a href="#"><i class="bi bi-pencil-fill"></i></a><a th:href="@{/product(id=1)}"><i class="bi bi-arrow-right"></i></a></div> </td>
+	    					</tr>
+	    					
+	    					<tr>
+	    						<td><img style="width: 70px;height: auto" src="https://urlz.fr/lAUR"></td><td>huile argan 1</td> <td>452</td> <td><span class="">45</span></td> <td>category 4</td> <td><span class="badge text-bg-danger">5</span></td> <td>45</td> <td><div class="d-flex gap-3"><a href="#"><i class="bi bi-pencil-fill"></i></a><a th:href="@{/product(id=1)}"><i class="bi bi-arrow-right"></i></a></div> </td>
+	    					</tr>
+	    					
+	    					
+	    				</tbody>
+	    				
+	    				<tfoot>
+
+							
+						</tfoot>
+	    			</table>
+							    		
+	    		</div>
+	    		
+	    		<div class="card-footer">
+	    		
+	    				<nav aria-label="Page navigation example">
+								<ul class="pagination">
+									<li class="page-item"><a class="page-link" href="#">Previous</a></li>
+									<li class="page-item"><a class="page-link" href="#">1</a></li>
+									<li class="page-item"><a class="page-link" href="#">2</a></li>
+									<li class="page-item"><a class="page-link" href="#">3</a></li>
+									<li class="page-item"><a class="page-link" href="#">Next</a></li>
+								</ul>
+							</nav>
+	    		
+	    		</div>
+	    	
+	    	</div>
+	    	
+	    	<!-- table card end -->
+	    	
+	    	</div>
+	    	
+	    	
+	    </section>
+    
     </div>
+    
 </body>
 </html>

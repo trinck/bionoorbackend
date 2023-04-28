@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light"  xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="index">
+<head>
+<meta charset="UTF-8">
+<title>Categories's listist</title>
+</head>
+<body>
+    <div	class="container d-flex flex-column gap-5"	layout:fragment="content">
+    
+    <!-- start hearder commun with all pages -->
+    	<header class="row border-bottom p-1" >
+    		<h5 >Categories List</h5>
+    	</header>
+    	
+    <!-- end hearder commun with all pages -->
+    
+    
+    <!-- start content -->
+    
+    	
+    
+	    <section class="row container pb-5">
+	    	
+	    	
+	    	<div class="d-flex flex-column gap-4 ">
+	    	<!-- table header -->
+				<div class="bio-table-head d-flex gap-2">
+					<div class="input-group w-25">
+						<input type="search" class="form-control"
+							placeholder="category's name">
+						<a class="btn btn-outline-primary" type="button"
+							id="button-addon2"><i class="bi bi-search"></i></a>
+					</div>
+
+
+
+					<a class="btn btn-primary">
+						<i class="bi bi-filter"></i> sort
+					</a>
+					
+					<a class="btn btn-outline-primary ms-auto">
+							<i class="bi bi-plus-lg"></i>new
+					</a>
+
+				</div>
+				<!-- table header end -->
+	    	
+	    	
+	    	
+	    	<!-- table card start -->
+	    		<div class="card">
+	    	
+	    		<div class="card-body">
+	    		
+	    			<table class="table table-sm table-hover align-middle">
+	    				<thead>
+	    					<tr>
+	    						<th>Image</th> <th>Category</th> <th>Qt products</th> <th>Active discount</th> <th>Parent</th> <th>Edit</th>
+	    					</tr>
+	    				</thead>
+	    				<tbody class=" ">
+	    					<tr>
+	    						<td><img style="width: 70px;height: auto" src="https://urlz.fr/lAOL"></td><td>category 1</td> <td>452</td> <td><span class="activediscount"></span></td> <td>category 4</td> <td></td>
+	    					</tr>
+	    					
+	    					<tr>
+	    						<td><img style="width: 70px;height: auto" src="https://urlz.fr/lAOL"></td><td>category 1</td> <td>452</td> <td><span class="activediscount"></span></td> <td>category 4</td> <td></td>
+	    					</tr>
+	    					
+	    					<tr>
+	    						<td><img style="width: 70px;height: auto" src="https://urlz.fr/lAOL"></td><td>category 1</td> <td>452</td> <td><span class="activediscount"></span></td> <td>category 4</td> <td></td>
+	    					</tr>
+	    				</tbody>
+	    				
+	    				<tfoot>
+
+							
+						</tfoot>
+	    			</table>
+							    		
+	    		</div>
+	    		
+	    		<div class="card-footer">
+	    		
+	    				<nav aria-label="Page navigation example">
+								<ul class="pagination">
+									<li class="page-item"><a class="page-link" href="#">Previous</a></li>
+									<li class="page-item"><a class="page-link" href="#">1</a></li>
+									<li class="page-item"><a class="page-link" href="#">2</a></li>
+									<li class="page-item"><a class="page-link" href="#">3</a></li>
+									<li class="page-item"><a class="page-link" href="#">Next</a></li>
+								</ul>
+							</nav>
+	    		
+	    		</div>
+	    	
+	    	</div>
+	    	
+	    	<!-- table card end -->
+	    	
+	    	</div>
+	    	
+	    	
+	    </section>
+	    
+    </div>
+</body>
+</html>
