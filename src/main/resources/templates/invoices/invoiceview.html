@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light"  xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="index">
+<head>
+<meta charset="UTF-8">
+<title>Invoices view</title>
+</head>
+<body>
+    <div	class="container " 	layout:fragment="content">
+    
+    
+	    <!-- start content -->
+	   		 <div class=" container mb-3 d-flex flex-column gap-2 bg-white shadow-sm py-3" style="width: 95%;">
+		    	<!-- section controls -->
+		    		<div class="section-controls gap-3 d-flex" >
+		    			<a  th:href="@{/invoices}" class="text-black">
+		    				<i class="bi bi-arrow-left" ></i>
+		    			</a>
+		    			
+		    			<button class="btn ms-auto shadow rounded-1" style="background-color: #1976d2; color: white">
+		    				Edit invoice
+		    			</button>
+		    			
+		    			<button class="btn shadow rounded-1 text-bg-warning">
+		    				Print invoice
+		    			</button>
+		    		</div>
+		    		<!--end section controls -->
+		    	
+		    	<!-- section Order -->
+		    		<div class="fw-semibold">Order info</div>
+		    	
+		    		<div class="section-controls gap-3 d-flex" >
+		    			
+		    			
+		    			<div class="order-info">
+		    				
+		    				<div class="">Order Number: #41256</div>
+		    			</div>
+		    			
+		    			<div class="ms-auto">
+		    				<div>
+		    					<span class="fw-semibold">Order status:</span> Pending
+		    				</div>
+		    				<div>
+		    					<span class="fw-semibold">Order date:</span> April 24, 2023
+		    				</div>
+		    			
+		    			</div>
+		    			
+		    		</div>
+		    		<!--end section Order -->
+		    		<hr>
+		    		
+		    		<!-- section Bill -->
+		    	
+		    		<div class="section-controls gap-3 d-flex" >
+		    			
+		    			
+		    			<div class="bill-info">
+		    				<div class="fw-semibold">Bill from</div>
+		    				<div class="d-flex flex-column lh-1">
+		    					<span>A2R SARL</span>
+		    					<span> No 182 Boulevard Al Mouquaouama</span>
+		    					<span>City El Wahda</span>
+		    					<span>20150 Mohammadia</span>
+		    					<span>Tel: 0523324474</span>
+		    					<span>Fax: 0523324474</span>
+		    					<span>e-mail: contact@bionoor.ma</span>
+		    					<span>R.C.S: 13237</span>
+		    					<span>No TVA intracom: 39572170</span>
+		    				</div>
+		    			</div>
+		    			
+		    			<div class="ms-auto">
+		    				<div class="fw-semibold">Bill to</div>
+		    				
+		    			</div>
+		    			
+		    		</div>
+		    		<!--end section Billing -->
+		    		<!-- invoice Info -->
+		    		<div class="section-controls ">
+			    		<div class="d-flex">
+							<div class="p-2 d-flex flex-column w-50 border-top border-start border-end rounded-top border-black border-2 ms-auto">
+								<span>LEGMIRI FATIMA</span> <span>EL JADIDA</span>
+							</div>
+						</div>
+		    			
+		    			<div>
+		    				<table class="table align-midle table-bordered">
+			    				<thead>
+			    					<tr>
+			    						<th> #Invoice</th> <th>Date</th> <th>Due date</th> <th>Customer code</th> <th></th>
+			    					</tr>
+			    				</thead>
+		    				
+			    				<tbody>
+			    					<tr>
+			    						<td>445522</td> <td>April 24, 2023</td>	<td>April 30, 2023</td> <td>gkke558hrhh88thhj</td> <td></td>
+			    					</tr>
+			    				</tbody>
+		    				</table>
+		    			
+		    			</div>
+		    			
+		    		</div>
+		    		
+		    		<!-- end invoice info -->
+		    		
+		    		<!-- section items -->
+		    		<div >
+		    			<table class="table align-midle">
+		    				<thead class="table-light">
+		    					<tr>
+		    						<th>Code</th> <th>Item name</th> <th>Unit price(TTC)</th> <th>Quantity</th> <th>Total</th>
+		    					</tr>
+		    				</thead>
+		    				<tbody>
+		    					<tr>
+		    						<td>452ds</td> <td>Huil argan</td> <td>420 MAD</td> <td>2</td> <td>840 MAD</td>
+		    					</tr>
+		    					
+		    					<tr>
+		    						<td>452GFG</td> <td>Huil coco</td> <td>20 MAD</td> <td>4</td> <td>80 MAD</td>
+		    					</tr>
+		    					
+		    					<tr>
+		    						<td>4G4K</td> <td>Gel de bain</td> <td>42 MAD</td> <td>2</td> <td>84 MAD</td>
+		    					</tr>
+		    				</tbody>
+		    			</table>
+		    		</div>
+		    		<!-- end section items -->
+		    		
+		    		<hr>
+		    		<!-- section total amount calcul -->
+		    		<div class="d-flex ">
+		    			<div class="payment-info d-flex flex-column">
+		    				<span class="fw-semibold">Payment method :</span>
+		    				<span>Pay as delivered</span>
+		    			</div>
+		    			<!-- droite section -->
+		    			<div class="ms-auto" style="min-width: 200px">
+		    					<div class="d-flex gap-4" >
+		    						<span>Total H.T:</span><span class="ms-auto">204 MAD</span>
+		    					</div>
+		    					
+		    					<div class="d-flex gap-4" >
+		    						<span>Discount:</span><span class="ms-auto">30%</span>
+		    					</div>
+		    					
+		    					<div class="d-flex gap-4" >
+		    						<span>VAT:</span><span class="ms-auto">20%</span>
+		    					</div>
+		    					
+		    					<hr>
+		    					
+		    					<div class="d-flex gap-4" >
+		    						<span>Transport:</span><span class="ms-auto">5.00 MAD</span>
+		    					</div>
+		    					
+		    					<hr>
+		    					
+		    					<div class="d-flex gap-4" >
+		    						<span>Total amount (TTC):</span><span class="ms-auto">188.6 MAD</span>
+		    					</div>
+		    					
+		    					<div class="d-flex gap-4 fw-semibold" >
+		    						<span class="">Due to pay:</span><span class="ms-auto">188.6 MAD</span>
+		    					</div>
+		    			</div>
+		    			
+		    		</div>
+		    	
+		    </div>
+	    
+    </div>
+    
+</body>
+</html>

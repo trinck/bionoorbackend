@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light"  xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="index">
+<head>
+<meta charset="UTF-8">
+<title>new product</title>
+</head>
+<body>
+    <div	class="container " 	layout:fragment="content">
+    
+    
+	    <!-- start content -->
+	   		 <div class=" container mb-3 d-flex flex-column gap-2 bg-white shadow-sm py-3" style="width: 95%;">
+		    	<!-- section controls -->
+		    		<div class="section-controls gap-3 d-flex" >
+		    			<a  th:href="@{/products}" class="text-black">
+		    				<i class="bi bi-arrow-left" ></i>
+		    			</a>
+		    			
+		    			
+		    		</div>
+		    		<!--end section controls -->		    		
+		    		
+		    		<hr>
+		    		
+		    		
+		    			
+		    			<form action="" class="row form-group">
+		    				<div class="col ">
+		    					
+		    					<input class="form-control" placeholder="Name" type="text" name="name" id="name">
+		    				</div>
+		    				
+		    				<div class="col">
+		    					
+		    				</div>
+		    			
+		    			</form>
+		    			
+		    			
+		    			
+		    		
+		    	
+		    	
+		    </div>
+	    
+    </div>
+    
+</body>
+</html>

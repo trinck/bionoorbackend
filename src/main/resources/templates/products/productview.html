@@ -8,7 +8,7 @@
 <body>
 
 	
-	 <div	class="container d-flex flex-column gap-5 mb-3" layout:fragment="content">
+	 <div	class="container d-flex flex-column gap-5 mb-3 " layout:fragment="content">
 
 
 			<!-- start hearder commun with all pages -->
@@ -19,28 +19,333 @@
 			<!-- end hearder commun with all pages -->
 			
 			
-			<div class="d-flex flex-row container bg-white p-5" style="width: 95%;" id="orderview-content">
+			<div class="d-flex flex-row container gap-4 bg-white p-5 overflow-hidden" style="width: 95%;" id="orderview-content">
 				<!-- productview left -->
-				<div class="d-flex flex-column">
+				<div class="d-flex flex-column gap-1 w-50">
 					
-					<div id="sliderid" class="card w-50 border-0 shadow-sm carousel slide" data-ride="carousel" >
-						<img class="product-image-first card-img-top" alt=""  src="https://urlz.fr/lAUR">
+					<div  class="card  border-0 shadow-sm " >
+						<img class="product-image-first card-img-top w-100" alt=""  src="https://urlz.fr/lDsV"  >
 					
-						<ol class="product-images card-body text-center carousel-indicators">
-							<li><img style="width: 75px; height: auto"  src="https://urlz.fr/lC2M"></li>
-							<li><img src="https://urlz.fr/lC2N" style="width: 75px; height: auto"></li>
-							<li><img style="width: 75px; height: auto" src="https://urlz.fr/lC2O"></li> 
-								  
-						 </ol>
+						<div class="product-images card-body text-center"> 
+								<img style="width: 75px; height: auto"  src="https://urlz.fr/lC2M"> <img src="https://urlz.fr/lC2N" style="width: 75px; height: auto"> <img style="width: 75px; height: auto" src="https://urlz.fr/lDsV">
+						 </div>
 					</div>
+					
+					<!-- espace reviews product -->
+					
+					<div  class="card  border-0 shadow-sm  "  >					
+					
+						<div class="product-reviews card-body "> 
+							<h6 class="card-title"> Customers reviews</h6>
+							<!-- rating review -->
+							<div class="section-stars d-flex gap-2">
+								<div class="read-only-star d-flex overflow-hidden " style="color: orange; width: 45px;">
+								<i class="bi bi-star-fill"></i>
+								<i class="bi bi-star-fill"></i>
+								<i class="bi bi-star-fill"></i>
+								<i class="bi bi-star-fill"></i>
+								<i class="bi bi-star-fill"></i>
+								</div>
+								
+								<span class="text-secondary"> 2.8 of 5 stars</span>
+							</div>
+							<!--end rating review -->
+							<span class="text-secondary">10 reviews of customers</span>
+							
+							<!-- repartition -->
+							<div class="progress-star text-secondary d-flex gap-3  mt-3">
+							
+									<div class="d-flex flex-column">
+										<span> 1 star</span>
+										<span> 2 stars</span>
+										<span> 3 stars</span>
+										<span> 4 stars</span>
+										<span> 5 stars</span>
+									
+									</div>
+									
+									<div class="progresspercent d-flex flex-column gap-2 mt-1">
+												<!-- star 1 -->
+											<div class=" ">
+												
+												<div class="progress" style="width: 200px" role="progressbar"
+													aria-label="Warning example" aria-valuenow="75"
+													aria-valuemin="0" aria-valuemax="100">
+													<span class="progress-bar text-bg-warning" style="width: 10%"> </span>
+												</div>
+											</div>
+											
+											<!-- star 2 -->
+											<div class=" ">
+												
+												<div class="progress" style="width: 200px" role="progressbar"
+													aria-label="Warning example" aria-valuenow="75"
+													aria-valuemin="0" aria-valuemax="100">
+													<span class="progress-bar text-bg-warning" style="width: 40%"></span>
+												</div>
+											</div>
+											
+											<!-- star 3 -->
+											<div class=" ">
+												
+												<div class="progress" style="width: 200px" role="progressbar"
+													aria-label="Warning example" aria-valuenow="75"
+													aria-valuemin="0" aria-valuemax="100">
+													<span class="progress-bar text-bg-warning" style="width: 20%"> </span>
+												</div>
+											</div>
+											
+											<!-- star 4 -->
+											<div class=" ">
+												
+												<div class="progress" style="width: 200px" role="progressbar"
+													aria-label="Warning example" aria-valuenow="75"
+													aria-valuemin="0" aria-valuemax="100">
+													<span class="progress-bar text-bg-warning" style="width: 20%"> </span>
+												</div>
+											</div>
+											
+											<!-- star 5 -->
+											<div class=" ">
+												
+												<div class="progress" style="width: 200px" role="progressbar"
+													aria-label="Warning example" aria-valuenow="75"
+													aria-valuemin="0" aria-valuemax="100">
+													<span class="progress-bar text-bg-warning" style="width: 10%"> </span>
+												</div>
+											</div>
+									</div>
+									
+									
+							</div>
+						 </div>
+					</div>
+					
+					<!-- review messages -->
+					
+					<div class="card shadow-sm border-0">
+					
+						<div class="d-flex card-body flex-column gap-4">
+							
+							<button class="btn text-start btn-outline-secondary rounded-0" data-bs-target="#collapse-review-messages" data-bs-toggle="collapse"
+								 role="button"> Reviews messages 
+							</button>
+							
+							
+							<div class="review-messages collapse" id="collapse-review-messages">
+										<!-- one review  -->								
+								<div class="mt-4 shadow-sm p-2">
+										<div class="d-flex gap-2">
+											<img alt="" src="https://urlz.fr/lDlK" class="rounded-circle"
+												style="width: 50px;">
+											<div class="d-flex flex-column">
+												<span class="h6">Gonzalo higuen</span>
+												<!-- stars -->
+												<span style="color: orange;"> <i class="bi bi-star-fill"></i>
+													<i class="bi bi-star-fill"></i>
+												</span>
+											</div>
+										</div>
+										
+										<!-- message -->
+										<p>
+											Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+											 Fusce purus leo, consectetur sed aliquam non.
+											  Curabitur consequat scelerisque dictum.
+											  							
+										</p>
+								</div>
+								
+										<!-- 2 nd review  -->								
+								<div class="mt-4 shadow-sm p-2">
+										<div class="d-flex gap-2">
+											<img alt="" src="https://urlz.fr/lDog" class="rounded-circle"
+												style="width: 50px;">
+											<div class="d-flex flex-column">
+												<span class="h6">Gonzalo higuen</span>
+												<!-- stars -->
+												<span style="color: orange;"> 
+													<i class="bi bi-star-fill"></i>												
+												</span>
+											</div>
+										</div>
+										
+										<!-- message -->
+										<p>
+											Lorem ipsum dolor 
+											 Fusce purus leo, consectetur 
+											  Curabitur consequat scelerisque dictum.
+											  							
+										</p>
+								</div>
+								
+										<!-- 3rd review  -->								
+								<div class="mt-4 shadow-sm p-2">
+										<div class="d-flex gap-2">
+											<img alt="" src="https://urlz.fr/lDoj" class="rounded-circle"
+												style="width: 50px;">
+											<div class="d-flex flex-column">
+												<span class="h6">Gonzalo higuen</span>
+												<!-- stars -->
+												<span style="color: orange;"> <i class="bi bi-star-fill"></i>
+													<i class="bi bi-star-fill"></i>
+													<i class="bi bi-star-fill"></i>
+													<i class="bi bi-star-fill"></i>
+												</span>
+											</div>
+										</div>
+										
+										<!-- message -->
+										<p>
+											Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+											 Fusce purus leo, consectetur sed aliquam non.
+											 
+											  							
+										</p>
+								</div>
+									
+							</div>
+							<!-- end messgages -->
+							
+							<!-- start stats -->
+							<div class="d-flex gap-4 justify-content-center">
+								<div class="stat-sals text-center " style="width: max-content;">
+									<span class="stat-top d-block fs-1 fw-semibold text-muted">
+											50
+									</span>
+									<span class="stat-bottom">
+										Sold
+									</span>
+								</div>
+								<!-- stat stock -->
+								<div class="stat-sals text-center " style="width: max-content;">
+									<span class="stat-top d-block fw-semibold text-muted fs-1">
+											108
+									</span>
+									<span class="stat-bottom">
+										Stock
+									</span>
+								</div>
+								
+								<!-- stat earnings -->
+								<div class="stat-sals text-center " style="width: max-content;">
+									<span class="stat-top d-block fw-semibold text-muted fs-1">
+											597.45
+									</span>
+									<span class="stat-bottom">
+										Earnings (MAD)
+									</span>
+								</div>
+								
+							</div>		
+								
+						</div>
+					
+					</div>
+					<!-- end review message -->
+					
+					<!-- start last billing -->
+					<div  class="card  border-0 shadow-sm  "  >	
+						<div class="card-body d-flex flex-column">
+							<div class="card-title"> Last billing</div>
+							
+								<a href="#" class="btn border-start text-start border-5 shadow-sm">
+									<div class="d-flex flex-column">
+										<span >#14523</span>
+										<span>quantity: 4</span>
+										<span>date: April 23, 2023</span>
+									</div>
+								</a>
+								
+							
+								<a href="#" class="card-link mt-3 ms-2 text-decoration-none">more ...</a>
+						</div>
+					
+					</div>
+					
 				
 				</div>
 				<!-- productview left end -->
 				
 				
 				<!-- productview right -->
-				<div class="d-flex flex-column">
-				
+				<div class="d-flex flex-column w-50">
+					
+					<div class="productview-info card d-flex flex-column border-0">
+						<div class="d-flex flex-column">
+							<h6 class="productview-name">Huil d'argan 100% vegetal</h6>
+							<span class="text-secondary">Code: F45G3</span>
+							<span class="text-secondary">Brand: <img alt="" th:src="@{${logo}}" style="width: 90px; height: auto;"> </span>
+							<span class="text-black"> <del>250 MAD</del> 150 MAD </span>
+						</div>
+						
+						<hr>
+						
+						<button class="btn btn-success d-flex gap-2 justify-content-center"><i class="bi bi-cart-check-fill"></i>Add to cart</button>
+						
+						<hr>
+						
+						<div class="productview-desc">
+							<h6>Description</h6>
+							<p class="">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce purus leo, consectetur sed aliquam non, sodales sit amet nibh. Curabitur consequat scelerisque dictum. Suspendisse vitae diam dolor. Sed suscipit fermentum eros sit amet sagittis. Etiam ante urna, ultricies id tristique at, laoreet vitae sapien. 
+							Fusce lacinia justo ipsum, id vulputate ipsum eleifend eget. 
+							Vivamus pharetra tempus laoreet. Duis ut pharetra diam, vel ornare turpis. 
+							Vestibulum in urna quis ligula dignissim pharetra quis quis lectus.
+							 In condimentum, nulla at malesuada tincidunt, mi nibh iaculis ante, eu pulvinar nisl sapien et diam. 
+							 Vivamus condimentum aliquam tortor at finibus.</p>
+						</div>
+						<hr>
+						
+						<div class="d-flex flex-column">
+							<h6> References:</h6>
+							 	<p class="text-primary">Vivamus pharetra tempus laoreet. 
+							 	Duis ut pharetra diam, vel ornare turpis. 
+								Vestibulum in urna quis ligula dignissim pharetra quis quis lectus.
+								</p>
+						</div>
+						
+						
+						<!-- accordion for ingredient and actifs elements -->
+
+						<div class="accordion accordion-flush" id="productviewAccordion">
+							<div class="accordion-item">
+								<h2 class="accordion-header">
+									<button class="accordion-button collapsed" type="button"
+										data-bs-toggle="collapse" data-bs-target="#ingrdient-collapse"
+										aria-expanded="false" aria-controls="flush-collapseOne">
+										Ingredients</button>
+								</h2>
+								<div id="ingrdient-collapse" class="accordion-collapse collapse"
+									data-bs-parent="#productviewAccordion">
+									<div class="accordion-body">
+										Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce purus leo, consectetur sed aliquam non, sodales sit amet nibh. Curabitur consequat scelerisque dictum. Suspendisse vitae diam dolor. Sed suscipit fermentum eros sit amet sagittis. Etiam ante urna, ultricies id tristique at, laoreet vitae sapien. 
+										Fusce lacinia justo ipsum, id vulputate ipsum eleifend eget. 
+										Vivamus pharetra tempus laoreet
+									</div>
+								</div>
+							</div>
+							<div class="accordion-item">
+								<h2 class="accordion-header">
+									<button class="accordion-button collapsed" type="button"
+										data-bs-toggle="collapse" data-bs-target="#actif-elem-collapse"
+										aria-expanded="false" aria-controls="flush-collapseTwo">
+										Actifs elements</button>
+								</h2>
+								<div id="actif-elem-collapse" class="accordion-collapse collapse"
+									data-bs-parent="#productviewAccordion">
+									<div class="accordion-body">
+										Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+										 Fusce purus leo, consectetur sed aliquam non, sodales sit amet nibh.
+										  Curabitur consequat scelerisque dictum. Suspendisse vitae diam dolor.
+							
+									</div>
+								</div>
+							</div>
+					
+						</div>
+						<!-- end accordion ingredients and actifs elements -->
+
+				</div>
 				</div>
 				<!-- productview right end -->
 			</div>

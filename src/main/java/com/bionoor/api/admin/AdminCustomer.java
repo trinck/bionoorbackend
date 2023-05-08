@@ -9,24 +9,29 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 
-public class AdminController {
-
+public class AdminCustomer {
+	
 	@Value("${app.name}")
 	private String name;
 	@Value("${app.logo}")
 	 private String logo;
 	
-	@GetMapping(value = "/")
-	public String index(Model model) {
+	@GetMapping(value = "/customers")
+	public String customers(Model model) 
+	{
 		
 		model.addAttribute("name", name);
-		return "index";
+		return "customers/customers";
+		
 	}
 	
-	
-	
+	@GetMapping(value = "/customer")
+	public String customer(Model model,@RequestParam(value = "id") int id) 
+	{
+		
+		model.addAttribute("name", name);
+		return "customers/customerview";
+		
+	}
 
-	
-	
-	
 }
