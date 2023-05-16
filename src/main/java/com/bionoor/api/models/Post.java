@@ -1,5 +1,6 @@
 package com.bionoor.api.models;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -7,7 +8,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "posts")
-public class Post {
+public class Post implements Serializable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

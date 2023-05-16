@@ -1,15 +1,21 @@
 package com.bionoor.api.models;
 
+import java.io.Serializable;
 import java.util.List;
 
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "customers")
-public class Customer {
+public class Customer implements Serializable{
 	
 
-    @Id
+    /**
+	 * 
+	 */
+	
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     

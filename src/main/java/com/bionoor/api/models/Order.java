@@ -1,5 +1,6 @@
 package com.bionoor.api.models;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,7 +22,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Table(name = "orders")
-public class Order {
+public class Order implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

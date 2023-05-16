@@ -1,5 +1,6 @@
 package com.bionoor.api.models;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -14,7 +15,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "payments")
-public class Payment {
+public class Payment implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

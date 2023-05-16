@@ -1,0 +1,14 @@
+@charset "UTF-8";
+
+
+.uploader-images{
+	
+	border: dashed grey 1px;
+}
+
+.uploader-images:hover {
+	
+	background-color: rgba(206,212,218,0.5);
+	
+	cursor: pointer;
+}

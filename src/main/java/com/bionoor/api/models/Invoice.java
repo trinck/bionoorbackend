@@ -1,5 +1,6 @@
 package com.bionoor.api.models;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -13,7 +14,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 
 @Entity
-public class Invoice {
+public class Invoice implements Serializable{
 
     // Primary key for the invoice entity
     @Id

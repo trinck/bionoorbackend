@@ -6,10 +6,10 @@
 <title>Customers's listt</title>
 </head>
 <body>
-    <div	class="container d-flex flex-column gap-5"	layout:fragment="content">
+    <div  style="width: 95%;"	class="container d-flex flex-column gap-5"	layout:fragment="content">
     
     <!-- start hearder commun with all pages -->
-    	<header class="row border-bottom p-1" >
+    	<header class=" border-bottom p-1" >
     		<h5 >Customers List</h5>
     	</header>
     	
@@ -18,7 +18,7 @@
     
     
     <!-- start content -->
-    <section class=" container pb-5 bg-white p-1 mb-3" style="width: 95%;">
+    <section class=" container pb-5 bg-white p-1 mb-3" >
 	    	
 	    	
 	    	<div class="d-flex flex-column gap-4 ">
@@ -53,23 +53,23 @@
 						<!-- table header end -->
 			    	
 				    		
-				    			<table class="table table-sm table-responsive table-hover align-middle">
+				    			<table class="table table-sm table-responsive  table-hover align-middle">
 				    				<thead>
 				    					<tr>
 				    						  <th>Picture</th> <th>ID</th> <th>Last name</th> <th>First name</th> <th>Address</th> <th> Email</th> <th>Tel</th> <th>Confirmed</th> <th>Actif</th> <th>Edit</th>
 				    					</tr>
 				    				</thead>
-				    				<tbody class=" ">
+				    				<tbody class="">
 				    					<tr>
-				    						 <td><img style="width: 50px;" class="rounded-circle" alt="" src="https://urlz.fr/lDoj"></td> <td>krt4j4jryihjtte5jir57rgr</td> <td>marwan ugugkuvuk</td> <td> akim </td> <td> moustakbal, appart 1 avenu saperpompier</td> <td>exemple@gmail.com</td> <td>06 54 12 41</td><td> <i class="bi bi-x-circle text-danger"></i></td> <td> <input type="checkbox" class="form-check-input"> </td> <td><div class="d-flex gap-3"> <a href="#"><i class="bi bi-x-lg text-danger"></i> </a> <a th:href="@{customer(id= 1)}"><i class="bi bi-arrow-right text-secondary"></i></a></div> </td>
+				    						 <td><img style="width: 50px;" class="rounded-circle" alt="" src="https://urlz.fr/lDoj"></td> <td>krt4j4jryihjtte5jir57rgr</td> <td>marwan ugugkuvuk</td> <td> akim </td> <td> moustakbal, appart 1 avenu saperpompier</td> <td>exemple@gmail.com</td> <td>+212 6 54 12 41</td> <td><i class="bi bi-x-circle text-danger"></i></td> <td> <input type="checkbox" class="form-check-input"> </td> <td><div class="d-flex gap-3"> <a href="#"><i class="bi bi-x-lg text-danger"></i> </a> <a th:href="@{customer(id= 1)}"><i class="bi bi-arrow-right text-secondary"></i></a></div> </td>
 				    					</tr>
 				    					
 				    					<tr>
-				    						 <td><img style="width: 50px;" class="rounded-circle" alt="" src="https://urlz.fr/lDog"></td> <td>krt4j4jryihjtte5jir57rgr</td> <td>marwan ugugkuvuk</td> <td> akim </td> <td> moustakbal, appart 1 avenu saperpompier</td> <td>exemple@gmail.com</td> <td>06 54 12 41</td><td> <i class="bi bi-x-circle text-danger"></i></td> <td> <input type="checkbox" class="form-check-input"> </td> <td><div class="d-flex gap-3"> <a href="#"><i class="bi bi-x-lg text-danger"></i> </a> <a th:href="@{customer(id= 1)}"><i class="bi bi-arrow-right text-secondary"></i></a></div> </td>
+				    						 <td><img style="width: 50px;" class="rounded-circle" alt="" src="https://urlz.fr/lDog"></td> <td>krt4j4jryihjtte5jir57rgr</td> <td>marwan ugugkuvuk</td> <td> akim </td> <td> moustakbal, appart 1 avenu saperpompier</td> <td>exemple@gmail.com</td> <td>+212 6 54 12 41</td> <td><i class="bi bi-x-circle text-danger"></i></td> <td> <input type="checkbox" class="form-check-input"> </td> <td><div class="d-flex gap-3"> <a href="#"><i class="bi bi-x-lg text-danger"></i> </a> <a th:href="@{customer(id= 1)}"><i class="bi bi-arrow-right text-secondary"></i></a></div> </td>
 				    					</tr>
 				    					
 				    					<tr>
-				    						 <td><img style="width: 50px;" class="rounded-circle" alt="" src="https://urlz.fr/lDoj"></td> <td>krt4j4jryihjtte5jir57rgr</td> <td>marwan ugugkuvuk</td> <td> akim </td> <td> moustakbal, appart 1 avenu saperpompier</td> <td>exemple@gmail.com</td> <td>06 54 12 41</td><td> <i class="bi bi-x-circle text-danger"></i></td> <td> <input type="checkbox" class="form-check-input"> </td> <td><div class="d-flex gap-3"> <a href="#"><i class="bi bi-x-lg text-danger"></i> </a> <a th:href="@{customer(id= 1)}"><i class="bi bi-arrow-right text-secondary"></i></a></div> </td>
+				    						 <td><img style="width: 50px;" class="rounded-circle" alt="" src="https://urlz.fr/lDoj"></td> <td>krt4j4jryihjtte5jir57rgr</td> <td>marwan ugugkuvuk</td> <td> akim </td> <td> moustakbal, appart 1 avenu saperpompier</td> <td>exemple@gmail.com</td> <td>+212 6 24 12 75</td> <td><i class="bi bi-x-circle text-danger"></i></td> <td> <input type="checkbox" class="form-check-input"> </td> <td><div class="d-flex gap-3"> <a href="#"><i class="bi bi-x-lg text-danger"></i> </a> <a th:href="@{customer(id= 1)}"><i class="bi bi-arrow-right text-secondary"></i></a></div> </td>
 				    					</tr>
 				    					
 				    					
@@ -101,7 +101,7 @@
 				    								<option>5</option>
 				    								<option>10</option>
 				    							</select>
-				    						</label>
+				    						
 				    					</div>
 				    					
 				    					<div>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light"  xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="index">
+<head>
+<meta charset="UTF-8">
+<title>Category View</title>
+<link th:href="@{css/categories/categoryview.css}" type="text/css" rel="stylesheet">
+</head>
+<body>
+    <div style="width: 95%;"	class="container d-flex flex-column gap-4"	layout:fragment="content">
+    
+    <!-- start hearder commun with all pages -->
+    	<header class=" border-bottom p-1" >
+    		<h5 >Category View</h5>
+    	</header>
+    	
+     <!-- end hearder commun with all pages -->
+    
+    
+    
+    <!-- start content -->
+	    <section class="row  g-0 gap-2    p-1 pb-3  rounded-1" >
+	    	<div class="col-8 shadow-sm  bg-white">
+	    		<div class="card d-flex flex-row border-0">
+	    			
+	    			<img class="border w-50" alt="" src="images/logo.png">
+	    			<div class="card-body d-flex flex-column gap-1">
+	    				<div> <label for="#categoryName">Title</label> <input type="text" class="form-control form-control-sm rounded-1"id="categoryName"   value="Category 8"> </div>
+	    				<div> <label for="#categoryParent">Parent</label> <select class="form-select form-select-sm rounded-1" id="categoryParent" > <option selected="selected">Category 4</option> </select> </div>
+	    				<div class="align-self-end mt-auto"> <a href="#" class="text-decoration-none">Category's Products</a> </div>
+	    			</div>
+	    		
+	    		</div>
+	    	</div>
+	    	
+	    	  		
+	    </section>
+		 
+		 <section class="row g-0   p-1 pb-5 ">
+	     	<div class="col-5   p-1">
+	    		<!-- discountcode -->
+	    		 <div class="card pb-4 rounded-1">
+	    		 	<div class="card-body">
+	    			 	<span class="card-title fs-4">Discount Code</span>
+	    			 	<ul class="list-group ">
+	    			 		<li class="list-group-item   " > <div class=" w-100"> <span class="badge rounded-5 bg-success"></span> <span>Discount 1</span> </div> </li>
+	    			 		
+	    			 	</ul>
+	    			 	<!-- navigation -->
+	    			 	<div class="text-center"> <span></span>  <span></span> </div>
+	    			</div>
+	    			
+	    			<!-- add new item -->
+	    			<div class="d-flex justify-content-center gap-1  rounded-1 p-1">
+	    				<input class="form-control w-50" type="text" onchange="discountEditing(event)"> <input class="form-control w-25" type="date"> <button class="addDiscount btn btn-primary rounded-1" disabled >Add</button>
+	    			</div>
+	    		 </div>
+	    		
+	    	</div>
+	    	
+	    	
+	    	<!-- col for stats -->
+	    	
+	    	<div class="col-5   p-1 ">
+	    		<div class="row g-0 gap-2">
+	    			<div class="col-5 p-1 bg-white  shadow-sm"> <div class="card-body flex-column d-flex text-center"> <span class="fs-2">285 <sub class="fs-6">/500</sub> </span> <span class="text-secondary">Products</span> </div> </div>
+	    			<div class="col-5 p-1 bg-white shadow-sm"> <div class="card-body d-flex flex-column text-center"><span class="fs-2">35</span> <span class="text-secondary">Sold</span> </div> </div>
+	    			<div class=" col-5  p-1 bg-white shadow-sm"> <div class="card-body d-flex flex-column text-center"><span class="fs-2">3555 <sub class="fs-6">MAD</sub></span> <span class="text-secondary">Earning</span></div>  </div>
+	    			
+	    		</div>
+	    		
+	    	</div>
+	     
+	     </section>
+		 
+    <script type="text/javascript" th:src="@{js/categories/categoryview.js}"></script>
+    </div>
+    
+</body>
+</html>

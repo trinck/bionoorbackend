@@ -4,20 +4,23 @@
 <head>
 <meta charset="UTF-8">
 <title>new product</title>
+<link th:href="@{css/products/productform.css}"  rel="stylesheet" type="text/css">
 </head>
 <body>
-    <div	class="container " 	layout:fragment="content">
+    <div	class="container " style="width: 95%;"	layout:fragment="content">
     
     
 	    <!-- start content -->
-	   		 <div class=" container mb-3 d-flex flex-column gap-2 bg-white shadow-sm py-3" style="width: 95%;">
+	   		 <div class=" container g-0 mb-3 d-flex flex-column gap-2 bg-white shadow-sm pt-2 pb-3" >
 		    	<!-- section controls -->
-		    		<div class="section-controls gap-3 d-flex" >
+		    		<div class="section-controls gap-3 d-flex px-3 align-items-center" >
 		    			<a  th:href="@{/products}" class="text-black">
 		    				<i class="bi bi-arrow-left" ></i>
 		    			</a>
 		    			
-		    			
+		    			<span class="fs-5">
+		    				Add New Product
+		    			</span>
 		    		</div>
 		    		<!--end section controls -->		    		
 		    		
@@ -25,15 +28,47 @@
 		    		
 		    		
 		    			
-		    			<form action="" class="row form-group">
-		    				<div class="col ">
+		    			<form action="" method="" class="row form-group px-3 gy-3">
+		    			
+			    			<!-- info composition product -->
+			    			<div class="col col-12 d-flex flex-column gap-3">
+			    				<div class="input-group">
+			    					<input class="form-control" type="text" name="ingredients" placeholder="Ingredient, separate by ';' ">
+			    					<input class=" form-control" type="number" name="weight" placeholder="Weight" id="weight">
+			    					<input class="form-control" type="text" name="activeIngredients" placeholder="Active elements, separate by ';'">
+			    				</div>
+			    			</div>
+			    			
+			    			<!-- others -->
+		    				<div class="col d-flex flex-column gap-3">
 		    					
-		    					<input class="form-control" placeholder="Name" type="text" name="name" id="name">
+		    					<input class="form-control rounded-1" placeholder="Name" type="text" name="name" id="name">
+		    					<input class="form-control rounded-1" placeholder="Code" type="text" name="code" id="code">
+		    					<input class="form-control rounded-1" placeholder="Price" type="number" name="price" id="price">
+		    					<input class="form-control rounded-1" placeholder="References" type="text" name="references" id="references">
+		    					<div class="text-center">
+		    						<label for="images" class="p-1 rounded-1 uploader-images w-100" > <i class="bi bi-upload d-block"></i> <span id="labelfile" class="">upload images</span> </label>
+		    						<input class="d-none" multiple="multiple" type="file" id="images" accept="images/*, .png, .jpg" >
+		    					</div>
+		    					
 		    				</div>
 		    				
-		    				<div class="col">
-		    					
+		    				<div class="col d-flex flex-column gap-3">
+		    					<input class="form-control rounded-1" placeholder="Quantity" type="number" name="quantity" id="quantity">
+		    					<select class="form-control form-select text-secondary rounded-1" name="category" id="category">    					
+		    						<option>category 1</option>
+		    						<option selected="selected">category 2</option>
+		    						<option>null</option>
+		    					</select>
+		    					<input class="form-control rounded-1" placeholder="Promotion price" min="0" type="number" name="promotion" id="promo">
+		    					<textarea class="form-control rounded-1" name="description" placeholder="Give a short description" rows="6" cols=""></textarea>
 		    				</div>
+		    			
+		    			    <div class="col-12">
+		    			    	<button class="btn rounded-1  show-sm" style="background-color: #1976d2; color: white; width: 12%" type="submit">
+		    			    			Submit
+		    			    	</button>
+		    			    </div>
 		    			
 		    			</form>
 		    			
@@ -43,7 +78,7 @@
 		    	
 		    	
 		    </div>
-	    
+	    <script type="text/javascript" src="js/products/productform.js"></script>
     </div>
     
 </body>

@@ -1,0 +1,24 @@
+@charset "UTF-8";
+
+.list-discount{
+	
+	
+}
+
+
+.list-discount:hover{
+	
+	
+	color: white;
+}
+
+.list-discount-item{
+	
+	position: relative !important;
+}
+
+.discount-index:hover{
+	
+	z-index: -1;
+	
+}

@@ -8,7 +8,7 @@
 <body>
 
 	
-	 <div	class="container d-flex flex-column gap-5 mb-3 " layout:fragment="content">
+	 <div style="width: 95%;"	class="container d-flex flex-column gap-5 mb-3 " layout:fragment="content">
 
 
 			<!-- start hearder commun with all pages -->
@@ -19,7 +19,7 @@
 			<!-- end hearder commun with all pages -->
 			
 			
-			<div class="d-flex flex-row container gap-4 bg-white p-5 overflow-hidden" style="width: 95%;" id="orderview-content">
+			<div class="d-flex flex-row container gap-4 bg-white p-5 overflow-hidden"  id="orderview-content">
 				<!-- productview left -->
 				<div class="d-flex flex-column gap-1 w-50">
 					
@@ -249,7 +249,7 @@
 						<div class="card-body d-flex flex-column">
 							<div class="card-title"> Last billing</div>
 							
-								<a href="#" class="btn border-start text-start border-5 shadow-sm">
+								<a href="#" class="btn border-0 border-start text-start border-5 shadow-sm">
 									<div class="d-flex flex-column">
 										<span >#14523</span>
 										<span>quantity: 4</span>
@@ -281,7 +281,7 @@
 						
 						<hr>
 						
-						<button class="btn btn-success d-flex gap-2 justify-content-center"><i class="bi bi-cart-check-fill"></i>Add to cart</button>
+						<button class="btn btn-success rounded-1 d-flex gap-2 justify-content-center "><i class="bi bi-cart-check-fill"></i>Add to cart</button>
 						
 						<hr>
 						
@@ -296,13 +296,7 @@
 						</div>
 						<hr>
 						
-						<div class="d-flex flex-column">
-							<h6> References:</h6>
-							 	<p class="text-primary">Vivamus pharetra tempus laoreet. 
-							 	Duis ut pharetra diam, vel ornare turpis. 
-								Vestibulum in urna quis ligula dignissim pharetra quis quis lectus.
-								</p>
-						</div>
+						
 						
 						
 						<!-- accordion for ingredient and actifs elements -->
@@ -329,15 +323,47 @@
 									<button class="accordion-button collapsed" type="button"
 										data-bs-toggle="collapse" data-bs-target="#actif-elem-collapse"
 										aria-expanded="false" aria-controls="flush-collapseTwo">
-										Actifs elements</button>
+										    References/Certificat</button>
 								</h2>
 								<div id="actif-elem-collapse" class="accordion-collapse collapse"
 									data-bs-parent="#productviewAccordion">
-									<div class="accordion-body">
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-										 Fusce purus leo, consectetur sed aliquam non, sodales sit amet nibh.
-										  Curabitur consequat scelerisque dictum. Suspendisse vitae diam dolor.
+									<div class="accordion-body d-flex flex-wrap gap-3 text-secondary">
+										<div class="certificat w-25 text-center">
+												<img alt="" src="https://urlz.fr/lPPs" style="width: 70px; height: auto;">
+												<p>cutuvtutttuvutut;tvktuggkgkgugkugugukg;ivuvtjt</p>
+										</div>
+										
+										<div class="certificat w-25 text-center">
+												<img alt="" src="https://urlz.fr/lPPL" style="width: 70px; height: auto;">
+												<p>cutuvtutttuvutut;tvktuggkgkgugku
+												fukfkfuukfukf ggig gggi yffufkfkfu uguguggugukg;ivuvtjt</p>
+										</div>
+										
+										<div class="certificat w-25 text-center">
+												<img alt="" src="https://urlz.fr/lPPK" style="width: 70px; height: auto;">
+												<p>cutuvtutttuvutut;tvktuggkgkgugkugugukg;ivuvtjt</p>
+										</div>
+										
+										
+									</div>
+								</div>
+							</div>
 							
+							<!-- section accordion step preparation product -->
+							<div class="accordion-item">
+								<h2 class="accordion-header">
+									<button class="accordion-button collapsed" type="button"
+										data-bs-toggle="collapse" data-bs-target="#preparation-stepe"
+										aria-expanded="false" aria-controls="flush-collapseTwo">
+										    preparation stage</button>
+								</h2>
+								<div id="preparation-stepe" class="accordion-collapse collapse"
+									data-bs-parent="#productviewAccordion">
+									<div class="accordion-body">
+										<ol class="text-secondary">
+											<li> <p>gqzukukvbvubukvbuevbuifiufufu;ffuuebebvuebuvbkskuvbbkubvkubkukv</p> </li>
+											
+										</ol>
 									</div>
 								</div>
 							</div>

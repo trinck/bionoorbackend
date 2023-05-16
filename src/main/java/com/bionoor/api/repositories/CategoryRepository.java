@@ -6,4 +6,7 @@ import com.bionoor.api.models.Category;
 
 public interface CategoryRepository extends JpaRepository<Category, Long>{
 
+	
+	
+	
 }

@@ -1,11 +1,12 @@
 package com.bionoor.api.models;
 
+import java.io.Serializable;
 import java.util.List;
 
 import jakarta.persistence.*;
 
 @Entity
-public class Role {
+public class Role implements Serializable{
  
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
