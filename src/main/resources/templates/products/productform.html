@@ -56,9 +56,8 @@
 		    				<div class="col d-flex flex-column gap-3">
 		    					<input class="form-control rounded-1" placeholder="Quantity" type="number" name="quantity" id="quantity">
 		    					<select class="form-control form-select text-secondary rounded-1" name="category" id="category">    					
-		    						<option>category 1</option>
-		    						<option selected="selected">category 2</option>
-		    						<option>null</option>
+		    						<option th:each="c:${categories}" th:value="${c.id}" th:text="${c.name}"></option>
+		    						
 		    					</select>
 		    					<input class="form-control rounded-1" placeholder="Promotion price" min="0" type="number" name="promotion" id="promo">
 		    					<textarea class="form-control rounded-1" name="description" placeholder="Give a short description" rows="6" cols=""></textarea>

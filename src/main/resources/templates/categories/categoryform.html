@@ -28,17 +28,17 @@
 		    		
 		    		
 		    			
-		    			<form action="" method="" class="row form-group px-3 gy-3">
+		    			<form  th:object= "${category}" th:action="addCategory" method="post" class="row form-group px-3 gy-3" enctype="multipart/form-data">
 		    			
 			    			
 			    			<!-- others -->
 		    				<div class="col d-flex flex-column gap-3">
 		    					
-		    					<input class="form-control rounded-1" placeholder="Name" type="text" name="name" id="name">
+		    					<input class="form-control rounded-1" placeholder="Name" type="text" name="name" id="name" th:field="*{name}" >
 		    					
 		    					<div class="text-center">
 		    						<label for="images" class="p-1 rounded-1 uploader-images w-100" > <i class="bi bi-upload d-block"></i> <span id="labelfile" class="">upload images</span> </label>
-		    						<input class="d-none"  type="file" id="images" accept="images/*, .png, .jpg" >
+		    						<input class="d-none" name="image"  type="file" id="images" accept="images/*, .png, .jpg" th:field="*{image}" >
 		    					</div>
 		    					
 		    					<div class="image-preview" >
@@ -49,10 +49,10 @@
 		    				
 		    				<div class="col d-flex flex-column gap-3">
 		    					
-		    					<select  class="form-control form-select text-secondary rounded-1" name="category" id="category">    					
-		    						<option>category 1</option>
-		    						<option >category 2</option>
-		    						<option selected>Category parent</option>
+		    					<select  class="form-control form-select text-secondary rounded-1" name="parent" id="category" th:field="*{parent}">    					
+		    						<option  value="">N/A</option>
+		    						<option  th:each="parentC:${categories}"  th:text="${parentC.name}" th:value = "${parentC.id}"></option>
+		    					   
 		    					</select>
 		    				</div>
 		    			

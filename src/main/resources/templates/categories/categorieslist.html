@@ -71,9 +71,9 @@
 	    						<th>Image</th> <th>Category</th> <th>Qt products</th> <th>Active discount</th> <th>Parent</th> <th>Edit</th>
 	    					</tr>
 	    				</thead>
-	    				<tbody class=" ">
-	    					<tr>
-	    						<td><img class="" style="width: 70px;" src="https://urlz.fr/lAOL"></td><td>category 1</td> <td>452</td> <td><span class="activediscount">Best-ever</span></td> <td>category 4</td> <td><div class="d-flex gap-3"><a href="#"><i class="bi bi-pencil-fill text-secondary"></i></a> <a href="#"><i class="bi bi-x-lg text-danger"></i> </a> <a th:href="@{/category(id=1)}"><i class="bi bi-arrow-right text-secondary"></i></a> </div></td>
+	    				<tbody class="">
+	    					<tr th:each= "c:${categories}">
+	    						<td><img class="" style="width: 70px;" th:src="${c.image}"></td> <td th:text="${c.name}"></td> <td>452</td> <td><span class="activediscount">Best-ever</span></td> <td th:text="${c.parentCategory!=null? c.parentCategory.name:'N/A' }">category 4</td> <td><div class="d-flex gap-3"><a href="#"><i class="bi bi-pencil-fill text-secondary"></i></a> <a href="#"><i class="bi bi-x-lg text-danger"></i> </a> <a th:href="@{/category(id= ${c.id})}"><i class="bi bi-arrow-right text-secondary"></i></a> </div></td>
 	    					</tr>
 	    					
 	    					

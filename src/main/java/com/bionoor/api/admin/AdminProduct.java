@@ -1,11 +1,17 @@
 package com.bionoor.api.admin;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.bionoor.api.models.Category;
+import com.bionoor.api.repositories.CategoryRepository;
 
 @Controller
 
@@ -16,6 +22,9 @@ public class AdminProduct {
 	private String name;
 	@Value("${app.logo}")
 	 private String logo;
+	
+	@Autowired
+	private CategoryRepository categoryRepository;
 	
 	
 	
@@ -32,6 +41,9 @@ public class AdminProduct {
 	@GetMapping(value = "/addproduct")
 	public String productForm(Model model) {
 		
+		
+		List<Category> categories = this.categoryRepository.findAll();
+		model.addAttribute("categories", categories);
 		model.addAttribute("name", name);
 		
 		model.addAttribute("logo",logo);

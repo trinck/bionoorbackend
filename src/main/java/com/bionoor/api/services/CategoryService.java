@@ -6,25 +6,45 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bionoor.api.admin.AdminCategory.InputCategory;
 import com.bionoor.api.models.Category;
+import com.bionoor.api.models.Media;
 import com.bionoor.api.repositories.CategoryRepository;
+import com.bionoor.api.utils.ServiceStorageIn;
 
 @Service
-public class CategoryService implements ServiceInterface<Category>{
+public class CategoryService{
     
   
-	CategoryRepository categoryRepository;
 	
-	public CategoryService(CategoryRepository categoryRepository) {
+	CategoryRepository categoryRepository;
+	ServiceStorageIn serviceStorageIn;
+	MediaService mediaService;
+	
+	public CategoryService(CategoryRepository categoryRepository, MediaService mediaService, ServiceStorageIn serviceStorageIn) {
 		// TODO Auto-generated constructor stub
 		
 		this.categoryRepository = categoryRepository;
+		this.mediaService = mediaService;
+		this.serviceStorageIn = serviceStorageIn;
 	}
 	
 	
-	public Category add(Category category ) {
+	public Category add(InputCategory inCategory ) {
 		
-		return this.categoryRepository.save(category);
+		Category category = new Category();
+	    Media media =	this.serviceStorageIn.store(inCategory.getImage(), inCategory.getImage().getOriginalFilename());
+		
+	    category.setName(inCategory.getName());
+	    category.setImage(media.getUrl());
+	    if(inCategory.getParent() != null) {
+	        Category parent = this.categoryRepository.findById(inCategory.getParent()).get();
+	        category.setParentCategory(parent);
+	    }
+	   
+	    
+		return this.categoryRepository.save(category);	
+		
 	}
 	
 	
@@ -51,12 +71,20 @@ public class CategoryService implements ServiceInterface<Category>{
 		      
 			
 	}
+	
+	
+	public List<Category> allCategory() {
+		
+		
+		  return this.categoryRepository.findAll();
+		      
+			
+	}
 
 
-	@Override
 	public Category getById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return  this.categoryRepository.findById(id).orElse(null);
 	}
 
 

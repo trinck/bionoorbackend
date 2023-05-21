@@ -1,19 +1,19 @@
 package com.bionoor.api.services;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.bionoor.api.models.Product;
 import com.bionoor.api.repositories.ProductRepository;
 
-public class ProductService implements ServiceInterface<Product>{
+@Service
+public class ProductService {
 
 	
+			@Autowired
+	private ProductRepository productRepository;
 	
-	ProductRepository productRepository;
-	
-	public ProductService( ProductRepository productRepository) {
-		// TODO Auto-generated constructor stub
-		this.productRepository = productRepository;
-	}
 	
 	
 	
@@ -49,10 +49,10 @@ public class ProductService implements ServiceInterface<Product>{
 
 
 
-	@Override
+
 	public Product getById(Long id) {
 		// TODO Auto-generated method stub
-		return null;
+		return this.productRepository.findById(id).orElse(null);
 	}
 	
 	

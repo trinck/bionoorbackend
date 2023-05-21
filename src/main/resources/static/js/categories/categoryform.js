@@ -14,7 +14,7 @@ input.addEventListener('change', updateImageDisplay);
 function updateImageDisplay()
 {
 	img.src = "";
-	console.log(input.files);
+	
 	var curFiles = input.files;
 	if(curFiles.length === 0) {
     label.textContent = '0 file selected for upload';
