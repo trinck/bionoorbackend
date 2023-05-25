@@ -32,8 +32,26 @@
  
  function removeRowCategory(name){
 	 const tr = document.querySelector("tr[id = '"+name+"']")
+	
+    animateDeletting(tr)
+	setTimeout(()=> tr.remove(), 500)
+	
+ }
+ 
+ 
+ async function animateDeletting(tr){
 	 
-	tr.remove()
+	  var keyframDeletting = [
+		 {transform: "translateX(0px)"},
+		  {transform: "translateX(-115%)"}
+	 ]
+	 
+	 var optionAnimation ={
+		 duration: 500,
+		 
+	 }
+	  
+	 tr.animate(keyframDeletting, optionAnimation)
  }
  
  

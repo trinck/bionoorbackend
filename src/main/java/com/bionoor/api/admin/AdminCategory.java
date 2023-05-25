@@ -63,7 +63,7 @@ public class AdminCategory {
 		model.addAttribute("name", name);
 		model.addAttribute("categories", categories);
 		 
-		System.out.println(this.productRepository.findAll());
+		//System.out.println(this.productRepository.findAll());
 		//System.out.println(categories);
 		return "categories/categorieslist.html";
 	}

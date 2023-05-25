@@ -91,15 +91,23 @@ tr[id]:hover{
 	
 	animation-name: tableAnimation ;
 	animation-direction: alternate;
-	animation-duration: 0.5s;
+	animation-duration: .5s;
 }
 
 
 @Keyframes tableAnimation{
 	
 	0% { transform: translate(0px, 0px)}
-	50%{ transform: translate(-15px, 0px) }
+	50%{ transform: translate(-8px, 0px) }
 	100%{ transform: translate(0px, 0px) }
+}
+
+
+@Keyframes deleteTrAnimation{
+	
+	0% { transform: translate(0px, 0px)}
+	100%{ transform: translate(-115%, 0px) }
+	
 }
 
 /******************************/
