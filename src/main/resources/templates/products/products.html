@@ -13,7 +13,7 @@
     		<h5 >Products List</h5>
     		
     		<div class="btn-group ms-auto btn-group-sm">
-						<a th:href="@{/addproduct}" class="btn btn-outline-primary ">
+						<a th:href="@{/productForm}" class="btn btn-outline-primary ">
 							<i class="bi bi-plus-lg"></i>new
 						</a>
 						
@@ -79,19 +79,10 @@
 	    					</tr>
 	    				</thead>
 	    				<tbody class=" ">
-	    					<tr>
-	    						<td><img style="width: 70px;height: auto" src="https://urlz.fr/lAUR"></td><td>huile argan 1</td> <td>452</td> <td><span class="">45</span></td> <td>category 4</td> <td><span class="badge text-bg-success">485</span></td> <td>45</td> <td><div class="d-flex gap-3"><a class="" href="#"><i class="bi bi-pencil-fill text-secondary"></i></a><a th:href="@{/product(id=1)}"><i class="bi bi-arrow-right text-secondary"></i></a></div> </td>
+	    					<tr th:each="p:${products}" th:id="${p.name}">
+	    						<td><img style="width: 70px;height: auto" th:src="${p.images[0]}"></td> <td th:text="${p.name}"></td> <td th:text="${p.price}"></td> <td><span th:text="${p.code}" class=""></span></td> <td th:text="${p.category!=null? p.category.name: N/A}"></td> <td><span class="badge text-bg-success" th:text="${p.quantity}">485</span></td> <td>45</td> <td><div class="d-flex gap-3"><a class="" href="#"><i class="bi bi-pencil-fill text-secondary"></i></a><a th:href="@{/product(id=${p.id})}"><i class="bi bi-arrow-right text-secondary"></i></a></div> </td>
 	    					</tr>
-	    					
-	    					<tr>
-	    						<td><img style="width: 70px;height: auto" src="https://urlz.fr/lAUR"></td><td>huile argan 1</td> <td>452</td> <td><span class="">45</span></td> <td>category 4</td> <td><span class="badge text-bg-danger">48</span></td> <td>45</td> <td><div class="d-flex gap-3"><a href="#"><i class="bi bi-pencil-fill"></i></a><a th:href="@{/product(id=1)}"><i class="bi bi-arrow-right"></i></a></div> </td>
-	    					</tr>
-	    					
-	    					<tr>
-	    						<td><img style="width: 70px;height: auto" src="https://urlz.fr/lAUR"></td><td>huile argan 1</td> <td>452</td> <td><span class="">45</span></td> <td>category 4</td> <td><span class="badge text-bg-danger">5</span></td> <td>45</td> <td><div class="d-flex gap-3"><a href="#"><i class="bi bi-pencil-fill"></i></a><a th:href="@{/product(id=1)}"><i class="bi bi-arrow-right"></i></a></div> </td>
-	    					</tr>
-	    					
-	    						    					
+	    								    					
 	    					
 	    				</tbody>
 	    				

@@ -2,6 +2,9 @@ package com.bionoor.api.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,25 +12,28 @@ import org.springframework.stereotype.Service;
 import com.bionoor.api.admin.AdminCategory.InputCategory;
 import com.bionoor.api.models.Category;
 import com.bionoor.api.models.Media;
+import com.bionoor.api.models.Product;
 import com.bionoor.api.repositories.CategoryRepository;
+import com.bionoor.api.repositories.ProductRepository;
 import com.bionoor.api.utils.ServiceStorageIn;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
-public class CategoryService{
+public class CategoryService implements CategoryServiceIn{
     
   
+	@Autowired
+	private CategoryRepository categoryRepository;
+	@Autowired
+	private ServiceStorageIn serviceStorageIn;
+	@Autowired
+	private MediaService mediaService;
 	
-	CategoryRepository categoryRepository;
-	ServiceStorageIn serviceStorageIn;
-	MediaService mediaService;
+	@Autowired
+	private ProductRepository productRepository;
 	
-	public CategoryService(CategoryRepository categoryRepository, MediaService mediaService, ServiceStorageIn serviceStorageIn) {
-		// TODO Auto-generated constructor stub
-		
-		this.categoryRepository = categoryRepository;
-		this.mediaService = mediaService;
-		this.serviceStorageIn = serviceStorageIn;
-	}
+	
 	
 	
 	public Category add(InputCategory inCategory ) {
@@ -48,43 +54,68 @@ public class CategoryService{
 	}
 	
 	
-	public String delete(Long id) {
+	public Category delete(Long id) {
 			
-		
-		String message = "";
-		
 	      Category category = this.categoryRepository.getReferenceById(id);
 			if(category == null) {
-				message = "Category with id "+id+" doesn't exist";
+				throw new EntityNotFoundException("Category with id "+id+" doesn't exist");
 			}else {
-				this.categoryRepository.deleteById(id);
-				message = "Category "+id+" has been deleted";
+				
+				//ExecutorService executor = Executors.newFixedThreadPool(10);
+				
+				
+				    
+					for(Category child : category.getSubCategories()) {
+						child.setParentCategory(null);
+						this.categoryRepository.save(child);
+					}
+	
+				
+				
+				  for(Product product : category.getProducts()) {
+					  product.setCategory(null);
+					  this.productRepository.save(product); 
+					  }
+				 
+				this.categoryRepository.deleteById(id);;
+				
 			}
 	      
-	      return message;
+	      return category;
 	}
+	
+	
 	
 	public Category modify(Category category) {
 				
-			
 		  return this.categoryRepository.save(category);
-		      
-			
+		      	
 	}
 	
 	
-	public List<Category> allCategory() {
+	public List<Category> allCategories() {
 		
 		
 		  return this.categoryRepository.findAll();
-		      
-			
+		      	
 	}
 
 
 	public Category getById(Long id) {
 		
-		return  this.categoryRepository.findById(id).orElse(null);
+		Category category = this.categoryRepository.findById(id).orElse(null);
+		if(category!=null) {
+			return category;
+		}
+		
+		throw new EntityNotFoundException("Entity Category with id = "+id+" did not found");
+	}
+
+
+	@Override
+	public Category add(Category Category) {
+		
+		return this.categoryRepository.save(Category);
 	}
 
 

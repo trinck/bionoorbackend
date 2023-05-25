@@ -18,8 +18,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.bionoor.api.models.Category;
 import com.bionoor.api.models.DiscountCode;
 import com.bionoor.api.repositories.MediaRepository;
+import com.bionoor.api.repositories.ProductRepository;
 import com.bionoor.api.services.CategoryService;
 import com.bionoor.api.services.DiscountCodeService;
+import com.bionoor.api.services.ProductService;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.FetchType;
@@ -39,6 +41,10 @@ public class AdminCategory {
 	CategoryService categoryService;
 	@Autowired
 	DiscountCodeService discountCodeService;
+	@Autowired
+	private ProductService productService;
+	@Autowired
+	private ProductRepository productRepository;
 	
 	
 	
@@ -53,9 +59,11 @@ public class AdminCategory {
 
 	@GetMapping(value = "/categories")
 	public String categories(Model model) {
-		 List<Category> categories = this.categoryService.allCategory();
+		 List<Category> categories = this.categoryService.allCategories();
 		model.addAttribute("name", name);
 		model.addAttribute("categories", categories);
+		 
+		System.out.println(this.productRepository.findAll());
 		//System.out.println(categories);
 		return "categories/categorieslist.html";
 	}
@@ -63,7 +71,7 @@ public class AdminCategory {
 	@GetMapping(value = "/categoryform")
 	public String categoryForm(Model model) {
 		InputCategory newCategory = new InputCategory();
-		 List<Category> categories = this.categoryService.allCategory();
+		 List<Category> categories = this.categoryService.allCategories();
 		model.addAttribute("name", name);
 		model.addAttribute("category", newCategory);
 		model.addAttribute("categories", categories);
@@ -75,7 +83,7 @@ public class AdminCategory {
 	public String category(Model model, @RequestParam(value = "id") Long id) {
 		
 		Category category = this.categoryService.getById(id);
-		List<Category> categories = this.categoryService.allCategory();
+		List<Category> categories = this.categoryService.allCategories();
 		List<DiscountCode> discountCodes = category.getDiscountCodes();
 		categories.remove(category);
 		
@@ -84,6 +92,15 @@ public class AdminCategory {
 		model.addAttribute("discountCodes",discountCodes);
 		model.addAttribute("name", name);
 		return "categories/categoryview.html";
+	}
+	
+	
+	@GetMapping(value = "/deleteCategory")
+	public String deleteCategory(Model model,@RequestParam Long id) {
+		
+		 this.categoryService.delete(id);	
+	    return categories(model); 
+		
 	}
 	
 	

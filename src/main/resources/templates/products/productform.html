@@ -28,39 +28,35 @@
 		    		
 		    		
 		    			
-		    			<form action="" method="" class="row form-group px-3 gy-3">
+		    			<form enctype="multipart/form-data" th:object="${product}" th:action="@{/saveProduct}" method="post" class="row form-group px-3 gy-3">
 		    			
 			    			<!-- info composition product -->
-			    			<div class="col col-12 d-flex flex-column gap-3">
-			    				<div class="input-group">
-			    					<input class="form-control" type="text" name="ingredients" placeholder="Ingredient, separate by ';' ">
-			    					<input class=" form-control" type="number" name="weight" placeholder="Weight" id="weight">
-			    					<input class="form-control" type="text" name="activeIngredients" placeholder="Active elements, separate by ';'">
-			    				</div>
-			    			</div>
+			    			
 			    			
 			    			<!-- others -->
 		    				<div class="col d-flex flex-column gap-3">
 		    					
-		    					<input class="form-control rounded-1" placeholder="Name" type="text" name="name" id="name">
-		    					<input class="form-control rounded-1" placeholder="Code" type="text" name="code" id="code">
-		    					<input class="form-control rounded-1" placeholder="Price" type="number" name="price" id="price">
-		    					<input class="form-control rounded-1" placeholder="References" type="text" name="references" id="references">
+		    					<input th:field="*{name}" class="form-control rounded-1" placeholder="Name" type="text" name="name" id="name">
+		    					<input th:field="*{code}" class="form-control rounded-1" placeholder="Code" type="text" name="code" id="code">
+		    					<input th:field="*{price}" class="form-control rounded-1" placeholder="Price" type="number" name="price" id="price">
 		    					<div class="text-center">
 		    						<label for="images" class="p-1 rounded-1 uploader-images w-100" > <i class="bi bi-upload d-block"></i> <span id="labelfile" class="">upload images</span> </label>
-		    						<input class="d-none" multiple="multiple" type="file" id="images" accept="images/*, .png, .jpg" >
+		    						<input th:field="*{images}" class="d-none" multiple="multiple" type="file" id="images" accept="images/*, .png, .jpg, .jpeg" >
 		    					</div>
 		    					
 		    				</div>
 		    				
 		    				<div class="col d-flex flex-column gap-3">
-		    					<input class="form-control rounded-1" placeholder="Quantity" type="number" name="quantity" id="quantity">
-		    					<select class="form-control form-select text-secondary rounded-1" name="category" id="category">    					
+		    					<input th:field="*{quantity}" class="form-control rounded-1" placeholder="Quantity" type="number" name="quantity" id="quantity">
+		    					<select th:field="*{category}" class="form-control form-select text-secondary rounded-1" name="category" id="category">    					
 		    						<option th:each="c:${categories}" th:value="${c.id}" th:text="${c.name}"></option>
+		    						<option  value="" >N/A</option>
 		    						
 		    					</select>
-		    					<input class="form-control rounded-1" placeholder="Promotion price" min="0" type="number" name="promotion" id="promo">
-		    					<textarea class="form-control rounded-1" name="description" placeholder="Give a short description" rows="6" cols=""></textarea>
+		    					<input th:field="*{promotion}" class="form-control rounded-1" placeholder="Promotion price" min="0" type="number" name="promotion" id="promo">
+		    					<textarea th:field="*{description}" class="form-control rounded-1" name="description" placeholder="Give a short description" rows="3" cols=""></textarea>
+		    					<textarea th:field="*{ingredients}" class="form-control rounded-1" name="ingredients" placeholder="Give ingredient, separated by ';'" rows="5" cols=""></textarea>
+
 		    				</div>
 		    			
 		    			    <div class="col-12">

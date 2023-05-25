@@ -6,7 +6,9 @@ import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.stream.Stream;
 
 
@@ -138,6 +140,55 @@ public class ServiceStorageImpl  implements ServiceStorageIn{
 		
 		FileSystemUtils.deleteRecursively(this.pathMedia.toFile());
 		
+	}
+
+	@Override
+	public List<Media> storeAll(List<MultipartFile> files) {
+		
+		
+		List<Media> medias = new ArrayList<>();
+		
+		for(MultipartFile file : files ) {
+			
+			Media media = new Media();
+			
+			media.setSize(file.getSize());
+			
+			media.setType(file.getContentType());
+			
+			
+			try {
+			      Files.copy(file.getInputStream(), this.pathMedia.resolve(file.getOriginalFilename()));
+			      media.setName(file.getOriginalFilename());
+			    }catch (Exception e) {
+				      if (e instanceof FileAlreadyExistsException) {
+			    	      
+					        try { 
+				    			 
+					    		Date date = new Date();
+								Files.copy(file.getInputStream(), this.pathMedia.resolve(""+date.getTime()+file.getOriginalFilename()));
+								media.setName(""+date.getTime()+file.getOriginalFilename());
+								
+							} catch (IOException eio) {
+								// TODO Auto-generated catch block
+								eio.printStackTrace();
+							}
+					        
+					      }else {
+					    	  
+					    	  e.printStackTrace();;
+					      }
+					      
+					    }
+			
+							media.setUrl(this.rootMedia+"/"+media.getName());
+							
+							medias.add(media);
+					}
+		
+		
+		
+		return medias;
 	}
 
 }

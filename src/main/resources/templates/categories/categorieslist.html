@@ -3,10 +3,11 @@
 	layout:decorate="index">
 <head>
 <meta charset="UTF-8">
+<link type="text/css" rel="stylesheet" href="/css/categories/categorylist.css">
 <title>Categories's listist</title>
 </head>
 <body>
-    <div style="width: 95%;"	class="container d-flex flex-column gap-5"	layout:fragment="content">
+    <div style="width: 95%;"	class="container d-flex flex-column gap-4"	layout:fragment="content">
     
     <!-- start hearder commun with all pages -->
     	<header class="d-flex border-bottom p-1 gap-2 align-items-center" >
@@ -72,8 +73,8 @@
 	    					</tr>
 	    				</thead>
 	    				<tbody class="">
-	    					<tr th:each= "c:${categories}">
-	    						<td><img class="" style="width: 70px;" th:src="${c.image}"></td> <td th:text="${c.name}"></td> <td>452</td> <td><span class="activediscount">Best-ever</span></td> <td th:text="${c.parentCategory!=null? c.parentCategory.name:'N/A' }">category 4</td> <td><div class="d-flex gap-3"><a href="#"><i class="bi bi-pencil-fill text-secondary"></i></a> <a href="#"><i class="bi bi-x-lg text-danger"></i> </a> <a th:href="@{/category(id= ${c.id})}"><i class="bi bi-arrow-right text-secondary"></i></a> </div></td>
+	    					<tr th:each= "c:${categories}"  th:id="${c.name}" >
+	    						<td><img class="" style="width: 70px;" th:src="${c.image}"></td> <td th:text="${c.name}"></td> <td>452</td> <td><span class="activediscount">Best-ever</span></td> <td th:text="${c.parentCategory!=null? c.parentCategory.name:'N/A' }">category 4</td> <td><div class="d-flex gap-3"><a href="#"><i class="bi bi-pencil-fill text-secondary"></i></a> <a th:onclick="'deleteCategory('+${c.id}+')'" href="#" ><i class="bi bi-x-lg text-danger"></i> </a> <a th:href="@{/category(id= ${c.id})}"><i class="bi bi-arrow-right text-secondary"></i></a> </div></td>
 	    					</tr>
 	    					
 	    					
@@ -121,7 +122,7 @@
 	    	
 	    	
 	    </section>
-	    
+	    <script type="text/javascript" src="/js/categories/categorylist.js"></script>
     </div>
 </body>
 </html>

@@ -25,7 +25,7 @@
 	    			
 	    			<img class="border w-50" alt="" th:src="${category.image}">
 	    			<div class="card-body d-flex flex-column gap-1">
-	    				<div> <label for="#categoryName">Title</label> <input type="text" class="form-control form-control-sm rounded-1"id="categoryName"   th:value="${category.name}"> </div>
+	    				<div> <label for="#categoryName">Title</label> <input th:onchange="'changeName(event,'+${category.id}+')'" type="text" class="form-control form-control-sm rounded-1"id="categoryName"   th:value="${category.name}"> </div>
 	    				<div> 
 	    					<label for="#categoryParent">Parent</label> 
 	    					<select class="form-select form-select-sm rounded-1" id="categoryParent" > 
@@ -49,8 +49,8 @@
 	    		 <div class="card pb-4 rounded-1">
 	    		 	<div class="card-body">
 	    			 	<span class="card-title fs-4">Discount Code</span>
-	    			 	<ul class="list-group ">
-	    			 		<li th:each="discount:${discountCodes}" class="list-group-item   " > <div class=" w-100"> <span class="badge rounded-5 bg-success"></span> <span th:text="${discount.code}"></span> </div> </li>
+	    			 	<ul class="list-group gap-2 discountsList">
+	    			 		<li th:each="discount:${discountCodes}" class="list-group-item shadow-sm " > <div class=" w-100 d-flex gap-2 "> <span class="text-secondary discount-code" th:text="${discount.code}"></span> <span class="ms-auto text-secondary discount-date" th:text="${#dates.format(discount.endDate,'dd-MM-yyyy')}"></span>  <input onchange="toggleDiscountActif(event)" class="form-check-input discount-check" type="checkbox" th:value="${discount.id}" th:attr="checked=${discount.actif}"></input> </div> </li>
 	    			 		
 	    			 	</ul>
 	    			 	<!-- navigation -->
@@ -59,7 +59,7 @@
 	    			
 	    			<!-- add new item -->
 	    			<form id="formDiscount"  class=" d-flex justify-content-center gap-1 form-group rounded-1 p-1">
-	    				<input name="percentage" class="form-control w-25" type="number" placeholder="percent%" min="5" >  <input name="code" class="form-control w-25" type="text" onchange="discountEditing(event)"> <input class="form-control w-25" type="date" name="endDate"> <button th:onclick="'discountSubmit('+${category.id}+')'" type="button" class="addDiscount btn btn-primary rounded-1" disabled >Add</button>
+	    				<input name="percentage" class="form-control w-25" type="number" placeholder="percentage" min="5" >  <input name="code" class="form-control w-25" placeholder="title" type="text" onchange="discountEditing(event)"> <input class="form-control w-25" type="date" name="endDate"> <button th:onclick="'discountSubmit('+${category.id}+')'" type="button" class="addDiscount btn btn-primary rounded-1" disabled >Add</button>
 	    			</form>
 	    		 </div>
 	    		
@@ -82,8 +82,8 @@
 	     
 	     <!-- the template for creat new discount -->
 	     
-	     <template>
-	    		<li  class="list-group-item " > <div class=" w-100">  <span id="code"></span> </div> </li>
+	     <template id="template">
+	    		<li  class="list-group-item shadow-sm  " > <div  class=" w-100 d-flex gap-2 "> <span class="discount-name text-secondary" ></span> <span  class="ms-auto text-secondary discount-date" ></span>  <input  onchange="toggleDiscountActif(event)" class="form-check-input discount-check" type="checkbox"></input> </div> </li>
 	     </template>
 		 
     <script type="text/javascript" th:src="@{js/categories/categoryview.js}"></script>

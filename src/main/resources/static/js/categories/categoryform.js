@@ -22,6 +22,11 @@ function updateImageDisplay()
 	  img.src =  window.URL.createObjectURL(curFiles[0]);
 	  label.textContent = curFiles.length + ' file selected'
   }
-}/**
+}
+
+
+
+
+ /**
  * 
  */

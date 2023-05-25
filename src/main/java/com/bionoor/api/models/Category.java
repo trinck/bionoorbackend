@@ -49,11 +49,11 @@ public class Category implements Serializable{
     private Category parentCategory;
     
  // The child categories of this category
-    @OneToMany(mappedBy = "parentCategory", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "parentCategory", cascade = CascadeType.PERSIST)
     private List<Category> subCategories = new ArrayList<Category>();;
     
  // The child categories of this category
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
       name = "discount_category", 
       joinColumns = @JoinColumn(name = "category_id"), 
@@ -61,7 +61,7 @@ public class Category implements Serializable{
     private List<DiscountCode> discountCodes = new ArrayList<DiscountCode>();
 
 
-	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	private List<Product> products = new ArrayList<Product>(); // list of products in the category
 
 	// other properties and methods
