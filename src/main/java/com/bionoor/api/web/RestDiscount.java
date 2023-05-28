@@ -159,7 +159,7 @@ public class RestDiscount {
 			   public OutputDiscountProduct(DiscountCode discountCode, InputDiscountProduct inputDiscountProduct) {
 				   this.id = discountCode.getId();
 				   this.code = discountCode.getCode();
-				   this.percentage = discountCode.getPercentage();
+				  // this.percentage = discountCode.getPercentage();
 				   this.actif = discountCode.getActif();
 				   this.endDate = discountCode.getEndDate();
 				   this.productId = inputDiscountProduct.getProductId();
@@ -204,7 +204,7 @@ public class RestDiscount {
 		   public OutputDiscountCategory(DiscountCode discountCode, InputDiscountCategory inputDiscountCategory) {
 			   this.id = discountCode.getId();
 			   this.code = discountCode.getCode();
-			   this.percentage = discountCode.getPercentage();
+			  // this.percentage = discountCode.getPercentage();
 			   this.actif = discountCode.getActif();
 			   this.endDate = discountCode.getEndDate();
 			   this.categoryId = inputDiscountCategory.getCategoryId();

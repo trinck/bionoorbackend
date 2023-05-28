@@ -36,7 +36,7 @@ public class Certificat implements Serializable{
 	   private String description;
 	   /** @pdOid e29ba99a-c30c-40ff-9847-ae5d9237ecd5 */
 	   
-	   @Column(unique = true, nullable = false)
+	   @Column(unique = true)
 	   private String title;
 	   
 	   

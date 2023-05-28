@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.bionoor.api.admin.AdminCategory.InputCategory;
 import com.bionoor.api.models.Category;
 import com.bionoor.api.models.DiscountCode;
+import com.bionoor.api.models.DiscountProduct;
 import com.bionoor.api.services.CategoryService;
 import com.bionoor.api.services.DiscountCodeService;
 
@@ -51,9 +52,9 @@ public class AdminDiscountCode {
 	
 	@GetMapping(value = "/discountForm")
 	public String discountForm(Model model) {
-		DiscountCode discountCode = new DiscountCode();
+		//DiscountCode discountCode = new DiscountProduct();
 		model.addAttribute("name", name);
-		model.addAttribute("discountCode", discountCode);
+	//	model.addAttribute("discountCode", discountCode);
 		
 		return "";
 	}

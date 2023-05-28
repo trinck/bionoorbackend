@@ -1,7 +1,9 @@
 package com.bionoor.api.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.*;
@@ -27,7 +29,11 @@ public class Post implements Serializable{
     private User user;
     
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Comment> comments = new HashSet<>();
+    private List<Comment> comments = new ArrayList<>();
+    
+    
+    @ManyToMany(mappedBy = "posts",fetch = FetchType.LAZY)
+    private List<Tag> tags = new ArrayList<>();
     
     // getters and setters
 }

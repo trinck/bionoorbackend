@@ -32,23 +32,28 @@ import lombok.NoArgsConstructor;
 @Table(name = "products")
 public class Product implements Serializable{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // unique identifier for the product
-
+   
+	@Id
+	@GeneratedValue(strategy = GenerationType.TABLE)
+	private Long id;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+	private Date createdAt;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+	private Date modifiedAt;
+	
     @Column(nullable = false)
     private String name; // product name
 
     
-    @Column(nullable = false)
+    @Column(nullable = false,unique = true)
     private String code; // product name
     
     private String steps; // product steps preparation
     
     private String ingredients; // product ingredients
 
-    @DateTimeFormat(pattern = "yyyy/MM/dd:hh:mm")
-    private Date createAt; // creation date 
     private String description; // product description
 
     @Column(nullable = false)
@@ -57,14 +62,10 @@ public class Product implements Serializable{
     @Column(nullable = false)
     private Long quantity; // product price
     
+    @Column(nullable = false)
+    private Boolean inPromotion;
     private Double promotion; // promotion
-
-    @ManyToMany
-    @JoinTable(
-      name = "discount_product", 
-      joinColumns = @JoinColumn(name = "product_id"), 
-      inverseJoinColumns = @JoinColumn(name = "discount_id"))
-    private List<DiscountCode> discountCodes =  new ArrayList<DiscountCode>();
+	
 
     
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
@@ -82,18 +83,19 @@ public class Product implements Serializable{
     private List<Review> reviews = new ArrayList<Review>(); // list of reviews for the product
     
     @ManyToMany(mappedBy = "products", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private List<Certificat> certificats = new ArrayList<Certificat>();
+    private List<Certificat> certificats = new ArrayList<Certificat>();// certificats
     
-    @ManyToOne()
-    @JoinColumn(name = "certificat_id")
+	/*
+	 * @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST },
+	 * mappedBy = "products") private List<DiscountCode> discountCodes = new
+	 * ArrayList<>();//discount code applied to this products
+	 */
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "productrange_id")
     private ProductRange productRange;
 
-    // other properties and methods
     
-    
-    public void setDiscountCode(DiscountCode discountCode) {
-    	this.discountCodes.add(discountCode);
-    }
     public void setReview(Review review) {
     	this.reviews.add(review);
     }

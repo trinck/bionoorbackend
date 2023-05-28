@@ -17,8 +17,6 @@ public class Comment implements Serializable{
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +25,11 @@ public class Comment implements Serializable{
     
     @Column(nullable = false)
     private String content;
+    
+    @Column(nullable = false)
+    private String title;
+    
+    
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", nullable = false)

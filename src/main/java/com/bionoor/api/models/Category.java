@@ -2,9 +2,12 @@ package com.bionoor.api.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -31,12 +34,17 @@ public class Category implements Serializable{
 	/**
 	 * 
 	 */
-	
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id; // unique identifier for the category
-
+	private Long id;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+	private Date createdAt;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+	private Date modifiedAt;
+	
+	
 	@Column(nullable = false, unique = true)
 	private String name; // name of the category
 	
@@ -48,27 +56,18 @@ public class Category implements Serializable{
     @JoinColumn(name = "parent_id")
     private Category parentCategory;
     
- // The child categories of this category
+ // The children categories of this category
     @OneToMany(mappedBy = "parentCategory", cascade = CascadeType.PERSIST)
     private List<Category> subCategories = new ArrayList<Category>();;
     
- // The child categories of this category
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(
-      name = "discount_category", 
-      joinColumns = @JoinColumn(name = "category_id"), 
-      inverseJoinColumns = @JoinColumn(name = "discount_id"))
-    private List<DiscountCode> discountCodes = new ArrayList<DiscountCode>();
-
-
+	/*
+	 * @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST },
+	 * mappedBy = "categories") private List<DiscountCode> discountCodes = new
+	 * ArrayList<>();//list of discount code applied to this category
+	 */
 	@OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	private List<Product> products = new ArrayList<Product>(); // list of products in the category
 
-	// other properties and methods
 	
 	
-	
-	public void setDiscountCode(DiscountCode  discountCode) {
-    	this.discountCodes.add(discountCode);
-    }
 }

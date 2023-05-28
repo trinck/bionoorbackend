@@ -84,12 +84,12 @@ public class AdminCategory {
 		
 		Category category = this.categoryService.getById(id);
 		List<Category> categories = this.categoryService.allCategories();
-		List<DiscountCode> discountCodes = category.getDiscountCodes();
+	//	List<DiscountCode> discountCodes = category.getDiscountCodes();
 		categories.remove(category);
 		
 		model.addAttribute("category", category);
 		model.addAttribute("categories", categories);
-		model.addAttribute("discountCodes",discountCodes);
+		//model.addAttribute("discountCodes",discountCodes);
 		model.addAttribute("name", name);
 		return "categories/categoryview.html";
 	}

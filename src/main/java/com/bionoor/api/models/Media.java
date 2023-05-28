@@ -32,8 +32,9 @@ public class Media implements Serializable{
     @Column(nullable = false)
     private String type;
     
-    @ManyToMany(mappedBy = "images")
-    private List<Product> products; 
+	/*
+	 * @ManyToMany(mappedBy = "images") private List<Product> products;
+	 */
     
     @Column(nullable = false)
     private String url;

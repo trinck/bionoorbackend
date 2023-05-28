@@ -1,6 +1,7 @@
 package com.bionoor.api.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.*;
@@ -14,7 +15,7 @@ public class Role implements Serializable{
 
     private String name;
     @ManyToMany(mappedBy = "roles")
-    private List<User> users;
+    private List<User> users = new ArrayList<>();
 
    
 }

@@ -13,6 +13,7 @@ import com.bionoor.api.admin.AdminCategory.InputCategory;
 import com.bionoor.api.models.Category;
 import com.bionoor.api.models.Media;
 import com.bionoor.api.models.Product;
+import com.bionoor.api.models.Customer.Gender;
 import com.bionoor.api.repositories.CategoryRepository;
 import com.bionoor.api.repositories.ProductRepository;
 import com.bionoor.api.utils.ServiceStorageIn;
@@ -41,6 +42,8 @@ public class CategoryService implements CategoryServiceIn{
 		Category category = new Category();
 	    Media media =	this.serviceStorageIn.store(inCategory.getImage(), inCategory.getImage().getOriginalFilename());
 		
+	  
+	    
 	    category.setName(inCategory.getName());
 	    category.setImage(media.getUrl());
 	    if(inCategory.getParent() != null) {
