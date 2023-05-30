@@ -50,11 +50,12 @@ public class AdminProduct {
 	
 	
 	@GetMapping(value = "/product")
-	public String product(Model model,@RequestParam(name = "id") int id) {
+	public String product(Model model,@RequestParam(name = "id") Long id) {
 		
-		
+		Product product = this.productService.getById(id);
 		model.addAttribute("name", name);
 		model.addAttribute("id",id);
+		model.addAttribute("product", product);
 		model.addAttribute("logo",logo);
 		return "products/productview.html";
 	}
@@ -89,7 +90,9 @@ public class AdminProduct {
 		
 		if(bindingResult.hasErrors()) {
 			
+			model.addAttribute("product", inputProductDto);
 			return "products/productform.html";
+			
 		}
 		
 		this.productService.add(inputProductDto);
@@ -107,6 +110,7 @@ public class AdminProduct {
 		
 		model.addAttribute("name", name);
 		List<Product> products = new ArrayList<>();
+		products.addAll(this.productService.allProducts());
 		model.addAttribute("products", products);
 		return "products/products.html";
 		

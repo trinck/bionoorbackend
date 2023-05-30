@@ -86,14 +86,18 @@ body{
 
 /*animation for tr table list*/
 
-
+tr[id]{
+	
+	transition: all .5s ;
+}
 tr[id]:hover{
 	
-	animation-name: tableAnimation ;
+	/*animation-name: tableAnimation ;
 	animation-direction: alternate;
-	animation-duration: .5s;
+	animation-duration: .5s;*/
+	transform: scale(1.02);
+	
 }
-
 
 @Keyframes tableAnimation{
 	

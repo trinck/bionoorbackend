@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.bionoor.api.exceptions.FieldsAlreadyExistsException;
 import com.bionoor.api.models.Category;
 import com.bionoor.api.models.DiscountCode;
+import com.bionoor.api.models.DiscountDCP;
 import com.bionoor.api.models.Product;
 import com.bionoor.api.repositories.DiscountCodeRepository;
 import com.bionoor.api.web.RestDiscount.InputDiscountCategory;
@@ -68,34 +69,35 @@ public class DiscountCodeService{
 	
 	public DiscountCode addInput(InputDiscountProduct inputDiscount) throws SQLIntegrityConstraintViolationException {
 		
-		DiscountCode discountCode = new DiscountCode(inputDiscount);
-		Product product = this.productService.getById(inputDiscount.getProductId());
-		/*
-		 * discountCode.setCode(inputDiscount.getCode());
-		 * discountCode.setEndDate(inputDiscount.getEndDate());
-		 * discountCode.setPercentage(inputDiscount.getPercentage());
-		 */
-		product.setDiscountCode(discountCode);
-		discountCode.setProduct(product);
-		discountCode.setActif(true);
 		
-		discountCode = this.codeRepository.save(discountCode);
-		
+		  DiscountCode discountCode = new DiscountDCP(inputDiscount); 
+		  Product product = this.productService.getById(inputDiscount.getProductId());
+		  
+		  product.setDiscountCode(discountCode); discountCode.getDiscountables().add(product);
+		  discountCode.setActif(true);
+		  
+		  discountCode = this.codeRepository.save(discountCode);
+		 
+		//return discountCode;
 		return discountCode;
 	}
 	
 	
 public DiscountCode addInput(InputDiscountCategory inputDiscount) {
 		
-		DiscountCode discountCode = new DiscountCode(inputDiscount);
-		Category category = this.categoryService.getById(inputDiscount.getCategoryId());
-		discountCode.setCategory(category);
-		category.setDiscountCode(discountCode);
-		discountCode.setActif(true);
-		
-		discountCode = this.codeRepository.save(discountCode);
-		
-		return  discountCode; //
+	
+	  DiscountCode discountCode = new DiscountDCP(inputDiscount); 
+	  
+	  Category category = this.categoryService.getById(inputDiscount.getCategoryId());
+	  discountCode.getDiscountables().add(category);
+	  category.setDiscountCode(discountCode);
+	  discountCode.setActif(true);
+	  
+	  discountCode = this.codeRepository.save(discountCode);
+	 
+		//return  discountCode; //
+	
+	return discountCode;
 	}
 
 

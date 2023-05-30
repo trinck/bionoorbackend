@@ -15,11 +15,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.DiscriminatorType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
@@ -31,44 +35,55 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Table(name = "discount_codes")
-public class DiscountCode implements Serializable{
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "application", discriminatorType = DiscriminatorType.STRING)
+public abstract class  DiscountCode implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    protected Long id;
 
-    @Column(unique = true, nullable = false)
-    private String code;
-
-    @ManyToMany(mappedBy = "discountCodes", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
-    private List<Product> products= new ArrayList<Product>();// the product which is affected by reduce
+   @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+   protected Date createdAt;
     
-   
-    @ManyToMany(mappedBy = "discountCodes", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
-    private List<Category> categories = new ArrayList<Category>();// category affected
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    protected Date modifiedAt;
+    
+    @Column(unique = true, nullable = false)
+    protected String code;
+
+	/*
+	 * @ManyToMany(mappedBy = "discountCodes", fetch = FetchType.LAZY, cascade =
+	 * {CascadeType.PERSIST}) private List<Product> products= new
+	 * ArrayList<Product>();// the product which is affected by reduce
+	 * 
+	 * 
+	 * @ManyToMany(mappedBy = "discountCodes", fetch = FetchType.LAZY, cascade =
+	 * {CascadeType.PERSIST}) private List<Category> categories = new
+	 * ArrayList<Category>();// category affected
+	 */
+    @ManyToMany(mappedBy = "discountables")
+    protected List<Discountable> discountables = new ArrayList<>();
     
     @Column(nullable = false)
-    private int percentage;
+    protected Double discount;
     
     
-    private Boolean actif;
+    protected Boolean actif;
 
     
+    @ManyToMany(mappedBy = "usedDiscountCodes", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    protected List<Customer> usedBy = new ArrayList<>();
+    
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date endDate;
+    protected Date endDate;
     
-    public void setProduct(Product product) {
-    	this.products.add(product);
-    }
-    
-    public void setCategory(Category product) {
-    	this.categories.add(product);
-    }
+   
     
     public DiscountCode(InputDiscountIn discountCategory) {
     	
     	this.code = discountCategory.getCode();
     	this.endDate = discountCategory.getEndDate();
-    	this.percentage = discountCategory.getPercentage();
+    	this.discount = discountCategory.getDiscount();
     	
     }
 

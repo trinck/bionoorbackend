@@ -51,10 +51,10 @@ public class AdminDiscountCode {
 	
 	@GetMapping(value = "/discountForm")
 	public String discountForm(Model model) {
-		DiscountCode discountCode = new DiscountCode();
-		model.addAttribute("name", name);
-		model.addAttribute("discountCode", discountCode);
-		
+		/*
+		 * DiscountCode discountCode = new DiscountCode(); model.addAttribute("name",
+		 * name); model.addAttribute("discountCode", discountCode);
+		 */
 		return "";
 	}
 	

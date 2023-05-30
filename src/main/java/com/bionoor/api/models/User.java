@@ -1,6 +1,7 @@
 package com.bionoor.api.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -25,6 +26,8 @@ import lombok.Data;
 @Table(name = "users")
 public class User implements Serializable{
 
+	
+	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // unique identifier for the user
@@ -38,6 +41,8 @@ public class User implements Serializable{
     @Column(nullable = false)
     private String username; // username
 
+    @ManyToMany(mappedBy = "user")
+    private List<Post> posts = new ArrayList<>();
     
     @Column(nullable = false, unique = true)
     private String email; // user's email address

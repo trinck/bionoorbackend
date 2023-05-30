@@ -104,7 +104,6 @@ public class RestDiscount {
 		
 		DiscountCode discountCode = this.discountCodeService.getById(id);
 		
-		
 		return discountCode;
 	}
 	
@@ -128,9 +127,9 @@ public class RestDiscount {
 		    
 		    private Long productId;// the product which is affected by reduce
 		    
-		    private int percentage;
+		    private Double discount;
 
-		    @DateTimeFormat(pattern = "yyyy-MM-dd")
+		    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
 		    private Date endDate;
 
 	}
@@ -139,7 +138,7 @@ public class RestDiscount {
 	
 	public interface InputDiscountIn{
 		public String getCode();
-		public int getPercentage();
+		public Double getDiscount();
 		public Date getEndDate();
 	}
 	
@@ -150,7 +149,7 @@ public class RestDiscount {
 			private Long id;
 		    private String code;
 		    private Long productId;// the product which is affected by reduce
-		    private int percentage;
+		    private Double discount;
 		    private Boolean actif;
 		    @DateTimeFormat(pattern = "yyyy-MM-dd")
 		    private Date endDate;
@@ -159,7 +158,7 @@ public class RestDiscount {
 			   public OutputDiscountProduct(DiscountCode discountCode, InputDiscountProduct inputDiscountProduct) {
 				   this.id = discountCode.getId();
 				   this.code = discountCode.getCode();
-				   this.percentage = discountCode.getPercentage();
+				   this.discount = discountCode.getDiscount();
 				   this.actif = discountCode.getActif();
 				   this.endDate = discountCode.getEndDate();
 				   this.productId = inputDiscountProduct.getProductId();
@@ -180,7 +179,7 @@ public class RestDiscount {
 			@NotNull
 		    private Long categoryId;
 			@NotNull
-		    private int percentage;
+		    private Double discount;
 			@NotNull
 		    @DateTimeFormat(pattern = "yyyy-MM-dd")
 		    private Date endDate;
@@ -196,7 +195,7 @@ public class RestDiscount {
 			private Long id;
 		    private String code;		  
 		    private Long categoryId;
-		    private int percentage;
+		    private Double discount;
 		    private Boolean actif;
 		    @DateTimeFormat(pattern = "yyyy-MM-dd")
 		    private Date endDate;
@@ -204,7 +203,7 @@ public class RestDiscount {
 		   public OutputDiscountCategory(DiscountCode discountCode, InputDiscountCategory inputDiscountCategory) {
 			   this.id = discountCode.getId();
 			   this.code = discountCode.getCode();
-			   this.percentage = discountCode.getPercentage();
+			   this.discount = discountCode.getDiscount();
 			   this.actif = discountCode.getActif();
 			   this.endDate = discountCode.getEndDate();
 			   this.categoryId = inputDiscountCategory.getCategoryId();

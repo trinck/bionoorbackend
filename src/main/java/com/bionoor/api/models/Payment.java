@@ -3,6 +3,7 @@ package com.bionoor.api.models;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -25,11 +26,17 @@ public class Payment implements Serializable{
     private Double amount; // amount of the payment
 
     @Column(nullable = false)
-    private LocalDateTime date; // date and time when the payment was made
+    private Date date; // date and time when the payment was made
 
     @ManyToOne
-    @JoinColumn(name = "order_id", nullable = false)
-    private Order order; // order that the payment is associated with
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Customer customer; // invoice that the payment is associated with
+
+    
+    
+    @ManyToOne
+    @JoinColumn(name = "invoice_id", nullable = false)
+    private Invoice invoice; // invoice that the payment is associated with
 
     // other properties and methods
 

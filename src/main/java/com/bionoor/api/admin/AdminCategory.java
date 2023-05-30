@@ -121,14 +121,11 @@ public class AdminCategory {
 	@Data
 	public class InputCategory{
 		  
-		
 			private String name; // name of the category
 			
 			private MultipartFile image; 
 			
 		    private Long parent;
-		    
-		  
 		    
 	  }
 	

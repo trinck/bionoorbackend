@@ -28,5 +28,9 @@ public class Review implements Serializable{
 	@JoinColumn(name = "product_id", nullable = false)
 	private Product product; // product that the review refers to
 
+	
+	@ManyToOne
+	@JoinColumn(name = "customer_id", nullable = false)
+	private Customer customer; // customer that had put review
 	// other properties and methods
 }

@@ -80,7 +80,7 @@
 	    				</thead>
 	    				<tbody class=" ">
 	    					<tr th:each="p:${products}" th:id="${p.name}">
-	    						<td><img style="width: 70px;height: auto" th:src="${p.images[0]}"></td> <td th:text="${p.name}"></td> <td th:text="${p.price}"></td> <td><span th:text="${p.code}" class=""></span></td> <td th:text="${p.category!=null? p.category.name: N/A}"></td> <td><span class="badge text-bg-success" th:text="${p.quantity}">485</span></td> <td>45</td> <td><div class="d-flex gap-3"><a class="" href="#"><i class="bi bi-pencil-fill text-secondary"></i></a><a th:href="@{/product(id=${p.id})}"><i class="bi bi-arrow-right text-secondary"></i></a></div> </td>
+	    						<td><img style="width: 70px;height: auto" th:src="${p.images[0].url}"></td> <td th:text="${p.name}"></td> <td th:text="${p.price}"></td> <td><span th:text="${p.code}" class=""></span></td> <td th:text="${p.category!=null? p.category.name: N/A}"></td> <td><span class="badge text-bg-success" th:text="${p.quantity}">485</span></td> <td>45</td> <td><div class="d-flex gap-3"><a class="" href="#"><i class="bi bi-pencil-fill text-secondary"></i></a><a th:href="@{/product(id=${p.id})}"><i class="bi bi-arrow-right text-secondary"></i></a></div> </td>
 	    					</tr>
 	    								    					
 	    					

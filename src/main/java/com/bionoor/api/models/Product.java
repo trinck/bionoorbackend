@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.bionoor.api.admin.AdminProduct.InputProductDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -30,12 +31,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "products")
-public class Product implements Serializable{
+public class Product extends Discountable implements Serializable{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // unique identifier for the product
-
+	/*
+	 * @Id
+	 * 
+	 * @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id; //
+	 * unique identifier for the product
+	 */
     @Column(nullable = false)
     private String name; // product name
 
@@ -46,9 +49,13 @@ public class Product implements Serializable{
     private String steps; // product steps preparation
     
     private String ingredients; // product ingredients
+    
+    @OneToMany(mappedBy = "product")
+    private List<OrderItem> orderItems = new ArrayList<>();
 
-    @DateTimeFormat(pattern = "yyyy/MM/dd:hh:mm")
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Date createAt; // creation date 
+    
     private String description; // product description
 
     @Column(nullable = false)
@@ -59,9 +66,9 @@ public class Product implements Serializable{
     
     private Double promotion; // promotion
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(
-      name = "discount_product", 
+      name = "discountCode_product", 
       joinColumns = @JoinColumn(name = "product_id"), 
       inverseJoinColumns = @JoinColumn(name = "discount_id"))
     private List<DiscountCode> discountCodes =  new ArrayList<DiscountCode>();
@@ -74,18 +81,22 @@ public class Product implements Serializable{
       inverseJoinColumns = @JoinColumn(name = "media_id"))
     private List<Media> images = new ArrayList<Media>(); // URL for product image
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category; // category that the product belongs to
 
+ 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<Review>(); // list of reviews for the product
+    
     
     @ManyToMany(mappedBy = "products", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<Certificat> certificats = new ArrayList<Certificat>();
     
+    
     @ManyToOne()
-    @JoinColumn(name = "certificat_id")
+    @JoinColumn(name = "product_range_id")
     private ProductRange productRange;
 
     // other properties and methods

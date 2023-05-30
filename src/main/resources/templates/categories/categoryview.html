@@ -59,7 +59,7 @@
 	    			
 	    			<!-- add new item -->
 	    			<form id="formDiscount"  class=" d-flex justify-content-center gap-1 form-group rounded-1 p-1">
-	    				<input name="percentage" class="form-control w-25" type="number" placeholder="percentage" min="5" >  <input name="code" class="form-control w-25" placeholder="title" type="text" onchange="discountEditing(event)"> <input class="form-control w-25" type="date" name="endDate"> <button th:onclick="'discountSubmit('+${category.id}+')'" type="button" class="addDiscount btn btn-primary rounded-1" disabled >Add</button>
+	    				<input name="discount" class="form-control w-25" type="number" placeholder="discount" min="5" step="0.01">  <input name="code" class="form-control w-25" placeholder="title" type="text" onchange="discountEditing(event)"> <input class="form-control w-25" type="date" name="endDate"> <button th:onclick="'discountSubmit('+${category.id}+')'" type="button" class="addDiscount btn btn-primary rounded-1" disabled >Add</button>
 	    			</form>
 	    		 </div>
 	    		
