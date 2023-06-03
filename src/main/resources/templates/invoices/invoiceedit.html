@@ -3,129 +3,210 @@
 	layout:decorate="index">
 <head>
 <meta charset="UTF-8">
-<title>Products's listt</title>
+<title>Invoices view</title>
+<link type="text/css" rel="stylesheet" href="css/invoices/invoiceedit.css">
 </head>
 <body>
-    <div	class="container d-flex flex-column gap-5  " 	layout:fragment="content">
-    
-    <!-- start hearder commun with all pages -->
-    	<header class="row border-bottom p-1" >
-    		<h5 >Products List</h5>
-    	</header>
-    	
-     <!-- end hearder commun with all pages -->
+    <div	class="container " 	layout:fragment="content">
     
     
-    
-    <!-- start content -->
-    <section class=" container mb-3 bg-white p-1 pb-5" style="width: 95%;">
-	    	
-	    	
-	    	<div class="d-flex flex-column gap-4 ">
-	    	
-	    	
-	    	<!-- table card start -->
-	    		<div class="card border-0">
-	    	
-	    		<div class="card-body ">
-	    		
-	    			<!-- table header -->
-				<div class="bio-table-head d-flex gap-2 my-3">
-					<div class="input-group w-25">
-						<input type="search" class="form-control form-control-sm"
-							placeholder="search">
-						<a class="btn btn-outline-primary" type="button"
-							id="button-addon2"><i class="bi bi-search"></i></a>
-																												
-					</div>
-					
-					
-
-
-					<select  class="form-select form-select-sm " style="width: fit-content;" >
-					
-						 <option selected value="tile">Title</option>
-						 <option value="Code">Code</option>
-						
-					</select>
-					
-					
-					<a class="btn btn-primary">
-						<i class="bi bi-filter"></i> sort
-					</a>
-					
-					
-					<div class="btn-group ms-auto">
-						<a class="btn btn-outline-primary ">
-							<i class="bi bi-plus-lg"></i>new
-						</a>
-						
-						<a class="btn btn-outline-primary ">
-							<i class="bi bi-filetype-csv"></i> import csv
-						</a>
-					</div>
-					
-
-				</div>
-				<!-- table header end -->
-	    	
-	    		
-	    		 <table class="table table-sm table-responsive table-hover align-middle">
-	    				<thead>
-	    					<tr>
-	    						<th>Image</th> <th>Title</th> <th>Price</th> <th>Code</th> <th>category</th> <th>Quantity</th> <th>Selt</th> <th>Edit</th>
-	    					</tr>
-	    				</thead>
-	    				<tbody class=" ">
-	    					<tr>
-	    						<td><img style="width: 70px;height: auto" src="https://urlz.fr/lAUR"></td><td>huile argan 1</td> <td>452</td> <td><span class="">45</span></td> <td>category 4</td> <td><span class="badge text-bg-success">485</span></td> <td>45</td> <td><div class="d-flex gap-3"><a class="" href="#"><i class="bi bi-pencil-fill text-secondary"></i></a><a href="#"><i class="bi bi-arrow-right text-secondary"></i></a></div> </td>
-	    					</tr>
-	    					
-	    					<tr>
-	    						<td><img style="width: 70px;height: auto" src="https://urlz.fr/lAUR"></td><td>huile argan 1</td> <td>452</td> <td><span class="">45</span></td> <td>category 4</td> <td><span class="badge text-bg-danger">48</span></td> <td>45</td> <td><div class="d-flex gap-3"><a href="#"><i class="bi bi-pencil-fill"></i></a><a href="#"><i class="bi bi-arrow-right"></i></a></div> </td>
-	    					</tr>
-	    					
-	    					<tr>
-	    						<td><img style="width: 70px;height: auto" src="https://urlz.fr/lAUR"></td><td>huile argan 1</td> <td>452</td> <td><span class="">45</span></td> <td>category 4</td> <td><span class="badge text-bg-danger">5</span></td> <td>45</td> <td><div class="d-flex gap-3"><a href="#"><i class="bi bi-pencil-fill"></i></a><a href="#"><i class="bi bi-arrow-right"></i></a></div> </td>
-	    					</tr>
-	    					
-	    						    					
-	    					
-	    				</tbody>
-	    				
-	    				<tfoot>
-
-							
-						</tfoot>
-	    			</table>
-	    			<!-- section pagination -->
-	    			<div class="">
-	    		
-	    				<nav aria-label="Page navigation ">
-								<ul class="pagination pagination-sm">
-									<li class="page-item"><a class="page-link" href="#">Previous</a></li>
-									<li class="page-item"><a class="page-link" href="#">1</a></li>
-									<li class="page-item"><a class="page-link" href="#">2</a></li>
-									<li class="page-item"><a class="page-link" href="#">3</a></li>
-									<li class="page-item"><a class="page-link" href="#">Next</a></li>
-								</ul>
-							</nav>
-	    		
-	    		</div>
-							    		
-	    		</div>
-	    		
-	    		
-	    	
-	    	</div>
-	    	
-	    	<!-- table card end -->
-	    	
-	    	</div>
-	    	
-	    	
-	    </section>
-    
+	    <!-- start content -->
+	   		 <div class=" container mb-3 d-flex flex-column gap-2 bg-white shadow-sm py-3" style="width: 95%;">
+		    	<!-- section controls -->
+		    		<div class="section-controls gap-3 d-flex" >
+		    			
+		    			
+		    			<a  class=" ms-auto  btn border-0" style="color: #1976d2">
+		    				Cancel
+		    			</a>
+		    			
+		    			
+		    			<button class="btn shadow rounded-1 text-bg-warning border-0" >
+		    				Save
+		    			</button>
+		    		</div>
+		    		<!--end section controls -->
+		    	
+		    	<!-- section Order -->
+		    		<div class="fw-semibold">Order info</div>
+		    	
+		    		<div class="section-controls gap-3 d-flex" >
+		    			
+		    			
+		    			<div class="order-info" th:id="${order.id}">
+		    				
+		    				<div class="" th:inline="text">Order Number: # [[${order.id}]]</div>
+		    			</div>
+		    			
+		    			<div class="ms-auto">
+		    				<div class="mb-2 ">
+		    					<div class="form-check form-check-reverse">
+		    						<label  class="form-check-label" for="pending" >Pending</label> <input th:attr="checked=${order.status.name=='PENDING'}" th:onchange="'updateOrderStatus(this,'+ ${order.id}+')'" value="PENDING" class="form-check-input" type="radio" name="status" id="pending">
+		    					</div>
+		    					
+		    					<div class="form-check form-check-reverse">
+		    						 <label  class="form-check-label" for="delivered">Delivered</label> <input th:attr="checked=${order.status.name=='DELIVERED'}" th:onchange="'updateOrderStatus(this,'+ ${order.id}+')'" value="DELIVERED" class="form-check-input" type="radio" name="status" id="delivered">
+		    					</div>
+		    					
+		    					<div class="form-check form-check-reverse">
+		    						<label  class="form-check-label" for="processing">Processing</label>  <input th:attr="checked=${order.status.name=='PROCESSING'}" th:onchange="'updateOrderStatus(this,'+ ${order.id}+')'" value="PROCESSING" class="form-check-input" type="radio" name="status" id="processing">
+		    					</div>
+		    					
+		    					<div class="form-check form-check-reverse">
+		    						 <label  class="form-check-label" for="ready" >Ready</label>  <input th:attr="checked=${order.status.name=='READY'}" value="READY" th:onchange="'updateOrderStatus(this,'+ ${order.id}+')'" class="form-check-input" type="radio" name="status" id="ready">
+		    					</div>
+		    					 
+		    				</div>
+		    				<div>
+		    					<span class="fw-semibold" >Order date:</span> <span th:inline="text"> [[${#dates.format(order.createdAt, 'dd/MM/yyyy hh:mm')}]]</span>
+		    				</div>
+		    			
+		    			</div>
+		    			
+		    		</div>
+		    		<!--end section Order -->
+		    		<hr>
+		    		
+		    		<!-- section Bill -->
+		    	
+		    		<div class="section-controls gap-3 d-flex" >
+		    			
+		    			
+		    			<div class="bill-info ">
+		    				<div class="fw-semibold">Bill from</div>
+		    				<div class="d-flex flex-column lh-1 text-secondary">
+		    					<span>A2R SARL</span>
+		    					<span> No 182 Boulevard Al Mouquaouama</span>
+		    					<span>City El Wahda</span>
+		    					<span>20150 Mohammadia</span>
+		    					<span>Tel: 0523324474</span>
+		    					<span>Fax: 0523324474</span>
+		    					<span>e-mail: contact@bionoor.ma</span>
+		    					<span>R.C.S: 13237</span>
+		    					<span>No TVA intracom: 39572170</span>
+		    				</div>
+		    			</div>
+		    			
+		    			<div class="ms-auto text-end">
+		    				<div class="fw-semibold ">Bill to</div>
+		    				<div class="d-flex flex-column lh-1 text-end text-secondary">
+		    					<span id="user-email" th:inline="text">[[${order.customer.email}]]</span>
+		    					<span id="user-address" th:inline="text">[[${order.adrress}]]</span>
+		    				</div>
+		    			</div>
+		    			
+		    		</div>
+		    		<!--end section Billing -->
+		    		<!-- invoice Info -->
+		    		<div class="section-controls ">
+			    		<div class="d-flex">
+							<div class="p-2 d-flex flex-column w-50 border-top border-start border-end rounded-top border-black border-2 ms-auto">
+								<span class="text-uppercase" th:inline="text">[[${order.customer.username}]]</span> <span>EL JADIDA</span>
+							</div>
+						</div>
+		    			
+		    			<div>
+		    				<table class="table align-midle table-bordered">
+			    				<thead>
+			    					<tr>
+			    						<th> #Invoice</th> <th>Date</th> <th>Due date</th> <th>Customer code</th> <th></th>
+			    					</tr>
+			    				</thead>
+		    				
+			    				<tbody>
+			    					<tr th:if="${invoice!=null}">
+			    						<td th:text="${index!=null? index: invoice.id}"></td>  <td th:text="${#dates.format(invoice.createdAt,'dd/MM/yyyy hh:mm')}"></td>  <td ><input type="date" class="form-control w-50 border-bottom border-3 border-0" required="required"> </td> <td  th:text="${order.customer.id}"></td> <td></td>
+			    					</tr>
+			    				</tbody>
+		    				</table>
+		    			
+		    			</div>
+		    			
+		    		</div>
+		    		
+		    		<!-- end invoice info -->
+		    		
+		    		<!-- section items -->
+		    		<div >
+		    			<table class="table align-midle">
+		    				<thead class="table-light">
+		    					<tr>
+		    						<th>Code</th> <th>Item name</th> <th>Unit price(TTC)</th> <th>Quantity</th> <th>Total</th>	<th>Action</th>
+		    					</tr>
+		    				</thead>
+		    				<tbody id="items-table">
+		    					<tr th:each="item:${order.orderItems}" th:id="${item.id}">
+		    						<td class="item-product-code" th:inline="text">[[${item.product.code}]]</td> <td class="item-product-name"> <input  list="product-list" onchange=" onChangeItemName(event)" type="text"  th:value="${item.product.name}" class="form-control w-50"></td> <td class="item-product-price" th:inline="text">[[${item.product.price}]] MAD</td> <td><input onchange="updateQauntity(event)"  type="number" min="1" class="form-control w-50 rounded-1 item-quantity" th:value="${item.quantity}"></td> <td  th:inline="text" class="item-totalAmount">[[${#numbers.formatDecimal(item.quantity * item.product.price,1,2)}]] MAD</td>    <td> <a class="text-decoration-none border-0 delete"  style="color: #1976d2">Delete</a></td>                 
+		    					</tr>
+		    					
+		    		
+		    				</tbody>
+		    			</table>
+		    		</div>
+		    		<!-- end section items -->
+		    		
+		    		<hr>
+		    		<button class="btn ms-auto mb-1 shadow rounded-1" onclick="addItemTr(event)" style="background-color: #1976d2; color: white">
+									 Add item
+					</button>
+		    		<!-- section total amount calcul -->
+		    		<div class="d-flex ">
+		    			<div class="payment-info d-flex flex-column">
+		    				<span class="fw-semibold">Payment method :</span>
+		    				<span th:inline="text">[[${order.paymentMethod.discriminatorValue}]]</span>
+		    			</div>
+		    			<!-- droite section -->
+		    			<div class="ms-auto d-flex flex-column gap-2" style="min-width: 200px">
+			    				
+								
+								
+		    					<div class="d-flex gap-4" >
+		    						<span>Total H.T:</span><span class="ms-auto" th:inline="text">[[${order.totalAmount}]] MAD</span>
+		    					</div>
+		    					
+		    					<div class="d-flex gap-4" >
+		    						<span>Discount Code:</span><span class="ms-auto" th:text="${order.discountCode!=null? order.discountCode.code: 'N/A' }"></span>
+		    					</div>
+		    					
+		    					<div class="d-flex gap-4" >
+		    						<span>Remise:</span><input class="ms-auto form-control w-50 rounded-1" type="number" min="0"  th:value="${invoice.remise}">
+		    					</div>
+		    					
+		    					<div class="d-flex gap-4" >
+		    						<span>Vat(%):</span><input class="ms-auto form-control w-50 rounded-1" type="number" min="0"  th:value="${invoice.vat}">
+		    					</div>
+		    					
+		    					
+		    					<div class="d-flex gap-4 border-bottom pb-2" >
+		    						<span>Transport:</span><input class="ms-auto form-control w-50 rounded-1" type="number" min="0"  th:value="${invoice.transport}">
+		    					</div>
+		    					
+		    					
+		    					
+		    					<div class="d-flex gap-4" >
+		    						<span>Total amount (TTC):</span><span class="ms-auto" th:text="${order.invoice!=null? order.invoice.totalAmount:'N/A' }"></span>
+		    					</div>
+		    					
+		    					<div class="d-flex gap-4 fw-semibold" >
+		    						<span class="">Due to pay:</span> <span class="ms-auto" th:text="${order.invoice!=null? order.invoice.totalAmount:'N/A' }"></span>
+		    					</div>
+		    			</div>
+		    			
+		    		</div>
+		    	
+		    </div>
+		    <datalist id="product-list">
+		    	<option th:each="product:${productList}" th:value="${product.name}">
+		    </datalist>
+		    
+		    <template id="template">
+				<tr >
+		    		<td class="item-product-code" >N/A</td> <td ><input type="text" class="form-control w-50 item-product-name" onchange=" onChangeItemName(event)" list="product-list"></td> <td class="item-product-price">N/A</td> <td><input  type="number" min="1" value="1" class="form-control w-50 rounded-1 item-quantity" ></td> <td class="item-totalAmount">N/A</td>  <td><a class=" text-decoration-none delete"  style="color: #1976d2">Delete</a> </td> 
+		    	</tr>	     	
+		    </template>
+		    
+		    <script type="text/javascript" src="js/invoices/invoiceedit.js"></script>
+	    
     </div>
     
 </body>

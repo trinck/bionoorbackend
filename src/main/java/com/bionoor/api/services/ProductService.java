@@ -1,6 +1,7 @@
 package com.bionoor.api.services;
 
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.bionoor.api.admin.AdminProduct.InputProductDto;
 import com.bionoor.api.models.Category;
+import com.bionoor.api.models.Order;
 import com.bionoor.api.models.Product;
 import com.bionoor.api.repositories.ProductRepository;
 import com.bionoor.api.utils.*;
@@ -80,6 +82,7 @@ public class ProductService implements  ProductServiceIn{
 		Category categpry = this.categoryService.getById(toSave.getCategory());
 		product.setCategory(categpry);
 		product.setImages( this.ServiceStorageImpl.storeAll(toSave.getImages()));
+		product.setCreateAt(new Date());
 		
 		categpry.getProducts().add(product);
 		//this.categoryService.add(categpry);
@@ -93,6 +96,11 @@ public class ProductService implements  ProductServiceIn{
 	public List<Product> allProducts() {
 		// TODO Auto-generated method stub
 		return this.productRepository.findAll();
+	}
+	
+	public List<Product> findByName(String productName) {
+		
+		return this.productRepository.findByName(productName);
 	}
 	
 	

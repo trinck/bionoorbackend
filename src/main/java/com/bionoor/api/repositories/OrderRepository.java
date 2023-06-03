@@ -9,6 +9,5 @@ import com.bionoor.api.models.User;
 
 public interface OrderRepository extends JpaRepository<Order, Long>{
 
-	
-
+ 	
 }

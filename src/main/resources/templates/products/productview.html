@@ -13,7 +13,7 @@
 
 			<!-- start hearder commun with all pages -->
 			<header class="row border-bottom p-1">
-				<h5>View product #F45G3</h5>
+				<h5 th:inline="text">View product #[[${product.code}]]</h5>
 			</header>
 	
 			<!-- end hearder commun with all pages -->
@@ -26,8 +26,8 @@
 					<div  class="card  border-0 shadow-sm " >
 						<img class="product-image-first card-img-top w-100" alt=""  th:src="${product.images[0].url}"  >
 					
-						<div class="product-images card-body text-center"> 
-								<img style="width: 75px; height: auto"  src="https://urlz.fr/lC2M"> <img src="https://urlz.fr/lC2N" style="width: 75px; height: auto"> <img style="width: 75px; height: auto" src="https://urlz.fr/lDsV">
+						<div class="product-images card-body justify-content-center d-flex gap-2"> 
+								<img th:each="p:${product.images}" class="" style="width: 75px; height: auto"  th:src="${p.url}"> 
 						 </div>
 					</div>
 					
@@ -211,7 +211,7 @@
 							<div class="d-flex gap-4 justify-content-center">
 								<div class="stat-sals text-center " style="width: max-content;">
 									<span class="stat-top d-block fs-1 fw-semibold text-muted">
-											50
+											0
 									</span>
 									<span class="stat-bottom">
 										Sold
@@ -219,8 +219,8 @@
 								</div>
 								<!-- stat stock -->
 								<div class="stat-sals text-center " style="width: max-content;">
-									<span class="stat-top d-block fw-semibold text-muted fs-1">
-											108
+									<span class="stat-top d-block fw-semibold text-muted fs-1" th:inline="text">
+											[[${product.quantity}]]
 									</span>
 									<span class="stat-bottom">
 										Stock
@@ -230,7 +230,7 @@
 								<!-- stat earnings -->
 								<div class="stat-sals text-center " style="width: max-content;">
 									<span class="stat-top d-block fw-semibold text-muted fs-1">
-											597.45
+											0
 									</span>
 									<span class="stat-bottom">
 										Earnings (MAD)
@@ -273,10 +273,10 @@
 					
 					<div class="productview-info card d-flex flex-column border-0">
 						<div class="d-flex flex-column">
-							<h6 class="productview-name">Huil d'argan 100% vegetal</h6>
-							<span class="text-secondary">Code: F45G3</span>
+							<h6 class="productview-name" th:text="${product.name}"></h6>
+							<span class="text-secondary" th:inline="text">code: [[${product.code}]]</span>
 							<span class="text-secondary">Brand: <img alt="" th:src="@{${logo}}" style="width: 90px; height: auto;"> </span>
-							<span class="text-black"> <del>250 MAD</del> 150 MAD </span>
+							<span class="text-black"> <del th:text="${product.price}"></del> 150 MAD </span>
 						</div>
 						
 						<hr>
@@ -287,12 +287,7 @@
 						
 						<div class="productview-desc">
 							<h6>Description</h6>
-							<p class="">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce purus leo, consectetur sed aliquam non, sodales sit amet nibh. Curabitur consequat scelerisque dictum. Suspendisse vitae diam dolor. Sed suscipit fermentum eros sit amet sagittis. Etiam ante urna, ultricies id tristique at, laoreet vitae sapien. 
-							Fusce lacinia justo ipsum, id vulputate ipsum eleifend eget. 
-							Vivamus pharetra tempus laoreet. Duis ut pharetra diam, vel ornare turpis. 
-							Vestibulum in urna quis ligula dignissim pharetra quis quis lectus.
-							 In condimentum, nulla at malesuada tincidunt, mi nibh iaculis ante, eu pulvinar nisl sapien et diam. 
-							 Vivamus condimentum aliquam tortor at finibus.</p>
+							<p class="" th:text="${product.description}"></p>
 						</div>
 						<hr>
 						
@@ -305,16 +300,14 @@
 							<div class="accordion-item">
 								<h2 class="accordion-header">
 									<button class="accordion-button collapsed" type="button"
-										data-bs-toggle="collapse" data-bs-target="#ingrdient-collapse"
+										data-bs-toggle="collapse" data-bs-target="#ingredient-collapse"
 										aria-expanded="false" aria-controls="flush-collapseOne">
 										Ingredients</button>
 								</h2>
-								<div id="ingrdient-collapse" class="accordion-collapse collapse"
+								<div id="ingredient-collapse" class="accordion-collapse collapse"
 									data-bs-parent="#productviewAccordion">
 									<div class="accordion-body">
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce purus leo, consectetur sed aliquam non, sodales sit amet nibh. Curabitur consequat scelerisque dictum. Suspendisse vitae diam dolor. Sed suscipit fermentum eros sit amet sagittis. Etiam ante urna, ultricies id tristique at, laoreet vitae sapien. 
-										Fusce lacinia justo ipsum, id vulputate ipsum eleifend eget. 
-										Vivamus pharetra tempus laoreet
+										<p th:text="${product.ingredients}"></p>
 									</div>
 								</div>
 							</div>
@@ -353,17 +346,17 @@
 							<div class="accordion-item">
 								<h2 class="accordion-header">
 									<button class="accordion-button collapsed" type="button"
-										data-bs-toggle="collapse" data-bs-target="#preparation-stepe"
+										data-bs-toggle="collapse" data-bs-target="#preparation-step"
 										aria-expanded="false" aria-controls="flush-collapseTwo">
 										    preparation stage</button>
 								</h2>
-								<div id="preparation-stepe" class="accordion-collapse collapse"
+								<div id="preparation-step" class="accordion-collapse collapse"
 									data-bs-parent="#productviewAccordion">
 									<div class="accordion-body">
-										<ol class="text-secondary">
-											<li> <p>gqzukukvbvubukvbuevbuifiufufu;ffuuebebvuebuvbkskuvbbkubvkubkukv</p> </li>
+										<div class="text-secondary" th:text="${product.steps}">
 											
-										</ol>
+											
+										</div>
 									</div>
 								</div>
 							</div>

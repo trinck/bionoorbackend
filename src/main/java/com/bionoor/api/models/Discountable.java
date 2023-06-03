@@ -12,9 +12,13 @@ import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Discountable implements Serializable {
@@ -22,7 +26,7 @@ public abstract class Discountable implements Serializable {
 	
 	@Id
 	@GeneratedValue
-	private Long id;
+	protected Long id;
 	
 	@ManyToMany
 	@JoinTable(
@@ -31,5 +35,5 @@ public abstract class Discountable implements Serializable {
 			
 			inverseJoinColumns = @JoinColumn(name="discountCode_id")
 			)
-	private List<DiscountCode> discountables = new ArrayList<>();
+	protected List<DiscountCode> discountCodes = new ArrayList<>();
 }

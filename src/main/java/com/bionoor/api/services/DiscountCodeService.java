@@ -73,7 +73,8 @@ public class DiscountCodeService{
 		  DiscountCode discountCode = new DiscountDCP(inputDiscount); 
 		  Product product = this.productService.getById(inputDiscount.getProductId());
 		  
-		  product.setDiscountCode(discountCode); discountCode.getDiscountables().add(product);
+		  product.getDiscountCodes().add(discountCode);
+		  discountCode.getDiscountables().add(product);
 		  discountCode.setActif(true);
 		  
 		  discountCode = this.codeRepository.save(discountCode);
@@ -90,7 +91,7 @@ public DiscountCode addInput(InputDiscountCategory inputDiscount) {
 	  
 	  Category category = this.categoryService.getById(inputDiscount.getCategoryId());
 	  discountCode.getDiscountables().add(category);
-	  category.setDiscountCode(discountCode);
+	  category.getDiscountCodes().add(discountCode);
 	  discountCode.setActif(true);
 	  
 	  discountCode = this.codeRepository.save(discountCode);

@@ -9,5 +9,5 @@ import com.bionoor.api.models.DiscountCode;
 
 public interface DiscountCodeRepository extends JpaRepository<DiscountCode, Long> {
 	
-  
+  public List<DiscountCode> findByCode(String code);
 }

@@ -18,6 +18,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -25,6 +26,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@AllArgsConstructor
 @DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING, name = "method")
 public abstract class PaymentMethod {
 
@@ -34,8 +36,11 @@ public abstract class PaymentMethod {
 	
 	@Column(nullable = false)
 	@DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
-	private Date createdAt;
-	private String description;
+	protected Date createdAt;
+	protected String description;
+	
+	@Column(name = "method", insertable = false, updatable = false)
+    private String discriminatorValue;
 	
 	
 	

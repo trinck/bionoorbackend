@@ -8,9 +8,12 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.bionoor.api.admin.AdminInvoice.InputInvoice;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -36,7 +39,7 @@ public class Invoice implements Serializable{
 
     // Date when the invoice was created
     @Column(nullable = false)
-    private Date creationDate;
+    private Date createdAt;
 
     // Total amount of the invoice
     @Column(nullable = false)
@@ -44,6 +47,7 @@ public class Invoice implements Serializable{
     
     private Boolean paid;
     
+    private Double transport; 
     
     @ManyToOne()
     @JoinColumn(name = "created_by_id")
@@ -56,21 +60,33 @@ public class Invoice implements Serializable{
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm;ss")
     private Date dueDate;
     
+    private int vat;
+    private Double remise;
     // User who made the purchase and is associated with this invoice
     @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
+    @JoinColumn(name = "customer_id" ,nullable = true)
     private Customer customer;
 
-    @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Payment> payments; // list of payments associated with the invoice
 
     // Order associated with this invoice
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
     // Default constructor required by JPA
    
+    
+    public Invoice(InputInvoice inputInvoice) {
+    	
+    	this.id = inputInvoice.getId();
+    	this.remise = inputInvoice.getRemise();
+    	this.dueDate = inputInvoice.getDueDate();
+    	this.paid = inputInvoice.getPaid();
+    	this.vat = inputInvoice.getVat();
+    	
+    }
 
    
 }

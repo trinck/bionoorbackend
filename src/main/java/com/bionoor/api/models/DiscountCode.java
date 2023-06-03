@@ -61,7 +61,7 @@ public abstract class  DiscountCode implements Serializable{
 	 * {CascadeType.PERSIST}) private List<Category> categories = new
 	 * ArrayList<Category>();// category affected
 	 */
-    @ManyToMany(mappedBy = "discountables")
+    @ManyToMany(mappedBy = "discountCodes")
     protected List<Discountable> discountables = new ArrayList<>();
     
     @Column(nullable = false)

@@ -34,8 +34,8 @@ public class Media implements Serializable{
     private String type;
     
 	
-	  @ManyToMany(mappedBy = "images", fetch = FetchType.LAZY) private
-	  List<Product> products;
+	  @ManyToMany(mappedBy = "images", fetch = FetchType.LAZY) 
+	  private List<Product> products;
 	  
     
     @Column(nullable = false)

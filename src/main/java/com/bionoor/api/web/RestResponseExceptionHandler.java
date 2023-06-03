@@ -22,6 +22,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 
 import com.bionoor.api.exceptions.EntityUnknowException;
+import com.bionoor.api.exceptions.IllegalOperationException;
 import com.bionoor.api.exceptions.ResponseMessageException;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -31,7 +32,7 @@ public class RestResponseExceptionHandler  extends ResponseEntityExceptionHandle
 
    
     
-	
+	//IllegalOperationException
     
     @ExceptionHandler(value = {EntityNotFoundException.class})
     public ResponseEntity<Object> handleEntityNotFound(EntityNotFoundException ex,HttpHeaders headers, HttpStatus status, WebRequest request ){
@@ -42,6 +43,19 @@ public class RestResponseExceptionHandler  extends ResponseEntityExceptionHandle
     	exception.setStatus(status.value());
     	
     	return new ResponseEntity<Object>(exception, HttpStatus.NOT_FOUND);
+    }
+    
+    
+    
+    @ExceptionHandler(value = {IllegalOperationException.class})
+    public ResponseEntity<Object> handleEntityNotFound(IllegalOperationException ex,HttpHeaders headers, HttpStatus status, WebRequest request ){
+    	
+    	ResponseMessageException exception = new ResponseMessageException();
+    	exception.setMessage(ex.getMessage());
+    	exception.setDateTime(LocalDateTime.now());
+    	exception.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+    	
+    	return new ResponseEntity<Object>(exception, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 	
 	

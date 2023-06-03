@@ -62,8 +62,6 @@ public class CategoryService implements CategoryServiceIn{
 			}else {
 				
 				//ExecutorService executor = Executors.newFixedThreadPool(10);
-				
-				
 				    
 					for(Category child : category.getSubCategories()) {
 						child.setParentCategory(null);

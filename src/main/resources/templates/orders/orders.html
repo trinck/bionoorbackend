@@ -57,24 +57,13 @@
 	    						<th>#No</th> <th>customer</th> <th> Date</th> <th>total amount</th> <th>products number</th> <th>Status</th> <th>Invoiced</th> <th>Method</th> <th>Edit</th>
 	    					</tr>
 	    				</thead>
-	    				<tbody class=" ">
-	    					<tr>
-	    						<td>12</td><td> alban  marwan</td> <td> 2 April, 2023</td> <td>452 MD</td> <td>45</td> <td><span class="badge text-bg-warning"> processing</span></td> <td><i class="bi bi-check-circle text-success"></i></td> <td>Pay as delivered</td> <td><div class="d-flex gap-3"><a href="#"><i class="bi bi-check-lg text-success"></i></a> <a href="#"><i class="bi bi-x-lg text-danger"></i> </a> <a href="#"><i class="bi bi-arrow-right text-secondary"></i></a></div> </td>
-	    					</tr>
-	    					
-	    					<tr>
-	    						<td>19</td><td>mazdak dioup</td> <td> 7 April, 2023</td> <td>452 MD</td> <td>25</td> <td><span class="badge text-bg-success"> delivered</span></td> <td><i class="bi bi-check-circle text-success"></i></td> <td>Pay as delivered</td> <td><div class="d-flex gap-3"><a href="#"><i class="bi bi-check-lg text-success"></i></a> <a href="#"><i class="bi bi-x-lg text-danger"></i> </a> <a href="#"><i class="bi bi-arrow-right text-secondary"></i></a></div> </td>
+	    				<tbody class="">
+	    					<tr th:each="order:${orders}">
+	    						<td th:text="${order.id}"></td> <td th:text="${order.customer.username}"></td> <td th:text="${#dates.format(order.createdAt, 'dd-MM-yyyy hh:mm:ss')}"> </td> <td th:text="${order.totalAmount}+' MAD'"></td> <td>45</td> <td><span th:class="'badge '+${mapStatusBG[order.status.name]}" th:text="${order.status}"> </span></td> <td><i th:class=" ${order.invoice!=null? 'bi bi-check-circle text-success': 'bi bi-check-circle text-danger'}"></i></td> <td th:text="${order.paymentMethod!=null ?order.paymentMethod.discriminatorValue:'N/A' }"></td> <td><div class="d-flex gap-3"><a href="#"><i class="bi bi-check-lg text-success"></i></a> <a href="#"><i class="bi bi-x-lg text-danger"></i> </a> <a th:href="@{/orederView(id = ${order.id})}"><i class="bi bi-arrow-right text-secondary"></i></a></div> </td>
 	    					</tr>
 	    					
 	    					
-	    					
-	    					
-	    					
-	    					<tr>
-	    						<td>72</td><td> yousouf  marwan</td> <td> 15 April, 2023</td> <td>45 MD</td> <td>4</td> <td><span class="badge text-bg-secondary"> pending</span></td> <td><i class="bi bi-x-circle text-danger"></i></td> <td>Pay as delivered</td> <td><div class="d-flex gap-3"><a href="#"><i class="bi bi-check-lg text-success"></i></a> <a href="#"><i class="bi bi-x-lg text-danger"></i> </a> <a href="#"><i class="bi bi-arrow-right text-secondary"></i></a></div> </td>
-	    					</tr>
-	    					
-	    					
+
 	    					
 	    					
 	    				</tbody>

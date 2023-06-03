@@ -55,12 +55,13 @@ public class Category extends Discountable implements Serializable{
     private List<Category> subCategories = new ArrayList<Category>();;
     
  // The child categories of this category
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinTable(
-      name = "discountCode_category", 
-      joinColumns = @JoinColumn(name = "category_id"), 
-      inverseJoinColumns = @JoinColumn(name = "discount_id"))
-    private List<DiscountCode> discountCodes = new ArrayList<DiscountCode>();
+	/*
+	 * @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	 * 
+	 * @JoinTable( name = "discountCode_category", joinColumns = @JoinColumn(name =
+	 * "category_id"), inverseJoinColumns = @JoinColumn(name = "discount_id"))
+	 * private List<DiscountCode> discountCodes = new ArrayList<DiscountCode>();
+	 */
 
 
 	@OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
@@ -68,9 +69,4 @@ public class Category extends Discountable implements Serializable{
 
 	// other properties and methods
 	
-	
-	
-	public void setDiscountCode(DiscountCode  discountCode) {
-    	this.discountCodes.add(discountCode);
-    }
 }

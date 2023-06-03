@@ -1,23 +1,18 @@
 package com.bionoor.api.models;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.bionoor.api.admin.AdminProduct.InputProductDto;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
@@ -56,6 +51,8 @@ public class Product extends Discountable implements Serializable{
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Date createAt; // creation date 
     
+   
+  
     private String description; // product description
 
     @Column(nullable = false)
@@ -66,13 +63,13 @@ public class Product extends Discountable implements Serializable{
     
     private Double promotion; // promotion
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinTable(
-      name = "discountCode_product", 
-      joinColumns = @JoinColumn(name = "product_id"), 
-      inverseJoinColumns = @JoinColumn(name = "discount_id"))
-    private List<DiscountCode> discountCodes =  new ArrayList<DiscountCode>();
-
+	/*
+	 * @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	 * 
+	 * @JoinTable( name = "discountCode_product", joinColumns = @JoinColumn(name =
+	 * "product_id"), inverseJoinColumns = @JoinColumn(name = "discount_id"))
+	 * private List<DiscountCode> discountCodes = new ArrayList<DiscountCode>();
+	 */
     
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(
@@ -102,9 +99,7 @@ public class Product extends Discountable implements Serializable{
     // other properties and methods
     
     
-    public void setDiscountCode(DiscountCode discountCode) {
-    	this.discountCodes.add(discountCode);
-    }
+   
     public void setReview(Review review) {
     	this.reviews.add(review);
     }

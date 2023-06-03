@@ -1,1 +1,33 @@
 @charset "UTF-8";
+
+/*animation for tr table list*/
+
+tr[id]{
+	
+	transition: all .5s ;
+}
+tr[id]:hover{
+	
+	/*animation-name: tableAnimation ;
+	animation-direction: alternate;
+	animation-duration: .5s;*/
+	transform: scale(1.02);
+	
+}
+
+@Keyframes tableAnimation{
+	
+	0% { transform: translate(0px, 0px)}
+	50%{ transform: translate(-8px, 0px) }
+	100%{ transform: translate(0px, 0px) }
+}
+
+
+@Keyframes deleteTrAnimation{
+	
+	0% { transform: translate(0px, 0px)}
+	100%{ transform: translate(-115%, 0px) }
+	
+}
+
+/******************************/

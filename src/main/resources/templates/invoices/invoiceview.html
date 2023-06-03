@@ -17,9 +17,13 @@
 		    				<i class="bi bi-arrow-left" ></i>
 		    			</a>
 		    			
-		    			<button class="btn ms-auto shadow rounded-1" style="background-color: #1976d2; color: white">
+		    			<a th:if="${order.invoice!=null}" class="btn ms-auto shadow rounded-1" style="background-color: #1976d2; color: white">
 		    				Edit invoice
-		    			</button>
+		    			</a>
+		    			
+		    			<a th:unless="${order.invoice!=null}" class="btn ms-auto shadow rounded-1" th:href="@{/createInvoice(id=${order.id})}" style="background-color: #1976d2; color: white">
+		    				Create invoice
+		    			</a>
 		    			
 		    			<button class="btn shadow rounded-1 text-bg-warning">
 		    				Print invoice
@@ -30,27 +34,27 @@
 		    	<!-- section Order -->
 		    		<div class="fw-semibold">Order info</div>
 		    	
-		    		<div class="section-controls gap-3 d-flex" >
+		    		<div class="section-controls gap-3 d-flex border-1 border-bottom" >
 		    			
 		    			
 		    			<div class="order-info">
 		    				
-		    				<div class="">Order Number: #41256</div>
+		    				<div class="" th:inline="text">Order Number: # [[${order.id}]]</div>
 		    			</div>
 		    			
 		    			<div class="ms-auto">
 		    				<div>
-		    					<span class="fw-semibold">Order status:</span> Pending
+		    					 <span  class="fw-semibold" >Order status: </span> <spanth:inline="text">[[${order.status}]]</span> 
 		    				</div>
 		    				<div>
-		    					<span class="fw-semibold">Order date:</span> April 24, 2023
+		    					<span class="fw-semibold" >Order date:</span> <span th:inline="text"> [[${#dates.format(order.createdAt, 'dd/MM/yyyy hh:mm')}]]</span>
 		    				</div>
 		    			
 		    			</div>
 		    			
 		    		</div>
 		    		<!--end section Order -->
-		    		<hr>
+		    		
 		    		
 		    		<!-- section Bill -->
 		    	
@@ -72,9 +76,12 @@
 		    				</div>
 		    			</div>
 		    			
-		    			<div class="ms-auto">
+		    			<div class="ms-auto text-end">
 		    				<div class="fw-semibold">Bill to</div>
-		    				
+		    				<div class="d-flex flex-column lh-1">
+		    					<span th:inline="text">[[${order.customer.email}]]</span>
+		    					<span th:inline="text">[[${order.adrress}]]</span>
+		    				</div>
 		    			</div>
 		    			
 		    		</div>
@@ -83,7 +90,7 @@
 		    		<div class="section-controls ">
 			    		<div class="d-flex">
 							<div class="p-2 d-flex flex-column w-50 border-top border-start border-end rounded-top border-black border-2 ms-auto">
-								<span>LEGMIRI FATIMA</span> <span>EL JADIDA</span>
+								<span class="text-uppercase" th:inline="text">[[${order.customer.username}]]</span> <span>EL JADIDA</span>
 							</div>
 						</div>
 		    			
@@ -96,8 +103,8 @@
 			    				</thead>
 		    				
 			    				<tbody>
-			    					<tr>
-			    						<td>445522</td> <td>April 24, 2023</td>	<td>April 30, 2023</td> <td>gkke558hrhh88thhj</td> <td></td>
+			    					<tr th:if="${order.invoice!=null}">
+			    						<td th:inline="text">[[${invoice.id}]]</td>  <td th:inline="text">[[${invoice.createdAt}]]</td>	<td th:inline="text">[[${invoice.dueDate}]]</td> <td th:inline="text">[[${order.customer.id]]</td> <td></td>
 			    					</tr>
 			    				</tbody>
 		    				</table>
@@ -117,17 +124,11 @@
 		    					</tr>
 		    				</thead>
 		    				<tbody>
-		    					<tr>
-		    						<td>452ds</td> <td>Huil argan</td> <td>420 MAD</td> <td>2</td> <td>840 MAD</td>
+		    					<tr th:each="item:${order.orderItems}">
+		    						<td  th:inline="text">[[${item.id}]]</td> <td  th:inline="text">[[${item.product.name}]]</td> <td  th:inline="text">[[${item.product.price}]] MAD <td  th:inline="text">[[${item.quantity}]]</td> <td  th:inline="text">[[${#numbers.formatDecimal(item.quantity * item.product.price,1,2)}]]  MAD</td>
 		    					</tr>
 		    					
-		    					<tr>
-		    						<td>452GFG</td> <td>Huil coco</td> <td>20 MAD</td> <td>4</td> <td>80 MAD</td>
-		    					</tr>
-		    					
-		    					<tr>
-		    						<td>4G4K</td> <td>Gel de bain</td> <td>42 MAD</td> <td>2</td> <td>84 MAD</td>
-		    					</tr>
+		    		
 		    				</tbody>
 		    			</table>
 		    		</div>
@@ -138,36 +139,43 @@
 		    		<div class="d-flex ">
 		    			<div class="payment-info d-flex flex-column">
 		    				<span class="fw-semibold">Payment method :</span>
-		    				<span>Pay as delivered</span>
+		    				<span th:inline="text">[[${order.paymentMethod.discriminatorValue}]]</span>
 		    			</div>
 		    			<!-- droite section -->
 		    			<div class="ms-auto" style="min-width: 200px">
 		    					<div class="d-flex gap-4" >
-		    						<span>Total H.T:</span><span class="ms-auto">204 MAD</span>
+		    						<span>Total H.T:</span><span class="ms-auto" th:inline="text">[[${order.totalAmount}]] MAD</span>
 		    					</div>
 		    					
 		    					<div class="d-flex gap-4" >
-		    						<span>Discount:</span><span class="ms-auto">30%</span>
+		    						<span>Discount Code:</span><span class="ms-auto" th:text="${order.discountCode!=null? order.discountCode.code: 'N/A' }"></span>
 		    					</div>
 		    					
 		    					<div class="d-flex gap-4" >
-		    						<span>VAT:</span><span class="ms-auto">20%</span>
+		    						<span>Remise:</span><span class="ms-auto"th:text="${order.invoice!=null? order.invoice.remise:'N/A' }"></span>
+		    					</div>
+		    					
+		    					<div class="d-flex gap-4" >
+		    						<span>VAT:</span><span class="ms-auto" th:text="${order.invoice!=null? order.invoice.vat:'N/A' }"></span>
 		    					</div>
 		    					
 		    					<hr>
 		    					
 		    					<div class="d-flex gap-4" >
-		    						<span>Transport:</span><span class="ms-auto">5.00 MAD</span>
+		    						<span>Transport:</span><span class="ms-auto"th:text="${order.invoice!=null? order.invoice.transport:'N/A' }"></span>
 		    					</div>
+		    					
+		    					
+		    					
 		    					
 		    					<hr>
 		    					
 		    					<div class="d-flex gap-4" >
-		    						<span>Total amount (TTC):</span><span class="ms-auto">188.6 MAD</span>
+		    						<span>Total amount (TTC):</span><span class="ms-auto" th:text="${order.invoice!=null? order.invoice.totalAmount:'N/A' }"></span>
 		    					</div>
 		    					
 		    					<div class="d-flex gap-4 fw-semibold" >
-		    						<span class="">Due to pay:</span><span class="ms-auto">188.6 MAD</span>
+		    						<span class="">Due to pay:</span> <span class="ms-auto" th:text="${order.invoice!=null? order.invoice.totalAmount:'N/A' }"></span>
 		    					</div>
 		    			</div>
 		    			
