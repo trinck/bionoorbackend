@@ -1,6 +1,7 @@
 package com.bionoor.api.services;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.bionoor.api.exceptions.FieldsAlreadyExistsException;
 import com.bionoor.api.models.Category;
 import com.bionoor.api.models.DiscountCode;
+import com.bionoor.api.models.DiscountDCC;
 import com.bionoor.api.models.DiscountDCP;
 import com.bionoor.api.models.Product;
 import com.bionoor.api.repositories.DiscountCodeRepository;
@@ -55,12 +57,32 @@ public class DiscountCodeService{
 	}
 	
 
-	
-	public String delete(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+//delete discount code	
+	public DiscountCode delete(Long id) {
+		
+		DiscountCode discountCode = this.getById(id);
+		discountCode.getDiscountables().forEach(discountable ->{
+			//delete discount code from all discountable
+			discountable.getDiscountCodes().remove(discountCode);
+			
+		});
+		
+		discountCode.getUsedBy().forEach(customer ->{
+			customer.getUsedDiscountCodes().remove(discountCode);
+		});
+		
+		if(discountCode instanceof DiscountDCC) {
+			((DiscountDCC)discountCode ).getCustomer().getDiscountDCCs().remove(discountCode);
+		}else {
+			
+			this.codeRepository.deleteById(id);
+		}
+		
+		return discountCode;
 	}
 
+	
+	
 	
 	public DiscountCode modify(DiscountCode modified) {
 		// TODO Auto-generated method stub
@@ -84,22 +106,22 @@ public class DiscountCodeService{
 	}
 	
 	
-public DiscountCode addInput(InputDiscountCategory inputDiscount) {
+	public DiscountCode addInput(InputDiscountCategory inputDiscount) {
+			
 		
-	
-	  DiscountCode discountCode = new DiscountDCP(inputDiscount); 
-	  
-	  Category category = this.categoryService.getById(inputDiscount.getCategoryId());
-	  discountCode.getDiscountables().add(category);
-	  category.getDiscountCodes().add(discountCode);
-	  discountCode.setActif(true);
-	  
-	  discountCode = this.codeRepository.save(discountCode);
-	 
-		//return  discountCode; //
-	
-	return discountCode;
-	}
+		  DiscountCode discountCode = new DiscountDCP(inputDiscount); 
+		  
+		  Category category = this.categoryService.getById(inputDiscount.getCategoryId());
+		  discountCode.getDiscountables().add(category);
+		  category.getDiscountCodes().add(discountCode);
+		  discountCode.setActif(true);
+		  discountCode.setCreatedAt(new Date());
+		  discountCode = this.codeRepository.save(discountCode);
+		 
+			//return  discountCode; //
+		
+		return discountCode;
+		}
 
 
 	public DiscountCode getById(Long id) {
@@ -109,8 +131,20 @@ public DiscountCode addInput(InputDiscountCategory inputDiscount) {
 	  if(code!=null) {
 		  return code;
 	  }
-		 throw new EntityNotFoundException("Discount with id= "+id+" did not found");
+		 throw new EntityNotFoundException("Discount code with id= "+id+" did not found");
 	  
 	}
+	
+	
+	public DiscountCode getByCode(String code) {
+		
+		 List<DiscountCode>  codes =	this.codeRepository.findByCode(code);
+		  
+		  if(code.length()>0) {
+			  return codes.get(0);
+		  }
+			 throw new EntityNotFoundException("Discount code with name= "+code+" did not found");
+		  
+		}
    
 }

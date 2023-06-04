@@ -80,12 +80,38 @@ public class OrderService {
 	
 	/*************put discountcode*********************************************
 	***************************************************************************/
-	public Order addDiscountCode(Long  discountCode, Long id) {
+	public DiscountCode addDiscountCode(Long  discountCodeId, Long id) {
 		
 		Order order = this.getById(id);
-		DiscountCode code = this.discountCodeService.getById(discountCode);
+		DiscountCode code = this.discountCodeService.getById(discountCodeId);
 		order.setDiscountCode(code);
-		return this.orderRepository.save(order);
+		 this.orderRepository.save(order);
+		 
+		 return code;
+	}
+	
+	
+	public DiscountCode deleteDiscountCode(Long id) {
+			
+			Order order = this.getById(id);
+			
+			DiscountCode code = order.getDiscountCode();
+			 this.orderRepository.save(order);
+			 order.setDiscountCode(null);
+			 this.orderRepository.save(order);
+			 return code;
+		}
+	
+	
+	
+	public DiscountCode getDiscountCode(Long id) {
+		
+		Order order = this.getById(id);
+		
+		DiscountCode code = order.getDiscountCode();
+		
+		if(code == null) throw new EntityNotFoundException("this order have not discount code ");
+		 return code;
 	}
 	
 	
@@ -147,7 +173,7 @@ public OrderItem putOrderItemQuantity(Long id, int quantity) {
 	
 	
 	
-	
+
 	
 	/*************put Payment method*********************************************
 	***************************************************************************/

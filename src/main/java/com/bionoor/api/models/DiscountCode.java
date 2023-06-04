@@ -50,18 +50,12 @@ public abstract class  DiscountCode implements Serializable{
     
     @Column(unique = true, nullable = false)
     protected String code;
+    
+    @Column(name = "application", insertable = false, updatable = false)
+    private String discriminatorValue;
 
-	/*
-	 * @ManyToMany(mappedBy = "discountCodes", fetch = FetchType.LAZY, cascade =
-	 * {CascadeType.PERSIST}) private List<Product> products= new
-	 * ArrayList<Product>();// the product which is affected by reduce
-	 * 
-	 * 
-	 * @ManyToMany(mappedBy = "discountCodes", fetch = FetchType.LAZY, cascade =
-	 * {CascadeType.PERSIST}) private List<Category> categories = new
-	 * ArrayList<Category>();// category affected
-	 */
-    @ManyToMany(mappedBy = "discountCodes")
+	
+    @ManyToMany(mappedBy = "discountCodes", cascade = CascadeType.PERSIST)
     protected List<Discountable> discountables = new ArrayList<>();
     
     @Column(nullable = false)

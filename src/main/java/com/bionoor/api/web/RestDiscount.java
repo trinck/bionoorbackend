@@ -23,10 +23,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bionoor.api.dto.OutputDiscounDCP;
+import com.bionoor.api.dto.OutputDiscountCodeDTO;
+import com.bionoor.api.dto.OutputDiscountDCC;
 import com.bionoor.api.exceptions.EntityUnknowException;
 import com.bionoor.api.exceptions.FieldsAlreadyExistsException;
 import com.bionoor.api.models.Category;
 import com.bionoor.api.models.DiscountCode;
+import com.bionoor.api.models.DiscountDCC;
 import com.bionoor.api.models.Product;
 import com.bionoor.api.services.DiscountCodeService;
 
@@ -100,21 +104,66 @@ public class RestDiscount {
 	
 	
 	@GetMapping(value = "/api/discounts/index/{id}")
-	public DiscountCode discount( @PathVariable(value = "id") Long id) {
+	public OutputDiscountCodeDTO discount( @PathVariable(value = "id") Long id) {
 		
 		DiscountCode discountCode = this.discountCodeService.getById(id);
 		
-		return discountCode;
+		if( discountCode instanceof DiscountDCC) {
+			
+			return new OutputDiscountDCC(discountCode);
+		}
+		
+		return new OutputDiscounDCP(discountCode) ;
 	}
+	
+	
+	@GetMapping(value = "/api/discounts/find/code")
+	public OutputDiscountCodeDTO findByCode( @RequestParam String code) {
+		
+		DiscountCode discountCode = this.discountCodeService.getByCode(code);
+		
+		if( discountCode instanceof DiscountDCC) {
+			
+			return new OutputDiscountDCC(discountCode);
+		}
+		
+		return new OutputDiscounDCP(discountCode) ;
+	}
+	
+	
+	
+	@GetMapping(value = "/api/discounts/delete")
+	public OutputDiscountCodeDTO deleteDiscountCode( @RequestParam Long id) {
+		
+		DiscountCode discountCode = this.discountCodeService.delete(id);
+		
+		if( discountCode instanceof DiscountDCC) {
+			
+			return new OutputDiscountDCC(discountCode);
+		}
+		
+		return new OutputDiscounDCP(discountCode) ;
+	}
+	
+	
 	
 	
 	@PostMapping(value = "/api/discounts/add", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_PLAIN_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public OutputDiscountCategory  addDiscount(@ModelAttribute InputDiscountCategory inputDiscount) {
+	public OutputDiscountCodeDTO  addDiscount(@ModelAttribute InputDiscountCategory inputDiscount) {
 		
-		OutputDiscountCategory  code = new OutputDiscountCategory(this.discountCodeService.addInput(inputDiscount), inputDiscount) ; 
+		DiscountCode discountCode = this.discountCodeService.addInput(inputDiscount);
 
-		 	return code;
+		if (discountCode instanceof DiscountDCC) {
+
+			return new OutputDiscountDCC(discountCode);
+		}
+
+		return new OutputDiscounDCP(discountCode);
+
+		//OutputDiscountCategory  code = new OutputDiscountCategory(this.discountCodeService.addInput(inputDiscount), inputDiscount) ; 
+
+		 //	return code;
 	}
 	
 	

@@ -35,14 +35,14 @@ public class RestResponseExceptionHandler  extends ResponseEntityExceptionHandle
 	//IllegalOperationException
     
     @ExceptionHandler(value = {EntityNotFoundException.class})
-    public ResponseEntity<Object> handleEntityNotFound(EntityNotFoundException ex,HttpHeaders headers, HttpStatus status, WebRequest request ){
+    public ResponseEntity<ResponseMessageException> handleEntityNotFound(EntityNotFoundException ex, WebRequest request ){
     	
     	ResponseMessageException exception = new ResponseMessageException();
     	exception.setMessage(ex.getMessage());
     	exception.setDateTime(LocalDateTime.now());
-    	exception.setStatus(status.value());
+    	exception.setStatus(HttpStatus.NOT_FOUND.value());
     	
-    	return new ResponseEntity<Object>(exception, HttpStatus.NOT_FOUND);
+    	return new ResponseEntity<ResponseMessageException>(exception, HttpStatus.NOT_FOUND);
     }
     
     
@@ -60,8 +60,8 @@ public class RestResponseExceptionHandler  extends ResponseEntityExceptionHandle
 	
 	
     	
-	  @ExceptionHandler(value = {EntityUnknowException.class}) public
-	  ResponseEntity<Object> handleEntityUnknowException(EntityUnknowException
+	  @ExceptionHandler(value = {EntityUnknowException.class})
+	  public ResponseEntity<Object> handleEntityUnknowException(EntityUnknowException
 	  ex, WebRequest request ){
 	  
 	  ResponseMessageException exception = new ResponseMessageException();
@@ -70,10 +70,25 @@ public class RestResponseExceptionHandler  extends ResponseEntityExceptionHandle
 	  body.put("timestampe",LocalDateTime.now() );
 	  body.put("status", HttpStatus.NOT_FOUND );
 	 
+	  return new ResponseEntity<Object>(body, HttpStatus.NOT_FOUND); 
+	  }
 	  
-	  return new ResponseEntity<Object>(body, HttpStatus.NOT_FOUND); }
+	  
+	  @ExceptionHandler(value = {IllegalArgumentException.class})
+	  public ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException
+	  ex, WebRequest request ){
+	  
+	  ResponseMessageException exception = new ResponseMessageException();
+	  Map<String, Object> body = new LinkedHashMap<>();
+	  body.put("message",ex.getMessage() );
+	  body.put("timestampe",LocalDateTime.now() );
+	  body.put("status", HttpStatus.BAD_REQUEST );
 	 
-    
+	  return new ResponseEntity<Object>(body, HttpStatus.BAD_REQUEST); 
+	  }
+	  
+	  
+	 
 	
 	  @ExceptionHandler(value = { ConstraintViolationException.class })
 	  public ResponseEntity<Object> handleConstraintViolation(

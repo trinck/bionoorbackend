@@ -131,12 +131,12 @@
 		    			<table class="table align-midle">
 		    				<thead class="table-light">
 		    					<tr>
-		    						<th>Code</th> <th>Item name</th> <th>Unit price(TTC)</th> <th>Quantity</th> <th>Total</th>	<th>Action</th>
+		    						<th>Code</th> <th>Item name</th> <th>Unit price (MAD)</th> <th>Quantity</th> <th>Total (MAD)</th>	<th>Action</th>
 		    					</tr>
 		    				</thead>
 		    				<tbody id="items-table">
 		    					<tr th:each="item:${order.orderItems}" th:id="${item.id}">
-		    						<td class="item-product-code" th:inline="text">[[${item.product.code}]]</td> <td class="item-product-name"> <input  list="product-list" onchange=" onChangeItemName(event)" type="text"  th:value="${item.product.name}" class="form-control w-50"></td> <td class="item-product-price" th:inline="text">[[${item.product.price}]] MAD</td> <td><input onchange="updateQauntity(event)"  type="number" min="1" class="form-control w-50 rounded-1 item-quantity" th:value="${item.quantity}"></td> <td  th:inline="text" class="item-totalAmount">[[${#numbers.formatDecimal(item.quantity * item.product.price,1,2)}]] MAD</td>    <td> <a class="text-decoration-none border-0 delete"  style="color: #1976d2">Delete</a></td>                 
+		    						<td class="item-product-code" th:inline="text">[[${item.product.code}]]</td> <td class="item-product-name"> <input  list="product-list" onchange=" onChangeItemName(event)" type="text"  th:value="${item.product.name}" class="form-control w-50"></td> <td class="item-product-price" th:inline="text">[[${item.product.price}]]</td> <td><input onchange="updateQauntity(event)"  type="number" min="1" class="form-control w-50 rounded-1 item-quantity" th:value="${item.quantity}"></td> <td  th:inline="text" class="item-totalAmount">[[${#numbers.formatDecimal(item.quantity * item.product.price,1,2)}]]</td>    <td><a onclick="deleteOrderItem(event)" class="text-decoration-none border-0 delete"  style="color: #1976d2">Delete</a></td>                 
 		    					</tr>
 		    					
 		    		
@@ -150,45 +150,45 @@
 									 Add item
 					</button>
 		    		<!-- section total amount calcul -->
-		    		<div class="d-flex ">
+		    		<div class="d-flex gap-4">
 		    			<div class="payment-info d-flex flex-column">
 		    				<span class="fw-semibold">Payment method :</span>
 		    				<span th:inline="text">[[${order.paymentMethod.discriminatorValue}]]</span>
 		    			</div>
 		    			<!-- droite section -->
-		    			<div class="ms-auto d-flex flex-column gap-2" style="min-width: 200px">
+		    			<div class="ms-auto d-flex flex-column gap-2 " style="min-width: 70px">
 			    				
 								
 								
-		    					<div class="d-flex gap-4" >
-		    						<span>Total H.T:</span><span class="ms-auto" th:inline="text">[[${order.totalAmount}]] MAD</span>
+		    					<div class="d-flex gap-2" >
+		    						<span>Total H.T:</span><span id="THT" class="ms-auto" th:inline="text">[[${order.totalAmount}]] MAD</span>
 		    					</div>
 		    					
-		    					<div class="d-flex gap-4" >
-		    						<span>Discount Code:</span><span class="ms-auto" th:text="${order.discountCode!=null? order.discountCode.code: 'N/A' }"></span>
+		    					<div class="d-flex gap-3" >
+		    						<span>Discount Code:</span> <div class=" d-flex gap-2"> <input onchange="findDiscountCode(event)" placeholder="Code" class="rounded-1 form-control form-control-sm dicountCode-code w-50 " type="text"  th:value="${order.discountCode!=null? order.discountCode.code: '' }">  <span class="discountCode-value ms-auto" th:text="${order.discountCode!=null? order.discountCode.discount: 'N/A' }"></span> </div> 
 		    					</div>
 		    					
-		    					<div class="d-flex gap-4" >
-		    						<span>Remise:</span><input class="ms-auto form-control w-50 rounded-1" type="number" min="0"  th:value="${invoice.remise}">
+		    					<div class="d-flex gap-2" >
+		    						<span>Remise:</span><input id="remise" placeholder="MAD" class="ms-auto form-control w-25 rounded-1" type="number" min="0"  th:value="${invoice.remise}">
 		    					</div>
 		    					
-		    					<div class="d-flex gap-4" >
-		    						<span>Vat(%):</span><input class="ms-auto form-control w-50 rounded-1" type="number" min="0"  th:value="${invoice.vat}">
-		    					</div>
-		    					
-		    					
-		    					<div class="d-flex gap-4 border-bottom pb-2" >
-		    						<span>Transport:</span><input class="ms-auto form-control w-50 rounded-1" type="number" min="0"  th:value="${invoice.transport}">
+		    					<div class="d-flex gap-2" >
+		    						<span>Vat(%):</span><input  id="vat" class="ms-auto form-control w-25 rounded-1" type="number" min="0"  th:value="${invoice.vat}">
 		    					</div>
 		    					
 		    					
+		    					<div class="d-flex gap-2 border-bottom pb-2" >
+		    						<span>Transport:</span><input id="transport" class="ms-auto form-control w-25 rounded-1" type="number" min="0"  th:value="${invoice.transport}">
+		    					</div>
+		    					
+		    					
 		    					
 		    					<div class="d-flex gap-4" >
-		    						<span>Total amount (TTC):</span><span class="ms-auto" th:text="${order.invoice!=null? order.invoice.totalAmount:'N/A' }"></span>
+		    						<span>Total amount (TTC):</span><span id="TTC" class="ms-auto" th:text="${order.invoice!=null? order.invoice.totalAmount:'N/A' }"></span>
 		    					</div>
 		    					
 		    					<div class="d-flex gap-4 fw-semibold" >
-		    						<span class="">Due to pay:</span> <span class="ms-auto" th:text="${order.invoice!=null? order.invoice.totalAmount:'N/A' }"></span>
+		    						<span class="">Due to pay:</span> <span id="DTP" class="ms-auto" th:text="${order.invoice!=null? order.invoice.totalAmount:'N/A' }"></span>
 		    					</div>
 		    			</div>
 		    			
@@ -201,7 +201,7 @@
 		    
 		    <template id="template">
 				<tr >
-		    		<td class="item-product-code" >N/A</td> <td ><input type="text" class="form-control w-50 item-product-name" onchange=" onChangeItemName(event)" list="product-list"></td> <td class="item-product-price">N/A</td> <td><input  type="number" min="1" value="1" class="form-control w-50 rounded-1 item-quantity" ></td> <td class="item-totalAmount">N/A</td>  <td><a class=" text-decoration-none delete"  style="color: #1976d2">Delete</a> </td> 
+		    		<td class="item-product-code" >N/A</td> <td ><input type="text" class="form-control w-50 item-product-name" onchange=" onChangeItemName(event)" list="product-list"></td> <td class="item-product-price">N/A</td> <td><input  type="number" min="1" value="1" class="form-control w-50 rounded-1 item-quantity" ></td> <td class="item-totalAmount">N/A</td>  <td><a onclick="deleteOrderItem(event)" class=" text-decoration-none delete"  style="color: #1976d2">Delete</a> </td> 
 		    	</tr>	     	
 		    </template>
 		    

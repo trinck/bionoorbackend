@@ -7,12 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bionoor.api.dto.OutputDiscountCodeDTO;
 import com.bionoor.api.models.Order;
 import com.bionoor.api.models.OrderItem;
 import com.bionoor.api.services.OrderService;
@@ -58,6 +60,30 @@ public class RestOrder {
 	
 	
 	
+	@GetMapping(value = "/api/orders/discountCode/delete")
+	public OutputDiscountCodeDTO deleteDiscountCode( @RequestParam Long id) {
+		
+		return new OutputDiscountCodeDTO( this.orderService.deleteDiscountCode(id));
+	   	
+	}
+	
+	
+	@GetMapping(value = "/api/orders/discountCode/get")
+	public OutputDiscountCodeDTO getDiscountCode( @RequestParam Long id) {
+		
+		return new OutputDiscountCodeDTO(this.orderService.getDiscountCode(id));
+	   	
+	}
+	
+	
+	@PostMapping(value = "/api/orders/discountCode/add")
+	public OutputDiscountCodeDTO addDiscountCode(@RequestParam Long discountCodeId, @RequestParam Long id) {
+		
+	   return	 new OutputDiscountCodeDTO(this.orderService.addDiscountCode(discountCodeId, id));
+	}
+	
+	
+	
 	@PostMapping(value = "/api/orders/orderItems/save")
 	public ResponseEntity<OutputOrderItemDTO> addOrderItem(@ModelAttribute InputOrderItemDTO inputOrderItemDTO) {
 		
@@ -75,7 +101,7 @@ public class RestOrder {
 		
 		this.orderService.putOrderItemQuantity(id, quantity);
 		
-	   return	new ResponseEntity<>("item quantity udapted", HttpStatus.OK);
+	   return	new ResponseEntity<>("item quantity updated", HttpStatus.OK);
 	}
 	
 	

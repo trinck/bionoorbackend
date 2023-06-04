@@ -34,7 +34,7 @@ public class Customer implements Serializable{
 	  = @JoinColumn(name="discountCode_id") )
 	  private List<DiscountCode> usedDiscountCodes= new ArrayList<>(); // discount codes used by customer
 	 
-	@OneToMany(mappedBy = "customer")
+	@OneToMany(mappedBy = "customer", orphanRemoval = true)
     private List<DiscountDCC> discountDCCs = new ArrayList<>();
 	  
 	  
