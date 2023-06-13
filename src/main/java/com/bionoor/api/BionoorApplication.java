@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import com.bionoor.api.repositories.CustomerRepository;
 import com.bionoor.api.repositories.PaymentMethodRepository;
@@ -16,6 +18,7 @@ import com.bionoor.api.services.ProductService;
 import com.bionoor.api.utils.ServiceStorageIn;
 @PropertySource("classpath:app.properties")
 @SpringBootApplication
+@EnableJpaAuditing
 public class BionoorApplication  implements CommandLineRunner{
 
 	@Autowired

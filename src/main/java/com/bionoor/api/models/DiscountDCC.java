@@ -6,6 +6,8 @@ import com.bionoor.api.web.RestDiscount.InputDiscountIn;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -20,8 +22,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class DiscountDCC extends DiscountCode implements Serializable{
 
+	
+	public enum Type{
+		AMOUNT,PERCENTAGE;
+	}
+	
 	private Boolean isUnique;
 	
+	@Enumerated(EnumType.STRING)
+	private Type type;
 	@ManyToOne
 	@JoinColumn(name = "cusromer_id")
 	private Customer customer;

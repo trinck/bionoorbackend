@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -14,14 +15,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bionoor.api.dto.InputOrderInvoiceDTO;
 import com.bionoor.api.dto.OutputDiscountCodeDTO;
+import com.bionoor.api.dto.OutputOrderDTO;
+import com.bionoor.api.dto.OutputOrderItemDTO;
 import com.bionoor.api.models.Order;
 import com.bionoor.api.models.OrderItem;
 import com.bionoor.api.services.OrderService;
 
 import io.micrometer.common.lang.NonNull;
-
-
+import jakarta.validation.Valid;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -51,19 +54,19 @@ public class RestOrder {
 	
 	
 	@PostMapping(value = "/api/orders/orderItems/delete")
-	public ResponseEntity<OutputOrderItemDTO> deleteOrderItem(@RequestParam Long orderItemId, @RequestParam Long id) {
+	public OutputOrderDTO deleteOrderItem(@RequestParam Long orderItemId, @RequestParam Long id) {
 		
 		
-		 OutputOrderItemDTO outputOrderItemDTO = new OutputOrderItemDTO(this.orderService.deleteOrderItem(orderItemId, id));
-	   return	new ResponseEntity<>(outputOrderItemDTO, HttpStatus.OK);
+		 OutputOrderDTO orderItemDTO = new OutputOrderDTO(this.orderService.deleteOrderItem(orderItemId, id));
+	   return	orderItemDTO;
 	}
 	
 	
 	
 	@GetMapping(value = "/api/orders/discountCode/delete")
-	public OutputDiscountCodeDTO deleteDiscountCode( @RequestParam Long id) {
+	public OutputOrderDTO deleteDiscountCode( @RequestParam Long id) {
 		
-		return new OutputDiscountCodeDTO( this.orderService.deleteDiscountCode(id));
+		return new OutputOrderDTO( this.orderService.deleteDiscountCode(id));
 	   	
 	}
 	
@@ -77,38 +80,63 @@ public class RestOrder {
 	
 	
 	@PostMapping(value = "/api/orders/discountCode/add")
-	public OutputDiscountCodeDTO addDiscountCode(@RequestParam Long discountCodeId, @RequestParam Long id) {
+	public OutputOrderDTO addDiscountCode(@RequestParam String code, @RequestParam Long id) {
 		
-	   return	 new OutputDiscountCodeDTO(this.orderService.addDiscountCode(discountCodeId, id));
+	   return	 new OutputOrderDTO(this.orderService.addDiscountCode(code, id));
 	}
 	
 	
 	
 	@PostMapping(value = "/api/orders/orderItems/save")
-	public ResponseEntity<OutputOrderItemDTO> addOrderItem(@ModelAttribute InputOrderItemDTO inputOrderItemDTO) {
+	public OutputOrderDTO addOrderItem(@ModelAttribute InputOrderItemDTO inputOrderItemDTO) {
 		
 		
-		OutputOrderItemDTO OutputOrderItemDTO = new OutputOrderItemDTO(this.orderService.addOrderItem(inputOrderItemDTO));
+		OutputOrderDTO outputOrderDTO = new OutputOrderDTO(this.orderService.addOrderItem(inputOrderItemDTO));
 		
-	   return	new ResponseEntity<>(OutputOrderItemDTO, HttpStatus.OK);
+	   return	outputOrderDTO;
 	}
+	
+	
+	
+	@PostMapping(value = "/api/orders/invoice/save")
+	public OutputOrderDTO addOrderInvoice(@ModelAttribute @Valid InputOrderInvoiceDTO inputOrderInvoiceDTO) {
+		
+		
+		 Order order =  this.orderService.addOrderInvoice(inputOrderInvoiceDTO);
+		 OutputOrderDTO outputOrderDTO = new OutputOrderDTO(order);
+		
+	   return outputOrderDTO;
+	}
+	
+	
+	
+	
+	@GetMapping(value = "/api/orders/index")
+	public OutputOrderDTO findOrderById(@RequestParam Long id) {
+		
+		OutputOrderDTO orderDTO = new OutputOrderDTO( this.orderService.getById(id));
+		
+	   return	orderDTO;
+	}
+	
+	
 	
 	
 	
 	@PostMapping(value = "/api/orders/orderItems/put/quantity")
-	public ResponseEntity<String> putOrderItemQuantity(@RequestParam int quantity, @RequestParam Long id) {
+	public OutputOrderDTO putOrderItemQuantity(@RequestParam int quantity, @RequestParam Long id,  @RequestParam Long orderItemId ) {
 		
 		
-		this.orderService.putOrderItemQuantity(id, quantity);
+			Order order = this.orderService.putOrderItemQuantity(id, quantity, orderItemId);
 		
-	   return	new ResponseEntity<>("item quantity updated", HttpStatus.OK);
+	   return	new OutputOrderDTO(order);
 	}
 	
 	
 	@PostMapping(value = "/api/orders/put/status")
-	public ResponseEntity<String> putStatus(@RequestParam String status, @RequestParam long id) {
+	public OutputOrderDTO putStatus(@RequestParam String status, @RequestParam long id) {
 		
-	   return new ResponseEntity<String>(this.orderService.putStatus(status, id).getStatus().name(), HttpStatus.OK)	;
+	   return new OutputOrderDTO(this.orderService.putStatus(status, id))	;
 	}
 	
 	
@@ -137,25 +165,14 @@ public class RestOrder {
 			private Long order;
 			private Long id;
 		    private int quantity; // quantity of the product in the order
-		    private Long product; // product that the order item refers to
+		    private String productName; // product that the order item refers to
 		    
 	}
 	
 	
-	@Data
-	@NoArgsConstructor
-	public class OutputOrderItemDTO{
-		 
-			private Long id;
-		    private int quantity; // quantity of the product in the order
-		    private Long product; // product that the order item refers to
-		    
-		    public OutputOrderItemDTO(OrderItem orderItem) {
-		    	this.id = orderItem.getId();
-		    	this.quantity = orderItem.getQuantity();
-		    	this.product = orderItem.getProduct().getId();
-		    }
-	}
+	
+	
+	
 	
 	
 }

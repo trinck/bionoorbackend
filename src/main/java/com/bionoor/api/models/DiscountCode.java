@@ -18,6 +18,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.DiscriminatorType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -38,7 +40,9 @@ import lombok.NoArgsConstructor;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "application", discriminatorType = DiscriminatorType.STRING)
 public abstract class  DiscountCode implements Serializable{
-    @Id
+   
+	
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
@@ -50,6 +54,8 @@ public abstract class  DiscountCode implements Serializable{
     
     @Column(unique = true, nullable = false)
     protected String code;
+    
+    
     
     @Column(name = "application", insertable = false, updatable = false)
     private String discriminatorValue;

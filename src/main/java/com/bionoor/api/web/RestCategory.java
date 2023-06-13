@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bionoor.api.dto.OutputCategoryDTO;
 import com.bionoor.api.models.Category;
 
 import com.bionoor.api.services.CategoryService;
@@ -37,22 +38,24 @@ public class RestCategory {
 	
 	
 	@PostMapping(value = "/api/categories/put/name")
-	public ResponseEntity<String>  putName(@Valid @ModelAttribute CategoryNameDto categoryNameDto) {
+	public OutputCategoryDTO  putName(@Valid @ModelAttribute CategoryNameDto categoryNameDto) {
 		
 		
 		 Category category = this.categoryService.getById(categoryNameDto.getId());
 		 category.setName(categoryNameDto.getName()); 
-		
-		return new ResponseEntity<String>(this.categoryService.add(category).getName(), HttpStatus.OK); 
+		 
+		 category =  this.categoryService.add(category);
+		 
+		return new OutputCategoryDTO(category); 
 	}
 	
 	@GetMapping(value = "/api/categories")
-	public List<CategoryOutputDto>  categories() {
+	public List<OutputCategoryDTO>  categories() {
 		
 		 List<Category> categories = this.categoryService.allCategories(); 
-		List<CategoryOutputDto> categoryOutputDtos = new ArrayList<>();	
+		List<OutputCategoryDTO> categoryOutputDtos = new ArrayList<>();	
 		for( Category category : categories) {
-			categoryOutputDtos.add(new CategoryOutputDto(category));
+			categoryOutputDtos.add(new OutputCategoryDTO(category));
 		}
 		
 		return categoryOutputDtos;
@@ -60,18 +63,18 @@ public class RestCategory {
 	
 	
 	@GetMapping(value = "/api/categories/index/{id}")
-	public CategoryOutputDto  category(@PathVariable(value = "id") Long id) {
+	public OutputCategoryDTO  category(@PathVariable(value = "id") Long id) {
 		
 		 Category category = this.categoryService.getById(id);	
-		return new CategoryOutputDto(category);
+		return new OutputCategoryDTO(category);
 	}
 	
 	
 	@GetMapping(value = "/api/categories/delete")
-	public CategoryOutputDto  delete(@RequestParam Long id) {
+	public OutputCategoryDTO  delete(@RequestParam Long id) {
 		
 		 Category category = this.categoryService.delete(id);	
-		return new CategoryOutputDto(category);
+		return new OutputCategoryDTO(category);
 	}
 	
 	
@@ -88,7 +91,7 @@ public class RestCategory {
 	
 	
 	@PostMapping(value = "/api/discounts/put/parent")
-	public CategoryOutputDto  putParent(@Valid @ModelAttribute CategoryParentDto categoryParentDto) {
+	public OutputCategoryDTO  putParent(@Valid @ModelAttribute CategoryParentDto categoryParentDto) {
 		
 		
 		 Category category = this.categoryService.getById(categoryParentDto.getId());
@@ -99,7 +102,7 @@ public class RestCategory {
 		 parent.getSubCategories().add(category);
 		 this.categoryService.add(parent);
 		 this.categoryService.add(oldParent);
-		 CategoryOutputDto categoryOutputDto = new CategoryOutputDto(parent);
+		 OutputCategoryDTO categoryOutputDto = new OutputCategoryDTO(parent);
 		
 		return categoryOutputDto; 
 	}
@@ -124,21 +127,7 @@ public class RestCategory {
 		    private String name;
 	}
 	
-	@Data
-	@NoArgsConstructor
-	public class CategoryOutputDto {
-		  
-		private Long id; // unique identifier for the category
-		private String name; // name of the category
-		private String image; 
-		
-		public CategoryOutputDto(Category category) {
-			
-			this.id = category.getId();
-			this.name = category.getName();
-			this.image = category.getImage();
-		}
-}
+	
 	
 	@Data
 	@NoArgsConstructor

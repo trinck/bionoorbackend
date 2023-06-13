@@ -1,9 +1,10 @@
 package com.bionoor.api.utils;
 
 import com.bionoor.api.models.Invoice;
+import com.bionoor.api.models.Order;
 
 public interface InvoiceProcessingIn {
 
 	
-	public Double TotalAmountCalc(Invoice invoice);
+	public Order TotalAmountOrder(Order order, Boolean definetely);
 }

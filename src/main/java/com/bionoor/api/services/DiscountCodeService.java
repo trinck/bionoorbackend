@@ -42,12 +42,12 @@ public class DiscountCodeService{
 	}
 	
 	
-	public void toggleActif(Long discountId, Boolean toggle) {
+	public DiscountCode toggleActif(Long discountId, Boolean toggle) {
 		
 		DiscountCode code = this.codeRepository.findById(discountId).orElse(null);
 		if(code!=null) {
 			code.setActif(toggle);
-			this.codeRepository.save(code);
+		   return	this.codeRepository.save(code);
 		}else {
 			throw new EntityNotFoundException("Discount with id= "+discountId+" did not found");
 		}
@@ -57,7 +57,7 @@ public class DiscountCodeService{
 	}
 	
 
-//delete discount code	
+	//delete discount code	
 	public DiscountCode delete(Long id) {
 		
 		DiscountCode discountCode = this.getById(id);
@@ -71,7 +71,7 @@ public class DiscountCodeService{
 			customer.getUsedDiscountCodes().remove(discountCode);
 		});
 		
-		if(discountCode instanceof DiscountDCC) {
+		if(discountCode.getDiscriminatorValue().equalsIgnoreCase("DDC")) {
 			((DiscountDCC)discountCode ).getCustomer().getDiscountDCCs().remove(discountCode);
 		}else {
 			
@@ -109,12 +109,13 @@ public class DiscountCodeService{
 	public DiscountCode addInput(InputDiscountCategory inputDiscount) {
 			
 		
-		  DiscountCode discountCode = new DiscountDCP(inputDiscount); 
+		DiscountDCP discountCode = new DiscountDCP(inputDiscount); 
 		  
 		  Category category = this.categoryService.getById(inputDiscount.getCategoryId());
 		  discountCode.getDiscountables().add(category);
 		  category.getDiscountCodes().add(discountCode);
 		  discountCode.setActif(true);
+		  discountCode.setReusable(true);
 		  discountCode.setCreatedAt(new Date());
 		  discountCode = this.codeRepository.save(discountCode);
 		 
@@ -140,7 +141,7 @@ public class DiscountCodeService{
 		
 		 List<DiscountCode>  codes =	this.codeRepository.findByCode(code);
 		  
-		  if(code.length()>0) {
+		  if(codes.size()>0) {
 			  return codes.get(0);
 		  }
 			 throw new EntityNotFoundException("Discount code with name= "+code+" did not found");

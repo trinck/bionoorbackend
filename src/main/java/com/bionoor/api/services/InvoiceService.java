@@ -7,12 +7,13 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bionoor.api.admin.AdminInvoice.InputInvoice;
+import com.bionoor.api.dto.InputOrderInvoiceDTO;
 import com.bionoor.api.models.Category;
 import com.bionoor.api.models.Invoice;
 import com.bionoor.api.models.Order;
 import com.bionoor.api.models.Product;
 import com.bionoor.api.repositories.InvoiceRepository;
+import com.bionoor.api.repositories.OrderRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -24,7 +25,7 @@ public class InvoiceService {
 	private	InvoiceRepository invoiceRepository;
 	
 	@Autowired
-	private OrderService orderService;
+	private OrderRepository orderRepository;
 	
 	public Invoice add(Invoice invoice ) {
 		
@@ -33,12 +34,17 @@ public class InvoiceService {
 
 	
 		
-	public Invoice add(InputInvoice inputInvoice ) {
+	public Invoice add(InputOrderInvoiceDTO inputInvoice ) {
 			
 		Invoice invoice = new Invoice(inputInvoice);
-		Order order = this.orderService.getById(inputInvoice.getOrderId());
+		Order order = this.orderRepository.findById(inputInvoice.getOrder()).orElse(null);
+		
+		if(order == null) {
+		throw new EntityNotFoundException("order with id "+inputInvoice.getOrder()+" doesn't exists");	
+		}
+		
+		order.setInvoice(invoice);
 		invoice.setOrder(order);
-		invoice.setCreatedAt(new Date());
 		/*rest of processing to do**************
 		 * *****set create by**************
 		 * ******etc..*************************/
@@ -70,7 +76,7 @@ public class InvoiceService {
 			}else {
 				 Order order = invoice.getOrder();
 				 order.setInvoice(null);
-				 this.orderService.add(order);
+				 this.orderRepository.save(order);
 				 
 				// this.invoiceRepository.delete(invoice);
 				 

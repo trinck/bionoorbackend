@@ -52,44 +52,23 @@ inputDate.min = dateCorrectDigit(new Date())
 	 	
  }
  
- //******************************************** */
- function showToast(message, nature=1){
-	 switch(nature){
-		 case 1: alert(message);  break;
-		 case 2: break;
-		 case 3: break;
-		 default : break;
-	 }
- }
- 
+
  
  
  //************************************************ */
  
  async function addDiscount(id){
 	 
-	discountUrl = "/api/discounts/add"
+	url = "/api/discounts/add"
 	var f = new FormData(formdiscount)
 	f.set("categoryId",id)
 	
 	
 	 try{
-				 fetch(discountUrl,{
-					method: "POST",
-					body: f,
-					
-					
-				}).then(response => {
-					if(response.status == 200){return response.json()}
-					else {
-						console.log(response.json())
-						throw new Error('error occured '+response.status);
-					}
-				})
-				.then(discountToDom)
-				.catch(error => showToast(error,1))
-				
-			
+				 
+				 fetchFunction(url, "POST", f,discountToDom)
+				 
+				 
 	 }catch(e){
 		
 		 showToast("origin adding discount :"+e,1)
@@ -112,19 +91,11 @@ async function toggleDiscountActif(event){
 	
 	
 	 try{
-				 fetch(url,{
-					method: "POST",
-					body: form
-					
-					
-					
-				}).then(response => response.json)
-				.catch(error => showToast(error,1))
-					
-				
-			
+		 
+		 fetchFunction(url, "POST", form, resultat =>{} )
+		 		
 	 }catch(e){
-		 showToast("origin adding discount :"+e,1)
+		 showToast("origin toggle discountActif :"+e,1)
 	 }
 }
 
@@ -140,25 +111,17 @@ async function changeName(event, id){
 	f.set("id",id)
 	f.set("name", event.target.value)
 
-
+//fetchFunction
 	try{
-				 fetch(url,{
-					method: "POST",
-					body: f
+				
+				fetchFunction(url, "POST", f, resultat =>{
 					
-				}).then(response => {
-					if(response.status == 200){return response.text()}
-					else {
-						console.log(response.json())
-						throw new Error('error occured '+response.status)
-					}}).then(e => showToast("name mis à jour to :"+e)
-						
-					).catch(error => showToast(error))
 					
+				})
 				
 			
 	 }catch(e){
-		 showToast("origin adding discount :"+e)
+		 showToast("origin changing category name :"+e)
 	 }
 	
 }
@@ -184,9 +147,4 @@ function discountToDom(discount){
 	discountList.appendChild(clone)
 }
 
-function updateName(name){
-	
-	
-}
- 
  

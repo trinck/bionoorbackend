@@ -104,7 +104,7 @@
 		    				
 			    				<tbody>
 			    					<tr th:if="${order.invoice!=null}">
-			    						<td th:inline="text">[[${invoice.id}]]</td>  <td th:inline="text">[[${invoice.createdAt}]]</td>	<td th:inline="text">[[${invoice.dueDate}]]</td> <td th:inline="text">[[${order.customer.id]]</td> <td></td>
+			    						<td th:inline="text">[[${invoice.id}]]</td>  <td th:inline="text">[[${invoice.createdAt}]]</td>	<td th:inline="text">[[${invoice.dueDate}]]</td> <td th:inline="text">[[${order.customer.id}]]</td> <td></td>
 			    					</tr>
 			    				</tbody>
 		    				</table>
@@ -125,7 +125,7 @@
 		    				</thead>
 		    				<tbody>
 		    					<tr th:each="item:${order.orderItems}">
-		    						<td  th:inline="text">[[${item.id}]]</td> <td  th:inline="text">[[${item.product.name}]]</td> <td  th:inline="text">[[${item.product.price}]] MAD <td  th:inline="text">[[${item.quantity}]]</td> <td  th:inline="text">[[${#numbers.formatDecimal(item.quantity * item.product.price,1,2)}]]  MAD</td>
+		    						<td  th:inline="text">[[${item.id}]]</td> <td  th:inline="text">[[${item.product.name}]]</td> <td  th:inline="text">[[${item.product.price}]]<td  th:inline="text">[[${item.quantity}]]</td> <td  th:inline="text">[[${#numbers.formatDecimal(item.quantity * item.product.price,1,2)}]]</td>
 		    					</tr>
 		    					
 		    		
@@ -143,12 +143,14 @@
 		    			</div>
 		    			<!-- droite section -->
 		    			<div class="ms-auto" style="min-width: 200px">
-		    					<div class="d-flex gap-4" >
-		    						<span>Total H.T:</span><span class="ms-auto" th:inline="text">[[${order.totalAmount}]] MAD</span>
-		    					</div>
+		    					
 		    					
 		    					<div class="d-flex gap-4" >
 		    						<span>Discount Code:</span><span class="ms-auto" th:text="${order.discountCode!=null? order.discountCode.code: 'N/A' }"></span>
+		    					</div>
+		    					
+		    					<div class="d-flex gap-4" >
+		    						<span>Total H.T:</span><span class="ms-auto" th:inline="text">[[${order.totalAmount}]]</span>
 		    					</div>
 		    					
 		    					<div class="d-flex gap-4" >
@@ -171,11 +173,11 @@
 		    					<hr>
 		    					
 		    					<div class="d-flex gap-4" >
-		    						<span>Total amount (TTC):</span><span class="ms-auto" th:text="${order.invoice!=null? order.invoice.totalAmount:'N/A' }"></span>
+		    						<span>Total amount (TTC):</span><span class="ms-auto" th:text="${order.invoice!=null? #numbers.formatDecimal(order.invoice.totalAmount,1,2):'N/A' }"></span>
 		    					</div>
 		    					
 		    					<div class="d-flex gap-4 fw-semibold" >
-		    						<span class="">Due to pay:</span> <span class="ms-auto" th:text="${order.invoice!=null? order.invoice.totalAmount:'N/A' }"></span>
+		    						<span class="">Due to pay:</span> <span class="ms-auto" th:text="${order.invoice!=null? #numbers.formatDecimal(order.invoice.totalAmount,1,2):'N/A' }"></span>
 		    					</div>
 		    			</div>
 		    			

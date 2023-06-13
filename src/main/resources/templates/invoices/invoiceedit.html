@@ -11,7 +11,7 @@
     
     
 	    <!-- start content -->
-	   		 <div class=" container mb-3 d-flex flex-column gap-2 bg-white shadow-sm py-3" style="width: 95%;">
+	   		 <form id="invoice-form" onsubmit="createOrderInvoice(event)" class=" container mb-3 d-flex flex-column gap-2 bg-white shadow-sm py-3" style="width: 95%;">
 		    	<!-- section controls -->
 		    		<div class="section-controls gap-3 d-flex" >
 		    			
@@ -55,6 +55,11 @@
 		    					<div class="form-check form-check-reverse">
 		    						 <label  class="form-check-label" for="ready" >Ready</label>  <input th:attr="checked=${order.status.name=='READY'}" value="READY" th:onchange="'updateOrderStatus(this,'+ ${order.id}+')'" class="form-check-input" type="radio" name="status" id="ready">
 		    					</div>
+		    					
+		    					<div class="form-check form-check-reverse">
+		    						 <label  class="form-check-label" for="returned" >Returned</label>  <input th:attr="checked=${order.status.name=='RETURNED'}" value="RETURNED" th:onchange="'updateOrderStatus(this,'+ ${order.id}+')'" class="form-check-input" type="radio" name="status" id="returned">
+		    					</div>
+		    					
 		    					 
 		    				</div>
 		    				<div>
@@ -115,7 +120,7 @@
 		    				
 			    				<tbody>
 			    					<tr th:if="${invoice!=null}">
-			    						<td th:text="${index!=null? index: invoice.id}"></td>  <td th:text="${#dates.format(invoice.createdAt,'dd/MM/yyyy hh:mm')}"></td>  <td ><input type="date" class="form-control w-50 border-bottom border-3 border-0" required="required"> </td> <td  th:text="${order.customer.id}"></td> <td></td>
+			    						<td th:text="${index!=null? index: invoice.id}"></td>  <td th:text="${#dates.format(invoice.createdAt,'dd/MM/yyyy hh:mm')}"></td>  <td ><input name="dueDate" type="date" class="form-control w-50 border-bottom border-3 border-0" required="required"> </td> <td  th:text="${order.customer.id}"></td> <td></td>
 			    					</tr>
 			    				</tbody>
 		    				</table>
@@ -160,25 +165,27 @@
 			    				
 								
 								
-		    					<div class="d-flex gap-2" >
-		    						<span>Total H.T:</span><span id="THT" class="ms-auto" th:inline="text">[[${order.totalAmount}]] MAD</span>
-		    					</div>
+		    					
 		    					
 		    					<div class="d-flex gap-3" >
-		    						<span>Discount Code:</span> <div class=" d-flex gap-2"> <input onchange="findDiscountCode(event)" placeholder="Code" class="rounded-1 form-control form-control-sm dicountCode-code w-50 " type="text"  th:value="${order.discountCode!=null? order.discountCode.code: '' }">  <span class="discountCode-value ms-auto" th:text="${order.discountCode!=null? order.discountCode.discount: 'N/A' }"></span> </div> 
+		    						<span>Discount Code:</span> <div class=" d-flex gap-2"> <input onchange="addDiscountCode(event)" placeholder="Code" class="rounded-1 form-control form-control-sm dicountCode-code w-50 " type="text"  th:value="${order.discountCode!=null? order.discountCode.code: '' }">  <span class="discountCode-value ms-auto" th:text="${order.discountCode!=null? order.discountCode.discount: 'N/A' }"></span> </div> 
 		    					</div>
 		    					
 		    					<div class="d-flex gap-2" >
-		    						<span>Remise:</span><input id="remise" placeholder="MAD" class="ms-auto form-control w-25 rounded-1" type="number" min="0"  th:value="${invoice.remise}">
+		    						<span>Total H.T:</span><span id="THT" class="ms-auto" th:inline="text">[[${#numbers.formatDecimal(order.totalAmount, 1,2)}]] MAD</span>
 		    					</div>
 		    					
 		    					<div class="d-flex gap-2" >
-		    						<span>Vat(%):</span><input  id="vat" class="ms-auto form-control w-25 rounded-1" type="number" min="0"  th:value="${invoice.vat}">
+		    						<span>Remise:</span><input name="remise" id="remise" placeholder="MAD" class="ms-auto form-control w-25 rounded-1" type="number" min="0"  th:value="${invoice.remise}">
+		    					</div>
+		    					
+		    					<div class="d-flex gap-2" >
+		    						<span>Vat(%):</span><input name="vat" id="vat" class="ms-auto form-control w-25 rounded-1" type="number" min="0"  th:value="${invoice.vat}">
 		    					</div>
 		    					
 		    					
 		    					<div class="d-flex gap-2 border-bottom pb-2" >
-		    						<span>Transport:</span><input id="transport" class="ms-auto form-control w-25 rounded-1" type="number" min="0"  th:value="${invoice.transport}">
+		    						<span>Transport:</span><input name="transport" id="transport" class="ms-auto form-control w-25 rounded-1" type="number" min="0"  th:value="${invoice.transport}">
 		    					</div>
 		    					
 		    					
@@ -194,7 +201,7 @@
 		    			
 		    		</div>
 		    	
-		    </div>
+		    </form>
 		    <datalist id="product-list">
 		    	<option th:each="product:${productList}" th:value="${product.name}">
 		    </datalist>

@@ -14,7 +14,7 @@ import com.bionoor.api.repositories.MediaRepository;
 public class MediaService implements ServiceInterface<Media>{
 
 	@Autowired
-	MediaRepository mediaRepository;
+	private MediaRepository mediaRepository;
 	
 	@Override
 	public Media add(Media toSave) {

@@ -84,22 +84,22 @@ public class RestDiscount {
 	}
 	
 	@PostMapping(value = "/api/discounts/put/endDate")
-	public ResponseEntity<String>  putEndDate(@Valid @ModelAttribute DistcountDtoEndDate  distcountDtoEndDate) {
+	public OutputDiscountCodeDTO  putEndDate(@Valid @ModelAttribute DistcountDtoEndDate  distcountDtoEndDate) {
 		
 		
 		 DiscountCode discountCode = this.discountCodeService.getById(distcountDtoEndDate.getId());
 		 discountCode.setEndDate(distcountDtoEndDate.getEnDate());
 		 discountCode = this.discountCodeService.add(discountCode);
 		
-		return new ResponseEntity<String>(discountCode.getEndDate().toString(), HttpStatus.OK);
+		return new OutputDiscountCodeDTO(discountCode);
 	}
 	
 
 	@PostMapping(value = "/api/discounts/toggleActif", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_PLAIN_VALUE})
-	public ResponseEntity toggleActif(@ModelAttribute toggleActif toggle) {
+	public OutputDiscountCodeDTO toggleActif(@ModelAttribute toggleActif toggle) {
 		
-		this.discountCodeService.toggleActif(toggle.getDiscountId(), toggle.getToggle());
-		return ResponseEntity.ok(HttpStatus.OK);
+		  DiscountCode discountCode =  this.discountCodeService.toggleActif(toggle.getDiscountId(), toggle.getToggle());
+		return new OutputDiscountCodeDTO(discountCode);
 	}
 	
 	
@@ -161,9 +161,7 @@ public class RestDiscount {
 
 		return new OutputDiscounDCP(discountCode);
 
-		//OutputDiscountCategory  code = new OutputDiscountCategory(this.discountCodeService.addInput(inputDiscount), inputDiscount) ; 
-
-		 //	return code;
+		
 	}
 	
 	

@@ -9,11 +9,13 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.bionoor.api.utils.OrderListener;
 import com.bionoor.api.web.RestOrder.InputOrderDTO;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
@@ -31,12 +33,13 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @NoArgsConstructor
+@EntityListeners(OrderListener.class)
 @Table(name = "orders")
 public class Order implements Serializable{
 
 	public enum OrderStatus{
 		
-		PENDING, DELIVERED,PROCESSING, READY;
+		PENDING, DELIVERED,PROCESSING, READY, RETURNED;
 	}
 	
 	

@@ -1,11 +1,15 @@
 package com.bionoor.api.services;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bionoor.api.dto.InputOrderInvoiceDTO;
+import com.bionoor.api.exceptions.DiscountCodeException;
 import com.bionoor.api.exceptions.IllegalOperationException;
 import com.bionoor.api.models.DiscountCode;
 import com.bionoor.api.models.Invoice;
@@ -16,13 +20,17 @@ import com.bionoor.api.models.PayAsDelivered;
 import com.bionoor.api.models.Product;
 import com.bionoor.api.repositories.OrderItemRepository;
 import com.bionoor.api.repositories.OrderRepository;
+import com.bionoor.api.utils.InvoiceProcessingIn;
 import com.bionoor.api.web.RestOrder.InputOrderDTO;
 import com.bionoor.api.web.RestOrder.InputOrderItemDTO;
 
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class OrderService {
+
+	
 
 	@Autowired
 	private OrderRepository orderRepository;
@@ -30,6 +38,11 @@ public class OrderService {
 	@Autowired
 	private DiscountCodeService discountCodeService;
 	
+	@Autowired
+	private InvoiceProcessingIn invoiceProcessingIn;
+	
+	@Autowired
+	private InvoiceService invoiceService;
 	@Autowired
 	private ProductService productService;
 	
@@ -42,7 +55,10 @@ public class OrderService {
 
 	
 	public Order add(Order toSave) {
-		// TODO Auto-generated method stub
+		
+		
+		//return this.orderRepository.save(this.invoiceProcessingIn.TotalAmountOrder(toSave, false));
+		
 		return this.orderRepository.save(toSave);
 	}
 	
@@ -58,14 +74,14 @@ public class OrderService {
 		Order order = this.getById(id);
 		
 		switch(status) {
-		
+			case "RETURNED": order.setStatus(OrderStatus.RETURNED); break;
 			case  "PENDING":  order.setStatus(OrderStatus.PENDING); break;
 			case "READY":order.setStatus(OrderStatus.READY); break;
 			case "DELIVERED": order.setStatus(OrderStatus.DELIVERED); break;
 			case "PROCESSING": order.setStatus(OrderStatus.PROCESSING); break;
 			default:  break;
 		}
-		return this.orderRepository.save(order);
+		return this.add(order);
 	}
 	
 	
@@ -75,31 +91,44 @@ public class OrderService {
 			
 			Order order = this.getById(id);
 			order.setFulfilled(fulfilled);
-			return this.orderRepository.save(order);
+			return this.add(order);
 		}
 	
 	/*************put discountcode*********************************************
 	***************************************************************************/
-	public DiscountCode addDiscountCode(Long  discountCodeId, Long id) {
+	public Order addDiscountCode(String  code, Long id) {
 		
 		Order order = this.getById(id);
-		DiscountCode code = this.discountCodeService.getById(discountCodeId);
-		order.setDiscountCode(code);
-		 this.orderRepository.save(order);
+		DiscountCode discountCode = this.discountCodeService.getByCode(code);
+		
+		if(discountCode.getActif()) {
+			
+			if(!discountCode.getEndDate().after(new Date())) {
+				
+				SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+				
+				throw new DiscountCodeException("DiscountCode :"+code+" is ended in "+dateFormat.format(discountCode.getEndDate()));
+			}
+			
+		}else {
+			throw new DiscountCodeException("DiscountCode :"+code+" is deactivated");
+		}
+		
+		order.setDiscountCode(discountCode);
 		 
-		 return code;
+		 
+		 return this.add(order);
 	}
 	
 	
-	public DiscountCode deleteDiscountCode(Long id) {
+	public Order deleteDiscountCode(Long id) {
 			
 			Order order = this.getById(id);
 			
 			DiscountCode code = order.getDiscountCode();
-			 this.orderRepository.save(order);
 			 order.setDiscountCode(null);
-			 this.orderRepository.save(order);
-			 return code;
+			 
+			 return this.add(order);
 		}
 	
 	
@@ -117,7 +146,7 @@ public class OrderService {
 	
 	/*************put orderitem*********************************************
 	***************************************************************************/
-	public OrderItem putOrderItem(InputOrderItemDTO orderItemDTO  , Long id) {
+	public Order putOrderItem(InputOrderItemDTO orderItemDTO  , Long id) {
 		
 		Order order = this.getById(id);
 		
@@ -125,11 +154,9 @@ public class OrderService {
 		for(OrderItem item : order.getOrderItems()) {
 			if(item.getId() == orderItemDTO.getId()) {
 				
-				Product product = this.productService.getById(orderItemDTO.getProduct());
-				product.setQuantity(product.getQuantity()+ item.getQuantity());
-				 
+				Product product = this.productService.findByName(orderItemDTO.getProductName()); 
 				 item.setQuantity(orderItemDTO.getQuantity());
-				 item.setProduct(product); return this.orderItemService.add(item);
+				 item.setProduct(product); return this.add(order);
 					
 			}
 		}
@@ -137,47 +164,100 @@ public class OrderService {
 		throw new EntityNotFoundException("Order or OrderItem entity didn't found");
 	}
 	
-	/*************put orderitem*********************************************
+	/*************put orderitem************************************************
 	***************************************************************************/
-	public OrderItem addOrderItem(InputOrderItemDTO orderItemDTO) {
+	public Order addOrderItem(InputOrderItemDTO orderItemDTO) {
 		
 		Order order = this.getById(orderItemDTO.getOrder());
+		//System.out.println("sizeeeeeeeeeeee "+order.getOrderItems().size());
+		
 		OrderItem orderItem = new OrderItem(orderItemDTO);
-		Product product = this.productService.getById(orderItemDTO.getProduct());
+		Product product = this.productService.findByName(orderItemDTO.getProductName());
 		
 		//if this item already exists
 		
 		if(orderItem.getId()!=null) {
-			orderItem = this.orderItemService.getById(orderItem.getId());
-			orderItem.setProduct(product);
-			return this.orderItemService.add(orderItem);
+			
+			for(OrderItem item: order.getOrderItems()) {
+				if(item.getId().equals( orderItem.getId())) {
+					
+					item.setProduct(product);
+					item.setQuantity(orderItemDTO.getQuantity());
+					this.orderItemService.add(item);
+					return this.add(order);
+					
+				}
+			}
+			
 		}
 		
-		//if item doesn't exists alread
+		
+		
 		orderItem.setProduct(product);
-		order.getOrderItems().add(orderItem);
 		orderItem.setOrder(order);
+		orderItem = this.orderItemService.add(orderItem);
 		
-		return this.orderItemService.add(orderItem);
+		
+		
+		return this.add(order);
 	}
 	
 	
-public OrderItem putOrderItemQuantity(Long id, int quantity) {
+public Order putOrderItemQuantity(Long id, int quantity, Long orderItemId) {
+		
+	
+		Order order = this.getById(id);
+		
+		for(OrderItem item: order.getOrderItems()) {
+			
+			
+			if(item.getId().equals( orderItemId) ) {
+				
+				item.setQuantity(quantity);
+				
+				this.orderItemService.add(item);
+				break;
+			}
+		}
 		
 		
-		OrderItem orderItem = this.orderItemService.getById(id);	
-		orderItem.setQuantity(quantity);
-		
-		return this.orderItemService.add(orderItem);
+		return  this.add(order);
 	}
 	
 	
+
+
+
+//add invoice to order***********************************
+
+public Order addOrderInvoice(InputOrderInvoiceDTO inputOrderInvoiceDTO ) {
+	
+	
+	Order order = this.getById(inputOrderInvoiceDTO.getOrder());
+		
+		if(inputOrderInvoiceDTO.getId() != null) {
+			
+			
+			throw new IllegalArgumentException("you try to create new invoice with an ID! ID must be initialize by hibernate");
+			
+		}
+	
+	 this.invoiceService.add(inputOrderInvoiceDTO);
+	
+	 
+	 
+	return this.add(order);
+}
+
+
+
+
 	
 
 	
 	/*************put Payment method*********************************************
 	***************************************************************************/
-	
+
 	public Order putPaymentMethod(int method , Long id) {
 		
 		Order order = this.getById(id);
@@ -191,7 +271,7 @@ public OrderItem putOrderItemQuantity(Long id, int quantity) {
 		
 		default: break;
 	}
-		return this.orderRepository.save(order);
+		return this.add(order);
 	}
 
 	
@@ -210,7 +290,7 @@ public OrderItem putOrderItemQuantity(Long id, int quantity) {
 			
 			OrderItem orderItem = new OrderItem(item);
 			
-			Product product = this.productService.getById(item.getProduct());
+			Product product = this.productService.findByName(item.getProductName());
 			if(product.getQuantity()< item.getQuantity()) {
 				throw new IllegalOperationException("quantity of product "+product.getName()+" is less than required");
 			}
@@ -236,9 +316,7 @@ public OrderItem putOrderItemQuantity(Long id, int quantity) {
 		
 		order.setCreatedAt(new Date());
 		
-		
-		
-		return this.orderRepository.save(order);
+		return this.add(order);
 	}
 
 
@@ -249,17 +327,15 @@ public OrderItem putOrderItemQuantity(Long id, int quantity) {
 	}
 	
 	
-	public OrderItem deleteOrderItem(Long OrderItemId, Long id) {
+	public Order deleteOrderItem(Long OrderItemId, Long id) {
 		// TODO Auto-generated method stub
 		
 		Order order = this.getById(id);
 		OrderItem orderItem = this.orderItemService.getById(OrderItemId);
-		
-		Product product = orderItem.getProduct();
-		product.setQuantity(product.getQuantity()+orderItem.getQuantity());
 		order.getOrderItems().remove(orderItem);
-		this.productService.modify(product);
-		return orderItem;
+		
+		
+		return this.add(order);
 	}
 
 	

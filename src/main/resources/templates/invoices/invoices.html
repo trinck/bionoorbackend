@@ -63,8 +63,8 @@
 	    					</tr>
 	    				</thead>
 	    				<tbody class=" ">
-	    					<tr>
-	    						<td>1465</td> <td><span class="badge text-bg-success">April 30, 2023</span></td> <td>candice  armane</td> <td>natasha</td> <td><span class="badge text-bg-secondary">Pending</span></td> <td> <span class="badge text-bg-danger"> Not paid</span></td> <td>485 MAD</td> <td>20</td> <td><div class="d-flex gap-3"><a class="" href="#"><i class="bi bi-pencil-fill text-secondary"></i></a> <a href="#"><i class="bi bi-x-lg text-danger"></i></a> <a th:href="@{/invoice(id=1)}"><i class="bi bi-arrow-right text-secondary"></i></a></div></td>
+	    					<tr th:each="invoice:${invoices}">
+	    						<td th:text="${invoice.order.id}"></td> <td><span class="badge text-bg-success" th:text="${#dates.format(invoice.dueDate, 'dd-MM-yyyy')}"></span></td> <td>candice  armane</td> <td>natasha</td> <td><span class="badge text-bg-secondary" th:text="${invoice.order.status}"></span></td> <td> <span class="badge text-bg-danger"> Not paid</span></td> <td th:text="${#numbers.formatDecimal(invoice.totalAmount,1,2)}"></td> <td th:text="${invoice.vat}">20</td> <td><div class="d-flex gap-3"><a class="" href="#"><i class="bi bi-pencil-fill text-secondary"></i></a> <a href="#"><i class="bi bi-x-lg text-danger"></i></a> <a th:href="@{/invoice(id=${invoice.id} )}"><i class="bi bi-arrow-right text-secondary"></i></a></div></td>
 	    					</tr>
 	    						    					
 	    						    					

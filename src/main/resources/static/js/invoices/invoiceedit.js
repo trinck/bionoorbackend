@@ -3,49 +3,37 @@
  */
  /***variables globale*********
  ************************** */
- var discountCode;
- var orderId = document.querySelector(".order-info").id
 
+ 
+ var order;
+ 
 /******************************************** */
 /**initialization */
-init(orderId)
+
+document.addEventListener('DOMContentLoaded', function() {
+    getOrder()
+});
+
+
 
 /****************** */
 
 
-
-function init(id){
-	url = "/api/orders/discountCode/get?id="+id
+ 
+function getOrder(){
 	
+	
+	 var id = document.querySelector(".order-info").id
+	 url = "/api/orders/index?id="+id
 	try{
-				
-				 fetch(url,{
-					method: "GET",
+			 fetchFunction(url,"GET", null, resultOrder => order = {...resultOrder})
 					
-				}).then(response => {
-					if(response.status == 200){return response.json()}
-					else {
-						
-					  	discountCode = null
-						throw new Error(response.json().message+"; status "+response.status);
-					}
-				})
-				.then(result =>{ 
-					
-					discountCode = {...result}
-					
-				})
-				.catch(error => console.log(error))
-				
 	 }catch(e){
 		
-		 alert("origin get order discountCode :"+e)
+		 console.log("origin get order  :"+e)
 	 }	
 	
-	
-	
 }
-
 
 
 
@@ -72,47 +60,63 @@ async function addItemTr(event){
 } 
 
 
+
+
 async function onChangeItemName(event){
 	
-	  Url = "/api/products/search?name="+event.target.value
+	  url = "/api/orders/orderItems/save"
+	  
+	  var value = event.target.value.trim()
 	
-	if (event.target.value === null || event.target.value.trim() === ""){
+	if (value === null || value === ""){
 					
-						return alert("Product name cann't be empty")
+			return alert("Product name cann't be empty")
 		}
 	
 	
+	var Tr = event.target.parentElement.parentElement
+	var code = Tr.querySelector(".item-product-code")
+	var price = Tr.querySelector(".item-product-price")
+	var quantity = Tr.querySelector(".item-quantity")
+	var totaAmount = Tr.querySelector(".item-totalAmount")					
+	
+	
+	var orderInfo = document.querySelector(".order-info")
+	var f = new FormData()
+	
+	f.set("order",Number(orderInfo.id) )
+	f.set("quantity", quantity.value)
+	f.set("productName",value)
+	f.set("id", Tr.id)
+	
+	
+	
+	
 	try{
-				
-				 fetch(Url,{
-					method: "GET",
+		
+		 fetchFunction(url,"POST", f, result =>{ 
 					
-					
-				}).then(response => {
-					if(response.status == 200){return response.json()}
-					else {
 						
-						throw new Error(response.json()+"; status "+response.status);
-					}
+						order = {...result}
+						
+						let item = order.orderItems.find( item => item.product.name === value)
+						code.innerHTML = item.product.code
+						price.innerHTML = item.product.price
+						quantity.value = item.quantity
+						totaAmount.innerHTML = (item.product.price * item.quantity).toFixed(2)
+						Tr.id = item.id
+						quantity.onchange = updateQauntity;
+						
+						//update order's values dome
+						updateOrderValues()
+						
 				})
-				.then(result =>{ 
-					
-					if(result.length == 0){
-						alert("no product with this name")
-					}else{
-						
-						alert("product code "+ result[0].code+" found")
-						
-						addOrderItem(result[0], event.target)
-					}
-					
-				})
-				.catch(error => alert(error))
+		
 				
-			
+				
 	 }catch(e){
 		
-		 alert("origin search product :"+e)
+		 console.log("origin added item :"+e)
 	 }	
 	
 
@@ -120,139 +124,92 @@ async function onChangeItemName(event){
 
 
 
-async function findDiscountCode(event){
+
+
+
+
+
+
+
+
+
+
+async function addDiscountCode(event){
 	
-	url = "/api/discounts/find/code?code="
-	
-	var code = event.target.value
+	var code = event.target.value.trim()
 	/**assure that discount code already present or no for delete before adding *********
 	****new discount******************************************************************* */
-	if ( code.trim() === "" ){
+	if ( code === "" ){
 					
-				if(discountCode === undefined || discountCode === null){
+	
+				if(order.discountCode === undefined || order.discountCode === null){
 					
-					return alert("dicount code field is empty")
+					console.log("dicount code field is empty")
+					return false
 				}	
 			
-			return deleteDiscountCode()
+			
+			return  deleteDiscountCode()
 		}
 	/***************************************************************************************** */
-	url = url+code
-	
-	try{
-				
-				 fetch(url,{
-					method: "GET",
-					
-				}).then(response => {
-					if(response.status == 200){return response.json()}
-					else {
-						
-						//delete other if present
-						deleteDiscountCode()
-						throw new Error(response.json()+"; status "+response.status);
-						
-					}
-				})
-				.then(result =>{ 
-						
-						alert("discount code "+ result.code+" found")
-						//add to order right now
-						addDiscountCode(result)
-						
-						
-				})
-				.catch(error => alert(error))
-				
-			
-	 }catch(e){
-		
-		 alert("origin search discount code :"+e)
-	 }	
-	 
-}
-
-
-
-
-//add discount code to order
-function addDiscountCode(findResult){
+	var discountCodeValue = document.querySelector(".discountCode-value")
+	var orderId = document.querySelector(".order-info").id
 	url = "/api/orders/discountCode/add"
 	
 	var f =new FormData()
-	f.set("discountCodeId",findResult.id )
+	f.set("code",code)
 	f.set("id", orderId)
-	var discountCodeValue = document.querySelector(".discountCode-value")
+	
 	
 	try{
 				
-				 fetch(url,{
-					method: "POST",
-					body:f
-					
-				}).then(response => {
-					if(response.status == 200){return response.json()}
-					else {
-					
-						throw new Error(response.json()+"; status "+response.status);
-					}
-				})
-				.then(result =>{ 
+				 fetchFunction(url,"POST", f, result =>{ 
 						
-						alert("discount code "+ result.code+" added")
-						discountCodeValue.innerHTML = result.discount+" MAD"
-						discountCode = {...result}	
+						discountCodeValue.innerHTML = result.discountCode.discount
+						order = {...result}	
+						//update order's values dome
+						updateOrderValues()
 						
 				})
-				.catch(error => alert(error))
-				
+				 
 			
 	 }catch(e){
 		
-		 alert("origin add discount code :"+e)
+		 console.log("origin add discount code :"+e)
 	 }	
-	
 	
 	
 }
 
+
+
+
 //delete discount code from order
-function deleteDiscountCode(){
-	
+ async function deleteDiscountCode(){
+	var orderId = document.querySelector(".order-info").id
 	url = "/api/orders/discountCode/delete?id="
 	url = url+orderId
 	
-	if(discountCode=== null || discountCode === undefined){
+	if(order.discountCode=== null || order.discountCode === undefined){
 		
 			return false
 	}
 	
 	try{
-				
-				 fetch(url,{
-					method: "GET",
-					
-					
-				}).then(response => {
-					if(response.status == 200){return response.json()}
-					else {
-						
-						throw new Error(response.json()+"; status "+response.status);
-					}
-				})
-				.then(result =>{ 
+				 fetchFunction(url,"GET", null,result =>{ 
 						
 						var discountCodeValue = document.querySelector(".discountCode-value")
 						discountCodeValue.innerHTML = "N/A"
-						discountCode = null
+						order = {...result}
+						//update order's values dom
+						updateOrderValues()
 						
 				})
-				.catch(error => alert(error))
 				
-			
+				
 	 }catch(e){
 		
-		 alert("origin delete discount code :"+e)
+		 console.log("origin delete discount code :"+e)
 	 }	
 	
 }
@@ -261,6 +218,7 @@ function deleteDiscountCode(){
 
 
 async function updateQauntity(event){
+	var orderId = document.querySelector(".order-info").id
 	url = "/api/orders/orderItems/put/quantity"
 	
 	var target = event.target
@@ -269,8 +227,9 @@ async function updateQauntity(event){
 	var id = target.parentElement.parentElement.id
 	
 	var f = new FormData()
-	f.set("id", id)
+	f.set("id", orderId)
 	f.set("quantity", quantity)
+	f.set("orderItemId",id )
 	
 	try{
 		
@@ -279,29 +238,18 @@ async function updateQauntity(event){
 		}
 		
 		//update quantity of item
-		
-		fetch(url, {
+		fetchFunction(url,"POST", f, resultat=>{
 			
-			method: "POST",
-			body: f
+			order = {...resultat}
+			//update item amout
+			updateTotalAmount(event)
+			//update order
+			updateOrderValues()
 			
-		}).then(response =>{
-			
-			if(response.status == 200){return response.text()}
-					else {
-						
-						throw new Error(response.json().message+"; status "+response.status);
-					}
-			
-		} ).then(resultat=>{
-			
-			//update totalAmount with the new quantity item
-			updateTotaAmount(event)
-			
-		}).catch(error => alert(error))
+		} )
 		
 	}catch(e){
-		alert("origin quantity changing: "+e)
+		console.log("origin quantity changing: "+e)
 	}
 	
 }
@@ -311,7 +259,7 @@ async function updateQauntity(event){
 
 
 
-function updateTotaAmount(event){
+function updateTotalAmount(event){
 	
 	var Tr = event.target.parentElement.parentElement
 	
@@ -345,27 +293,19 @@ async function deleteOrderItem(event){
 	
 	try{
 		
-		fetch(url, {
-			
-			method: "POST",
-			body: f
-			
-		}).then(response =>{
-			
-			if(response.status == 200){return response.json()}
-					else {
-						
-						throw new Error(response.json().message+"; status "+response.status);
-					}
-			
-		} ).then(resultat=>{
+		fetchFunction(url,"POST", f,resultat=>{
 			
 				Tr.remove()
+				order = {...resultat}
+				//update dom order values
+				updateOrderValues()
 			
-		}).catch(error => alert(error))
+		})
+		
+		
 		
 	}catch(e){
-		alert("origin deleting item: "+e)
+		console.log("origin deleting item: "+e)
 	}
 
 	
@@ -374,62 +314,6 @@ async function deleteOrderItem(event){
 
 
 
-
-
-
-
- function addOrderItem(product, node){
-	url = "/api/orders/orderItems/save"
-	
-	//retrieve eleme
-	var Tr = node.parentElement.parentElement
-	var code = Tr.querySelector(".item-product-code")
-	var price = Tr.querySelector(".item-product-price")
-	var quantity = Tr.querySelector(".item-quantity")
-	var totaAmount = Tr.querySelector(".item-totalAmount")					
-	
-	
-	var orderInfo = document.querySelector(".order-info")
-	var f = new FormData()
-	
-	f.set("order",Number(orderInfo.id) )
-	f.set("quantity", quantity.value)
-	f.set("product",product.id)
-	f.set("id", Tr.id)
-	
-	
-		
-	try{
-				 fetch(url,{
-					method: "POST",
-					body: f
-					
-				}).then(response => {
-					if(response.status == 200){return response.json()}
-					else {
-						
-						throw new Error(response.json().message+"; status "+response.status);
-					}
-				})
-				.then(result =>{ 
-					
-						alert("item added")
-						code.innerHTML = product.code
-						price.innerHTML = product.price
-						quantity.value = result.quantity
-						totaAmount.innerHTML = (product.price * result.quantity).toFixed(2)
-						Tr.id = result.id
-						quantity.onchange = updateQauntity;
-						
-				})
-				.catch(error => alert(error))
-				
-	 }catch(e){
-		
-		 alert("origin added item :"+e)
-	 }	
-	
-}
 
 
 
@@ -448,31 +332,57 @@ async function updateOrderStatus(element, id){
 	
 	
 	try{
-				 fetch(url,{
-					method: "POST",
-					body: f,
-					
-					
-				}).then(response => {
-					if(response.status == 200){return response.text()}
-					else {
-						alert(response.text())
-						throw new Error('error occured '+response.status);
-					}
-				})
-				.then(result => alert("status updated"))
-				.catch(error => alert(error))
-				
+			fetchFunction(url,"POST", f,resultat => console.log("status updated to "+resultat.status))
 			
 	 }catch(e){
 		
-		 alert("origin update order status  :"+e)
+		 console.log("origin update order status  :"+e)
 	 }
 	 
  }
  
  
  
+ 
+ 
+ 
+ 
+ 
+ //create order invoice**************
+async function createOrderInvoice(event){
+	 
+	 event.preventDefault()
+	 url = "/api/orders/invoice/save"
+	 var orderInfo = document.querySelector(".order-info")
+	 var invoiceForm = document.querySelector("#invoice-form")
+	var f = new FormData(invoiceForm)
+	
+	
+	f.set("order",Number( orderInfo.id))
+	f.delete("status")
+	console.log(...f.entries())
+	
+	try{
+			fetchFunction(url,"POST", f,resultat => window.location.href = "/invoice?id="+resultat.invoice.id)
+			
+	 }catch(e){
+		
+		 console.log("origin create order invoice  :"+e)
+	 }
+	 
+ }
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ function updateOrderValues(){
+	 
+	 var tht = document.querySelector("#THT")
+	 tht.innerHTML = order.totalAmount.toFixed(2)+" MAD"
+ }
  
  
  

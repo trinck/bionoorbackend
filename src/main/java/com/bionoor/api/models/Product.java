@@ -98,6 +98,7 @@ public class Product extends Discountable implements Serializable{
 
     // other properties and methods
     
+   
     
    
     public void setReview(Review review) {
@@ -113,10 +114,10 @@ public class Product extends Discountable implements Serializable{
     
     public Product(InputProductDto productDto ) {
     	this.price = productDto.getPrice();
-    	this.code = productDto.getCode();
-    	this.description = productDto.getDescription();
-    	this.name = productDto.getName();
-    	this.ingredients = productDto.getIngredients();
+    	this.code = productDto.getCode().trim();
+    	this.description = productDto.getDescription().trim();
+    	this.name = productDto.getName().trim();
+    	this.ingredients = productDto.getIngredients().trim();
     	this.promotion = productDto.getPromotion();
     	this.quantity = productDto.getQuantity();
     	
