@@ -6,28 +6,12 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.bionoor.api.models.Customer;
-import com.bionoor.api.models.DiscountCode;
-import com.bionoor.api.models.Invoice;
 import com.bionoor.api.models.Order;
-import com.bionoor.api.models.OrderItem;
-import com.bionoor.api.models.PaymentMethod;
-import com.bionoor.api.models.User;
 import com.bionoor.api.models.Order.OrderStatus;
-import com.bionoor.api.web.RestOrder.InputOrderDTO;
+import com.bionoor.api.models.PayAsDelivered;
+import com.bionoor.api.models.PaymentMethod;
+import com.bionoor.api.utils.Utils;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -59,7 +43,7 @@ public class OutputOrderDTO {
     private String adrress;
     
     
-    private String paymentMethod;
+    private PaymentMethod paymentMethod;
     
   
     private boolean fulfilled; // flag indicating whether the order has been fulfilled
@@ -73,7 +57,7 @@ public class OutputOrderDTO {
     private List<OutputOrderItemDTO> orderItems = new ArrayList<>(); // list of items in the order
 
 	
-	public OutputOrderDTO(Order order) {
+	public OutputOrderDTO(Order order)  {
 		
 		this.id = order.getId();
 		this.createdAt = order.getCreatedAt();
@@ -82,7 +66,9 @@ public class OutputOrderDTO {
 		this.customer  = order.getCustomer().getId();
 		this.fulfilled = order.isFulfilled();
 		this.invoice =  order.getInvoice()!= null? new OutputInvoiceDTO(order.getInvoice()):null;
-		this.paymentMethod = order.getPaymentMethod()!= null?order.getPaymentMethod().getDiscriminatorValue():null;
+		
+		this.paymentMethod =  order.getPaymentMethod();
+		
 		this.discountCode =   order.getDiscountCode()!= null? new OutputDiscountCodeDTO(order.getDiscountCode()):null;
 		this.status = order.getStatus();
 		

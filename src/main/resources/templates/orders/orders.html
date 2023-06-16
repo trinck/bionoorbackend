@@ -41,8 +41,8 @@
 					
 					
 					
-					<a class="btn btn-primary btn-sm rounded-1" style="background-color: #1976d2; color: white">
-						<i class="bi bi-filter"></i> sort
+					<a class="  ms-auto" href="#">
+						<i class="bi bi-filter" style="font-size: 2rem;"></i>
 					</a>
 					
 					
@@ -54,12 +54,12 @@
 	    			<table class="table table-sm table-responsive table-hover align-middle">
 	    				<thead>
 	    					<tr>
-	    						<th>#No</th> <th>customer</th> <th> Date</th> <th>total amount</th> <th>products number</th> <th>Status</th> <th>Invoiced</th> <th>Method</th> <th>Edit</th>
+	    						<th>#No</th> <th>customer</th> <th> Date</th> <th>total amount</th> <th>Items number</th> <th>Status</th> <th>Invoiced</th> <th>Method</th> <th>Edit</th>
 	    					</tr>
 	    				</thead>
 	    				<tbody class="">
 	    					<tr th:each="order:${orders}">
-	    						<td th:text="${order.id}"></td> <td th:text="${order.customer.username}"></td> <td th:text="${#dates.format(order.createdAt, 'dd-MM-yyyy hh:mm:ss')}"> </td> <td th:text="${#numbers.formatDecimal(order.totalAmount,1,2)}"></td> <td>45</td> <td><span th:class="'badge '+${mapStatusBG[order.status.name]}" th:text="${order.status}"> </span></td> <td><i th:class=" ${order.invoice!=null? 'bi bi-check-circle text-success': 'bi bi-check-circle text-danger'}"></i></td> <td th:text="${order.paymentMethod!=null ?order.paymentMethod.discriminatorValue:'N/A' }"></td> <td><div class="d-flex gap-3"><a href="#"><i class="bi bi-check-lg text-success"></i></a> <a href="#"><i class="bi bi-x-lg text-danger"></i> </a> <a th:href="@{/orederView(id = ${order.id})}"><i class="bi bi-arrow-right text-secondary"></i></a></div> </td>
+	    						<td th:text="${order.id}"></td> <td th:text="${order.customer.username}"></td> <td th:text="${#dates.format(order.createdAt, 'dd-MM-yyyy hh:mm:ss')}"> </td> <td th:text="${#numbers.formatDecimal(order.totalAmount,1,2)}"></td> <td th:text="${#lists.size(order.orderItems)}"></td> <td><span th:class="'badge '+${mapStatusBG[order.status.name]}" th:text="${order.status}"> </span></td> <td><i th:class=" ${order.invoice!=null? 'bi bi-check-circle text-success': 'bi bi-check-circle text-danger'}"></i></td> <td th:text="${order.paymentMethod!=null ?order.paymentMethod.discriminatorValue:'N/A' }"></td> <td><div class="d-flex gap-3"><a href="#"><i class="bi bi-check-lg text-success"></i></a> <a href="#"><i class="bi bi-x-lg text-danger"></i> </a> <a th:href="@{/orederView(id = ${order.id})}"><i class="bi bi-arrow-right text-secondary"></i></a></div> </td>
 	    					</tr>
 	    					
 	    					

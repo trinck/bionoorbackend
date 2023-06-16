@@ -7,6 +7,7 @@ import com.bionoor.api.models.OrderItem;
 import jakarta.persistence.PostPersist;
 import jakarta.persistence.PostRemove;
 import jakarta.persistence.PostUpdate;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreRemove;
 import jakarta.persistence.PreUpdate;
 import lombok.Data;
@@ -23,7 +24,9 @@ public class OrderItemListener {
 	@PostPersist
 	public void postPersist(OrderItem orderItem) {
 			
+	
 		this.in = new InvoiceProcessingImp();
+		
 		this.in.TotalAmountOrder(orderItem.getOrder(), false);
 		
 	}
@@ -34,6 +37,19 @@ public class OrderItemListener {
 			
 		this.in = new InvoiceProcessingImp();
 		this.in.TotalAmountOrder(orderItem.getOrder(), false);
+		
+	}
+	
+	
+	
+	@PrePersist
+	public void prePersist(OrderItem orderItem) {
+			
+		/*
+		 * this.in = new InvoiceProcessingImp(); System.out.println("order items size" +
+		 * orderItem.getOrder().getOrderItems().size());
+		 * this.in.TotalAmountOrder(orderItem.getOrder(), false);
+		 */
 		
 	}
 	

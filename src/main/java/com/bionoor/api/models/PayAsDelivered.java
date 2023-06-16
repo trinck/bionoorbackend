@@ -2,8 +2,11 @@ package com.bionoor.api.models;
 
 import java.io.Serializable;
 
+import com.bionoor.api.utils.BionoorEntityListener;
+
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

@@ -50,6 +50,22 @@ public class RestProduct {
 	
 	
 	
+	@GetMapping(value = "/api/products/all")
+	public List<OutputProductDTO> AllProduct() {
+		
+		
+		List<Product> list = this.productService.allProducts();
+		List<OutputProductDTO> productDTOs = new ArrayList<>();
+		
+		list.forEach(p ->{
+			productDTOs.add(new OutputProductDTO(p));
+		});
+		
+		return productDTOs; 
+	}
+	
+	
+	
 	
 	public class InputProductDTO{}
 	

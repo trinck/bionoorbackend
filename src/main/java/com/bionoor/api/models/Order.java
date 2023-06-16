@@ -9,8 +9,8 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.bionoor.api.dto.InputOrderDTO;
 import com.bionoor.api.utils.OrderListener;
-import com.bionoor.api.web.RestOrder.InputOrderDTO;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -51,6 +51,11 @@ public class Order implements Serializable{
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Date createdAt; // date and time when the order was placed
 
+   
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    private Date modifiedAt; // date and time when the order was placed
+
+    
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "discountCode_id")
     private DiscountCode discountCode;
@@ -68,7 +73,7 @@ public class Order implements Serializable{
     @Column(nullable = false)
     private String adrress;
     
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "paymentMethod_id")
     private PaymentMethod paymentMethod;
     
@@ -87,9 +92,7 @@ public class Order implements Serializable{
     @OneToMany(mappedBy = "order",fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> orderItems = new ArrayList<>(); // list of items in the order
 
-   public Order(InputOrderDTO inputOrderDTO) {
-	   this.totalAmount = inputOrderDTO.getTotalAmount();
-   }
+   
 	
 
     // other properties and methods

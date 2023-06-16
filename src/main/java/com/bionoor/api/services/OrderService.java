@@ -2,15 +2,19 @@ package com.bionoor.api.services;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bionoor.api.dto.InputOrderDTO;
 import com.bionoor.api.dto.InputOrderInvoiceDTO;
+import com.bionoor.api.dto.InputOrderItemDTO;
 import com.bionoor.api.exceptions.DiscountCodeException;
 import com.bionoor.api.exceptions.IllegalOperationException;
+import com.bionoor.api.models.Customer;
 import com.bionoor.api.models.DiscountCode;
 import com.bionoor.api.models.Invoice;
 import com.bionoor.api.models.Order;
@@ -18,11 +22,10 @@ import com.bionoor.api.models.Order.OrderStatus;
 import com.bionoor.api.models.OrderItem;
 import com.bionoor.api.models.PayAsDelivered;
 import com.bionoor.api.models.Product;
+import com.bionoor.api.repositories.CustomerRepository;
 import com.bionoor.api.repositories.OrderItemRepository;
 import com.bionoor.api.repositories.OrderRepository;
 import com.bionoor.api.utils.InvoiceProcessingIn;
-import com.bionoor.api.web.RestOrder.InputOrderDTO;
-import com.bionoor.api.web.RestOrder.InputOrderItemDTO;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
@@ -52,7 +55,8 @@ public class OrderService {
 	@Autowired
 	private OrderItemService orderItemService;
 	
-
+	@Autowired
+	private CustomerRepository customerRepository;
 	
 	public Order add(Order toSave) {
 		
@@ -203,6 +207,8 @@ public class OrderService {
 	}
 	
 	
+	
+	/* put the item quantity*/
 public Order putOrderItemQuantity(Long id, int quantity, Long orderItemId) {
 		
 	
@@ -263,7 +269,7 @@ public Order addOrderInvoice(InputOrderInvoiceDTO inputOrderInvoiceDTO ) {
 		Order order = this.getById(id);
 		switch(method) {
 		
-		case 1: PayAsDelivered payAsDelivered = new PayAsDelivered();  
+		case 0: PayAsDelivered payAsDelivered = new PayAsDelivered();  
 								payAsDelivered.setCreatedAt(new Date()); 
 								payAsDelivered.setDescription("une petite description");	
 								order.setPaymentMethod(payAsDelivered); 
@@ -280,43 +286,56 @@ public Order addOrderInvoice(InputOrderInvoiceDTO inputOrderInvoiceDTO ) {
 	
 	public  Order add( InputOrderDTO inputOrderDTO ) {
 		
-		Order order = new Order(inputOrderDTO);
-		order.setDiscountCode(this.discountCodeService.getById(inputOrderDTO.getDiscountCode()));
-		order.setStatus(OrderStatus.PENDING);
-		order.setTotalAmount(inputOrderDTO.getTotalAmount());
-		order.setFulfilled(false);
 		
-		inputOrderDTO.getOrderItems().forEach(item ->{
+		if(inputOrderDTO.getOrderItems() == null || inputOrderDTO.getOrderItems().size() == 0) {
 			
-			OrderItem orderItem = new OrderItem(item);
-			
-			Product product = this.productService.findByName(item.getProductName());
-			if(product.getQuantity()< item.getQuantity()) {
-				throw new IllegalOperationException("quantity of product "+product.getName()+" is less than required");
-			}
-			 product.setQuantity(product.getQuantity()-item.getQuantity());
-			 orderItem.setProduct(product);
-			 orderItem.setOrder(order);
-			 order.getOrderItems().add(orderItem);
-			
-		});
-		
-		//*****put the method of payment for this order***/
-		
-		switch(inputOrderDTO.getPaymentMethod()) {
-		
-			case 1: PayAsDelivered payAsDelivered = new PayAsDelivered();  
-									payAsDelivered.setCreatedAt(new Date()); 
-									payAsDelivered.setDescription("Pay as delivered, and assure your order contains all your items");	
-									order.setPaymentMethod(payAsDelivered); 
-									break;
-			
-			default: break;
+			throw new IllegalArgumentException("the orderItems can't be null or empty");
 		}
 		
-		order.setCreatedAt(new Date());
 		
-		return this.add(order);
+		Order order = new Order();
+		
+		order.setAdrress("test Address");
+		Customer customer = this.customerRepository.findById(1L).orElse(null);
+		//set customer
+		order.setCustomer(customer);
+
+		//*****put the method of payment for this order***/
+		
+				switch(inputOrderDTO.getPaymentMethod()) {
+				
+					case 0: PayAsDelivered payAsDelivered = new PayAsDelivered(); 
+											//payAsDelivered.setCreatedAt(new Date()); 
+											payAsDelivered.setDescription("Pay as delivered, and assure your order contains all your items");	
+											order.setPaymentMethod(payAsDelivered); 
+											break;
+					
+					default: break;
+				}
+		
+		
+		//order = this.add(order);
+		//order = this.getById(order.getId());
+		
+		
+		
+		//add all items in new order
+		List<OrderItem> orderItems = new ArrayList<>();
+		for( InputOrderItemDTO item : inputOrderDTO.getOrderItems()) {
+			
+			OrderItem orderItem = new OrderItem(item);
+
+			Product product = this.productService.findByName(item.getProductName());
+			 orderItem.setProduct(product);
+			  orderItem.setOrder(order);
+			 //add item to list orderItems
+			 orderItems.add(orderItem);
+
+		}
+		//save all items
+		order.setOrderItems(orderItems);
+		
+		return this.add(order) ;
 	}
 
 

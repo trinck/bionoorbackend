@@ -2,8 +2,8 @@ package com.bionoor.api.models;
 
 import java.io.Serializable;
 
+import com.bionoor.api.dto.InputOrderItemDTO;
 import com.bionoor.api.utils.OrderItemListener;
-import com.bionoor.api.web.RestOrder.InputOrderItemDTO;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

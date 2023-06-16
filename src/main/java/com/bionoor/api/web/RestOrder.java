@@ -1,5 +1,6 @@
 package com.bionoor.api.web;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,14 +14,19 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bionoor.api.dto.InputOrderDTO;
 import com.bionoor.api.dto.InputOrderInvoiceDTO;
+import com.bionoor.api.dto.InputOrderItemDTO;
 import com.bionoor.api.dto.OutputDiscountCodeDTO;
 import com.bionoor.api.dto.OutputOrderDTO;
 import com.bionoor.api.dto.OutputOrderItemDTO;
+import com.bionoor.api.dto.OutputProductDTO;
 import com.bionoor.api.models.Order;
 import com.bionoor.api.models.OrderItem;
+import com.bionoor.api.models.Product;
 import com.bionoor.api.services.OrderService;
 
 import io.micrometer.common.lang.NonNull;
@@ -37,9 +43,27 @@ public class RestOrder {
 	
 	
 	@PostMapping(value = "/api/orders/save")
-	public Order addOrder(@RequestBody InputOrderDTO inputOrderDTO) {
+	public OutputOrderDTO addOrder(@RequestBody InputOrderDTO inputOrderDTO) {
 		
-	   return	this.orderService.add(inputOrderDTO);
+		Order order = this.orderService.add(inputOrderDTO);
+		
+	   return	 new OutputOrderDTO(order);
+	}
+	
+	
+	
+	@GetMapping(value = "/api/orders/all")
+	public List<OutputOrderDTO>  allOrders() {
+		
+		List<Order> list = this.orderService.allOrders();
+		List<OutputOrderDTO> orderDTOs = new ArrayList<>();
+		
+		list.forEach(o ->{
+			
+			orderDTOs.add(new OutputOrderDTO(o));
+		});
+		
+	   return	orderDTOs;
 	}
 	
 	
@@ -112,6 +136,7 @@ public class RestOrder {
 	
 	
 	@GetMapping(value = "/api/orders/index")
+	
 	public OutputOrderDTO findOrderById(@RequestParam Long id) {
 		
 		OutputOrderDTO orderDTO = new OutputOrderDTO( this.orderService.getById(id));
@@ -141,33 +166,8 @@ public class RestOrder {
 	
 	
 	
-	@Data
-	@NoArgsConstructor
-	public class InputOrderDTO{
-		
-		private Long id;
-	    private Long discountCode;
-	    
-	    private Double totalAmount; // total price of the order
-
-	    @NonNull
-	    private int paymentMethod;
-	    
-	    private List<InputOrderItemDTO> orderItems; // list of items in the order
-
-	   
-	}
 	
-	@Data
-	@NoArgsConstructor
-	public class InputOrderItemDTO{
-		 
-			private Long order;
-			private Long id;
-		    private int quantity; // quantity of the product in the order
-		    private String productName; // product that the order item refers to
-		    
-	}
+	
 	
 	
 	

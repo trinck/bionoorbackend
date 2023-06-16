@@ -1,11 +1,14 @@
 package com.bionoor.api.utils;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.bionoor.api.models.Order;
+import com.bionoor.api.models.Order.OrderStatus;
 
 import jakarta.persistence.PostUpdate;
 import jakarta.persistence.PrePersist;
@@ -28,6 +31,11 @@ public class OrderListener {
 	@PrePersist
 	public void prePersist(Order order) {
 		
+			order.setCreatedAt(new Date());
+			order.setStatus(OrderStatus.PENDING);
+			order.setFulfilled(false);
+			order.setTotalAmount(0d);
+		
 		this.invoiceProcessingIn.TotalAmountOrder(order, false);
 		
 	}
@@ -38,6 +46,7 @@ public class OrderListener {
 	public void preUpdate(Order order) {
 		
 		
+			order.setModifiedAt(new Date());
 		this.invoiceProcessingIn.TotalAmountOrder(order, false);
 		
 	}

@@ -6,11 +6,14 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.bionoor.api.utils.BionoorEntityListener;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.DiscriminatorType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,20 +30,18 @@ import lombok.NoArgsConstructor;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @AllArgsConstructor
+@EntityListeners(BionoorEntityListener.class)
 @DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING, name = "method")
-public abstract class PaymentMethod {
+public abstract class PaymentMethod extends GenericBionoorEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	protected Long id;
 	
-	@Column(nullable = false)
-	@DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
-	protected Date createdAt;
 	protected String description;
 	
 	@Column(name = "method", insertable = false, updatable = false)
-    private String discriminatorValue;
+    protected String discriminatorValue;
 	
 	
 	
