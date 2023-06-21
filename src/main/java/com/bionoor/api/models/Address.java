@@ -1,5 +1,7 @@
 package com.bionoor.api.models;
 
+import com.bionoor.api.dto.InputAddressDTO;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @NoArgsConstructor
-public class Address {
+public class Address extends GenericBionoorEntity{
 
 	
 	@Id
@@ -29,4 +31,8 @@ public class Address {
 	@OneToOne
 	@JoinColumn(name = "city_id")
 	private City city;
+	
+	public Address(InputAddressDTO addressDTO) {
+		this.street = addressDTO.getStreet();
+	}
 }

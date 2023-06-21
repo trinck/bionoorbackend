@@ -24,7 +24,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "users")
-public class User implements Serializable{
+public class User extends GenericBionoorEntity implements Serializable{
 
 	
 	

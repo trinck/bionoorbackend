@@ -1,0 +1,45 @@
+@charset "UTF-8";
+
+
+
+.media-opt{
+	
+	background: linear-gradient(to bottom, rgba(0,0,0,.1), rgba(0,0,0,.3), rgba(0,0,0,.7) );
+	width: 100%;
+	height: 100%;
+	color: white;
+	padding: 8px;
+	position: absolute;
+	z-index: 2;
+	top: 0px;
+	cursor: pointer;
+	
+}
+
+
+
+.media-view{
+	
+	
+	position: relative;
+	top: 0px;
+	z-index: 3;
+	cursor: pointer;
+	
+}
+
+.media-view:hover{
+	
+	z-index: 1;
+	
+}
+
+
+.media-opt:hover{
+	
+	z-index: 3;
+	
+}
+
+
+

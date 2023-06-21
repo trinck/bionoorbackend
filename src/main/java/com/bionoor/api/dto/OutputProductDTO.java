@@ -53,6 +53,8 @@ public class OutputProductDTO {
   
     private Double price; // product price
     
+    private boolean isOnSale; // product price
+    
   
     private Long quantity; // product price
     
@@ -100,6 +102,7 @@ public class OutputProductDTO {
         this.promotion = product.getPromotion();
         
         this.images = product.getImages();
+        this.isOnSale = product.isOnSale();
     	
     }
    

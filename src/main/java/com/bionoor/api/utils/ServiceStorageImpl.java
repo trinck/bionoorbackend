@@ -20,7 +20,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.bionoor.api.models.Document;
 import com.bionoor.api.models.Media;
+import com.bionoor.api.services.DocumentService;
 import com.bionoor.api.services.MediaService;
 
 @Service
@@ -32,20 +34,30 @@ public class ServiceStorageImpl  implements ServiceStorageIn{
 	@Value("${app.users.profile.storage}")
 	private String rootProfile;
 	
+	@Value("${app.professional.documents.storage}")
+	private String rootDocuments;
+	
 	private Path pathMedia;
 	
+	private Path pathDocument;
+	
 	@Autowired
-	MediaService mediaService;
+	private MediaService mediaService;
+	
+	@Autowired
+	private DocumentService documentService;
 	
 	@Override
 	public void init() {
 		
 		this.pathMedia = Paths.get(rootMedia);
+		this.pathDocument = Paths.get(rootDocuments);
 		
 		try {
 		      Files.createDirectories(this.pathMedia);
+		      Files.createDirectories(this.pathDocument);
 		    } catch (IOException e) {
-		      throw new RuntimeException("Could not initialize folder for media!");
+		      throw new RuntimeException("Could not initialize folder for media and/or professional documents!");
 		    }
 	}
 
@@ -189,6 +201,49 @@ public class ServiceStorageImpl  implements ServiceStorageIn{
 		
 		
 		return medias;
+	}
+
+	@Override
+	public Document store(Document document, MultipartFile file) {
+		
+		
+		document.setSize(file.getSize());
+		
+		document.setType(file.getContentType());
+		String fileName = file.getOriginalFilename();
+		
+		
+		
+		
+		try {
+		      Files.copy(file.getInputStream(), this.pathDocument.resolve(fileName));
+		      document.setName(fileName);
+		    } catch (Exception e) {
+		      if (e instanceof FileAlreadyExistsException) {
+		    	      
+		        try { 
+	    			 
+		    		Date date = new Date();
+					Files.copy(file.getInputStream(), this.pathDocument.resolve(""+date.getTime()+fileName));
+					document.setName(""+date.getTime()+fileName);
+					
+				} catch (IOException eio) {
+					// TODO Auto-generated catch block
+					eio.printStackTrace();
+				}
+		        
+		      }else {
+		    	  
+		    	  e.printStackTrace();;
+		      }
+		      
+		      
+		    }
+		
+		document.setUrl(this.rootDocuments+"/"+document.getName());
+		
+		
+		return this.documentService.add(document);
 	}
 
 }

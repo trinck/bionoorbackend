@@ -15,6 +15,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -53,6 +54,7 @@ public class Product extends Discountable implements Serializable{
     
    
   
+    @Column(length = 10000)
     private String description; // product description
 
     @Column(nullable = false)
@@ -62,6 +64,8 @@ public class Product extends Discountable implements Serializable{
     private Long quantity; // product price
     
     private Double promotion; // promotion
+    
+    private boolean isOnSale; // promotion
 
 	/*
 	 * @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
