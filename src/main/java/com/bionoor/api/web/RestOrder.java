@@ -9,10 +9,14 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,6 +39,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @RestController
+@RequestMapping("api/orders")
 public class RestOrder {
 
 	@Autowired
@@ -42,8 +47,8 @@ public class RestOrder {
 	
 	
 	
-	@PostMapping(value = "/api/orders/save")
-	public OutputOrderDTO addOrder(@RequestBody InputOrderDTO inputOrderDTO) {
+	@PostMapping(value = "/save")
+	public OutputOrderDTO addOrder(@RequestBody @Valid InputOrderDTO inputOrderDTO) {
 		
 		Order order = this.orderService.add(inputOrderDTO);
 		
@@ -52,7 +57,7 @@ public class RestOrder {
 	
 	
 	
-	@GetMapping(value = "/api/orders/all")
+	@GetMapping
 	public List<OutputOrderDTO>  allOrders() {
 		
 		List<Order> list = this.orderService.allOrders();
@@ -68,7 +73,7 @@ public class RestOrder {
 	
 	
 	
-	@PostMapping(value = "/api/orders/put/fulfilled")
+	@PostMapping(value = "/put/fulfilled")
 	public ResponseEntity<String> toogleFulfilled(@RequestParam Boolean fulfilled, @RequestParam Long id) {
 		
 		
@@ -77,7 +82,7 @@ public class RestOrder {
 	}
 	
 	
-	@PostMapping(value = "/api/orders/orderItems/delete")
+	@PostMapping(value = "/orderItems/delete")
 	public OutputOrderDTO deleteOrderItem(@RequestParam Long orderItemId, @RequestParam Long id) {
 		
 		
@@ -87,7 +92,7 @@ public class RestOrder {
 	
 	
 	
-	@GetMapping(value = "/api/orders/discountCode/delete")
+	@GetMapping(value = "/discountCode/delete")
 	public OutputOrderDTO deleteDiscountCode( @RequestParam Long id) {
 		
 		return new OutputOrderDTO( this.orderService.deleteDiscountCode(id));
@@ -95,7 +100,7 @@ public class RestOrder {
 	}
 	
 	
-	@GetMapping(value = "/api/orders/discountCode/get")
+	@GetMapping(value = "/discountCode/get")
 	public OutputDiscountCodeDTO getDiscountCode( @RequestParam Long id) {
 		
 		return new OutputDiscountCodeDTO(this.orderService.getDiscountCode(id));
@@ -103,7 +108,7 @@ public class RestOrder {
 	}
 	
 	
-	@PostMapping(value = "/api/orders/discountCode/add")
+	@PostMapping(value = "/discountCode/add")
 	public OutputOrderDTO addDiscountCode(@RequestParam String code, @RequestParam Long id) {
 		
 	   return	 new OutputOrderDTO(this.orderService.addDiscountCode(code, id));
@@ -111,7 +116,7 @@ public class RestOrder {
 	
 	
 	
-	@PostMapping(value = "/api/orders/orderItems/save")
+	@PostMapping(value = "/orderItems/save")
 	public OutputOrderDTO addOrderItem(@ModelAttribute InputOrderItemDTO inputOrderItemDTO) {
 		
 		
@@ -122,7 +127,7 @@ public class RestOrder {
 	
 	
 	
-	@PostMapping(value = "/api/orders/invoice/save")
+	@PostMapping(value = "/invoice/save")
 	public OutputOrderDTO addOrderInvoice(@ModelAttribute @Valid InputOrderInvoiceDTO inputOrderInvoiceDTO) {
 		
 		
@@ -135,9 +140,9 @@ public class RestOrder {
 	
 	
 	
-	@GetMapping(value = "/api/orders/index")
+	@GetMapping(value = "/{id}")
 	
-	public OutputOrderDTO findOrderById(@RequestParam Long id) {
+	public OutputOrderDTO findOrderById(@PathVariable Long id) {
 		
 		OutputOrderDTO orderDTO = new OutputOrderDTO( this.orderService.getById(id));
 		
@@ -148,7 +153,7 @@ public class RestOrder {
 	
 	
 	
-	@PostMapping(value = "/api/orders/orderItems/put/quantity")
+	@PostMapping(value = "/orderItems/put/quantity")
 	public OutputOrderDTO putOrderItemQuantity(@RequestParam int quantity, @RequestParam Long id,  @RequestParam Long orderItemId ) {
 		
 		
@@ -158,11 +163,13 @@ public class RestOrder {
 	}
 	
 	
-	@PostMapping(value = "/api/orders/put/status")
+	@PostMapping(value = "/put/status")
 	public OutputOrderDTO putStatus(@RequestParam String status, @RequestParam long id) {
 		
 	   return new OutputOrderDTO(this.orderService.putStatus(status, id))	;
 	}
+	
+	
 	
 	
 	

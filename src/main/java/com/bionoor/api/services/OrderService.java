@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -294,9 +295,9 @@ public Order addOrderInvoice(InputOrderInvoiceDTO inputOrderInvoiceDTO ) {
 		
 		
 		Order order = new Order();
-		
+	
 		order.setAdrress("test Address");
-		Customer customer = this.customerRepository.findById(1L).orElse(null);
+		Customer customer = this.customerRepository.findById(UUID.fromString("24f19be7-84c3-4fd3-94be-bec9e2ff4a97")).orElse(null);
 		//set customer
 		order.setCustomer(customer);
 
@@ -321,10 +322,13 @@ public Order addOrderInvoice(InputOrderInvoiceDTO inputOrderInvoiceDTO ) {
 		
 		//add all items in new order
 		List<OrderItem> orderItems = new ArrayList<>();
+		
+		
 		for( InputOrderItemDTO item : inputOrderDTO.getOrderItems()) {
 			
 			OrderItem orderItem = new OrderItem(item);
 
+			
 			Product product = this.productService.findByName(item.getProductName());
 			 orderItem.setProduct(product);
 			  orderItem.setOrder(order);

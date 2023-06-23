@@ -2,6 +2,7 @@ package com.bionoor.api.web;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,7 +29,7 @@ public class RestCustomer {
 	 private  CustomerService customerService;
 
 	    @GetMapping("/{id}")
-	    public OutputCustomerDTO getCustomerById(@PathVariable Long id) {
+	    public OutputCustomerDTO getCustomerById(@PathVariable UUID id) {
 	        Customer customer = customerService.getCustomerById(id);
 	       return new OutputCustomerDTO(customer);
 	    }
@@ -58,7 +59,7 @@ public class RestCustomer {
 	    
 
 	    @DeleteMapping("/{id}")
-	    public OutputCustomerDTO deleteCustomer(@PathVariable Long id) {
+	    public OutputCustomerDTO deleteCustomer(@PathVariable UUID id) {
 	      
 	         Customer  customer =   this.customerService.deleteCustomer(id);
 	           

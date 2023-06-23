@@ -12,7 +12,7 @@
     <!-- start hearder commun with all pages -->
     	<header class="d-flex border-bottom p-1 gap-2 align-items-center" >
     		
-    		<h5  >Media Library</h5> 
+    		<h5  th:text="${authentication.principal.username}"></h5> 
     		
     		<!-- breadcrumb -->
 			
@@ -48,18 +48,7 @@
 	    		
 	    			<!-- table header -->
 				<div class="bio-table-head d-flex gap-2 my-3">
-					<div class="input-group w-25 input-group-sm">
-						<input type="search" class="form-control "
-							placeholder="category's name">
-						<a class="btn btn-outline-primary" type="button"
-							id="button-addon2"><i class="bi bi-search"></i></a>
-					</div>
-
-
-
-					
-					
-
+			
 				</div>
 	    		
 				<!-- media header end -->
@@ -71,13 +60,13 @@
 						
 						<div th:each="col, index:${medias}" class="col-12 col-lg-4 d-flex flex-column gap-2 col-md-6 flex-wrap">
 							
-								<div th:each="media:${col}" class="position-relative">
-									<img   th:src="${media.url}"  class="w-100 media-view ">
+								<div th:each="media:${col}" class="position-relative" onmouseleave="onMediaLeave(event)" >
+									<img   th:src="${media.url}" class=" media-view " onmouseover="onMediaHover(event)">
 									<div class="media-opt  d-flex flex-column justify-content-end">
 										<span th:text="${media.name}" class="media-name ">	
 										</span>
 										
-										<div class="d-flex gap-2">
+										<div class="d-flex gap-2 media-action">
 											<span th:text="${media.type}"></span>  <i class="bi bi-pencil-square " style="font-size: large;"></i>
 										</div>
 									</div>
@@ -126,7 +115,9 @@
 	    	
 	    	
 	    </section>
-	    
+	    <script src="js/medias/medias.js">
+			
+		</script>
     </div>
 </body>
 </html>

@@ -2,6 +2,7 @@ package com.bionoor.api.dto;
 
 
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,7 @@ public class InputOrderItemDTO{
 		@Min(value = 1 )
 	    private int quantity; // quantity of the product in the order
 		@NotEmpty
+		@NotBlank
 	    private String productName; // product that the order item refers to
 	    
 }

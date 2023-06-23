@@ -53,13 +53,10 @@ public class Invoice implements Serializable{
     
     private Double transport; 
     
-    @ManyToOne()
-    @JoinColumn(name = "created_by_id", nullable = true)
-    private User createdBy;
     
-    @ManyToOne()
-    @JoinColumn(name = "modified_by_id", nullable = true)
-    private User modifiedBy;
+    private String createdBy;
+    
+    private String modifiedBy;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm;ss")
     private Date dueDate;

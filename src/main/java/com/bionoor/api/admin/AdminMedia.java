@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +29,7 @@ public class AdminMedia {
 	@GetMapping(value = "/medias")
 	public String getMedias(Model model) {
 		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		model.addAttribute("name", name);
 		
 		List<Media>  listmedias = this.mediaService.getAll();
@@ -41,6 +44,7 @@ public class AdminMedia {
 		medias.add(col1);
 		medias.add(col2);
 		medias.add(col3);
+		model.addAttribute("authentication", authentication);
 		
 		model.addAttribute("medias", medias);
 		

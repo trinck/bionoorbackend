@@ -21,4 +21,9 @@ public abstract class GenericBionoorEntity {
 	
 	@DateTimeFormat(pattern = "yyy-MM-dd hh:mm:ss")
 	protected Date modifiedAt;
+	
+	
+	 private String createdBy;
+	    
+	  private String modifiedBy;
 }

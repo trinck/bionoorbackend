@@ -1,5 +1,7 @@
 package com.bionoor.api.dto;
 
+import java.util.UUID;
+
 import com.bionoor.api.models.Address;
 import com.bionoor.api.models.City;
 import com.bionoor.api.models.Customer;
@@ -25,7 +27,7 @@ public class OutputAddressDTO {
 	private String street;
 	
 	
-	private Long customerId;
+	private UUID customerId;
 	
 	
 	private OutputCityDTO city;

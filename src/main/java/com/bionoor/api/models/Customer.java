@@ -3,6 +3,7 @@ package com.bionoor.api.models;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import com.bionoor.api.dto.InputCustomerDTO;
 
@@ -25,8 +26,8 @@ public abstract class Customer extends GenericBionoorEntity implements Serializa
 	
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    protected UUID id;
     @Column(unique = true)
 	protected String username;
     
@@ -58,8 +59,6 @@ public abstract class Customer extends GenericBionoorEntity implements Serializa
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     protected List<Review> reviews = new ArrayList<>(); // list of reviews associated with the user
 	 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-    protected List<Payment> payments = new ArrayList<>(); // payments realized by customers 
    
     @Column(nullable = false, unique = true)
     protected String email;

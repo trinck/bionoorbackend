@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -269,8 +269,8 @@
 						
 						</span>
                         <!-- Nav Item - User Information -->
-                        <div class="d-flex  align-items-center gap-2">
-                        	<span class="">User name, or email</span>
+                        <div class="d-flex  align-items-center gap-2" >
+                        	<span    sec:authentication="name" >Username</span>
                         	<div class="border border-warning d-flex justify-content-center align-items-center border-1 rounded-circle" style="width: 50px; height: 50px;"><img class=" rounded-circle" alt="" src="assets/media/Capture d’écran (192).png" style="width: 40px; height: 40px"></div>
                         </div>
                           

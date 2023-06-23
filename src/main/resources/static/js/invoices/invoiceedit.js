@@ -24,7 +24,7 @@ function getOrder(){
 	
 	
 	 var id = document.querySelector(".order-info").id
-	 url = "/api/orders/index?id="+id
+	 url = "/api/orders/"+id
 	try{
 			 fetchFunction(url,"GET", null, resultOrder => order = {...resultOrder})
 					

@@ -1,6 +1,7 @@
 package com.bionoor.api.services;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class CustomerService {
 	@Autowired
 	private CityService cityService;
 	
-	public Customer getCustomerById(Long id) {
+	public Customer getCustomerById(UUID id) {
         
 		
 	   Customer customer =	customerRepository.findById(id).orElse(null);
@@ -71,7 +72,7 @@ public class CustomerService {
         return customerRepository.save(customer);
     }
 
-    public Customer deleteCustomer(Long id) {
+    public Customer deleteCustomer(UUID id) {
 
     	Customer customer = this.getCustomerById(id);
         customerRepository.deleteById(id);

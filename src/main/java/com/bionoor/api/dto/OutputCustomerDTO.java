@@ -2,6 +2,7 @@ package com.bionoor.api.dto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import com.bionoor.api.models.Address;
 import com.bionoor.api.models.Customer;
@@ -17,7 +18,7 @@ public class OutputCustomerDTO {
 
 	
 	
-		private Long id;
+		private UUID id;
 
 	    private String username;
 

@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
+import java.util.NoSuchElementException;
 
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.HttpHeaders;
@@ -36,6 +36,19 @@ public class RestResponseExceptionHandler  extends ResponseEntityExceptionHandle
     
     @ExceptionHandler(value = {EntityNotFoundException.class})
     public ResponseEntity<ResponseMessageException> handleEntityNotFound(EntityNotFoundException ex, WebRequest request ){
+    	
+    	ResponseMessageException exception = new ResponseMessageException();
+    	exception.setMessage(ex.getMessage());
+    	exception.setDateTime(LocalDateTime.now());
+    	exception.setStatus(HttpStatus.NOT_FOUND.value());
+    	
+    	return new ResponseEntity<ResponseMessageException>(exception, HttpStatus.NOT_FOUND);
+    }
+    
+    
+    
+    @ExceptionHandler(value = {NoSuchElementException.class})
+    public ResponseEntity<ResponseMessageException> handleNoSuchElementException(NoSuchElementException ex, WebRequest request ){
     	
     	ResponseMessageException exception = new ResponseMessageException();
     	exception.setMessage(ex.getMessage());

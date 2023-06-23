@@ -16,7 +16,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "payments")
-public class Payment implements Serializable{
+public class Payment extends GenericBionoorEntity implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,15 +24,6 @@ public class Payment implements Serializable{
 
     @Column(nullable = false)
     private Double amount; // amount of the payment
-
-    @Column(nullable = false)
-    private Date date; // date and time when the payment was made
-
-    @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
-    private Customer customer; // invoice that the payment is associated with
-
-    
     
     @ManyToOne
     @JoinColumn(name = "invoice_id", nullable = false)

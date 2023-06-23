@@ -3,6 +3,7 @@ package com.bionoor.api.dto;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -52,7 +53,7 @@ public class OutputOrderDTO {
     private OutputInvoiceDTO invoice;
     
     
-    private Long customer; // user who placed the order
+    private UUID customer; // user who placed the order
 
     private List<OutputOrderItemDTO> orderItems = new ArrayList<>(); // list of items in the order
 
