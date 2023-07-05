@@ -4,7 +4,7 @@
 
  
  
- function onMediaHover(event){
+async function onMediaHover(event){
 	 
 	
 	var parent = event.target.parentElement
@@ -16,7 +16,7 @@
  
  
  
- function onMediaLeave(event){
+async function onMediaLeave(event){
 	var parent = event.target
 	
 	var mediaOpt = parent.querySelector(".media-opt") 

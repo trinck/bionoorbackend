@@ -2,8 +2,10 @@ package com.bionoor.api.models;
 
 import java.io.Serializable;
 
-import com.bionoor.api.web.RestDiscount.InputDiscountIn;
+import com.bionoor.api.dto.InputDiscountCustomerDTO;
+import com.bionoor.api.dto.InputDiscountIn;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -31,14 +33,23 @@ public class DiscountDCC extends DiscountCode implements Serializable{
 	
 	@Enumerated(EnumType.STRING)
 	private Type type;
-	@ManyToOne
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinColumn(name = "cusromer_id")
 	private Customer customer;
 	
 	
-	public DiscountDCC(InputDiscountIn discountCategory) {
+	public DiscountDCC(InputDiscountIn discountCode) {
     	
-    	super(discountCategory);
+    	super(discountCode);
+    	InputDiscountCustomerDTO discountCustomerDTO = (InputDiscountCustomerDTO) discountCode;
+    	
+    	this.isUnique = discountCustomerDTO.getUnique();
+    	
+    	switch(discountCustomerDTO.getType()) {
+    	
+    		case "amount": this.type = Type.AMOUNT;break;
+    		default: this.type =Type.PERCENTAGE; break;
+    	}
     	
     }
 }

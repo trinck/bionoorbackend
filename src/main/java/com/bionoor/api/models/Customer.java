@@ -41,7 +41,7 @@ public abstract class Customer extends GenericBionoorEntity implements Serializa
 	  = @JoinColumn(name="discountCode_id") )
 	  protected List<DiscountCode> usedDiscountCodes= new ArrayList<>(); // discount codes used by customer
 	 
-	@OneToMany(mappedBy = "customer", orphanRemoval = true)
+	@OneToMany(mappedBy = "customer", orphanRemoval = true, cascade = CascadeType.ALL)
 	protected List<DiscountDCC> discountDCCs = new ArrayList<>();
 	  
 	  

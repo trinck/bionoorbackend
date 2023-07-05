@@ -9,7 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.bionoor.api.models.Order;
 import com.bionoor.api.models.Order.OrderStatus;
-import com.bionoor.api.models.PayAsDelivered;
+import com.bionoor.api.models.PaymentAsDelivered;
 import com.bionoor.api.models.PaymentMethod;
 import com.bionoor.api.utils.Utils;
 

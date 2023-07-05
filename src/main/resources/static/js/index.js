@@ -32,11 +32,13 @@
  
  //the generic method to consume api
  
- async function fetchFunction(url, method="POST", body=null, caller){
+ async function fetchFunction(url, method="POST", body=null,  caller){
 	 
+	
 	 fetch(url,{
 					method: method,
-					body: body,
+					body: body
+					
 					
 					
 				}).then(response => {
@@ -60,3 +62,46 @@
 				})
 	 
  }
+ 
+ 
+ 
+ 
+ 
+ async function fetchFunctionJson(url, method="POST", body=null,  caller){
+	 
+	
+	 fetch(url,{
+					method: method,
+					body: body,
+					headers:{
+						"Content-Type": "application/json"
+					}
+					
+					
+					
+				}).then(response => {
+					if(response.status == 200){return response.json()}
+					
+					
+					response.json().then(error =>{
+						
+						console.log(error.message, "\n at "+ error.dateTime)
+						 showToast(error.message)
+						
+					})
+					
+					throw new Error("error occured: "+response.status);	
+					
+					
+				})
+				.then(caller)
+				.catch(error => {
+					console.log(error)
+				})
+	 
+ }
+ 
+ 
+ 
+ 
+ 

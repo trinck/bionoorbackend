@@ -17,9 +17,14 @@ import com.bionoor.api.models.DiscountDCP;
 import com.bionoor.api.models.Discountable;
 import com.bionoor.api.models.Invoice;
 import com.bionoor.api.models.Order;
+import com.bionoor.api.models.Order.OrderStatus;
 import com.bionoor.api.models.OrderItem;
+import com.bionoor.api.models.Payment;
 import com.bionoor.api.models.Product;
 import com.bionoor.api.services.DiscountCodeService;
+import com.bionoor.api.services.ProductService;
+import com.bionoor.api.services.ProductServiceIn;
+import com.bionoor.api.services.ProductServiceIn;
 
 
 @Service
@@ -28,11 +33,13 @@ public class InvoiceProcessingImp implements InvoiceProcessingIn {
 	
 	@Autowired
 	private DiscountCodeService discountCodeService;
+	@Autowired
+	private ProductServiceIn productServiceIn;
 	
 	@Override
-	public Order TotalAmountOrder(Order order, Boolean definitely) {
+	public Order TotalAmountOrder(Order order) {
 		
-		
+		boolean isFinalyzed = (!order.isFulfilled() && order.getStatus()== OrderStatus.READY)? true: false; 
 		Double amountInvoice = 0d;
 		Double amountHT= 0d;
 		
@@ -42,7 +49,7 @@ public class InvoiceProcessingImp implements InvoiceProcessingIn {
 		
 		
 		//compute the total  HT amount
-		if(code != null && code.getActif()) {
+		if(code != null) {
 			
 			List<OrderItem> toReduceOrderItems = new ArrayList<>();
 			List<OrderItem> otherOrderItems = new ArrayList<>();
@@ -50,11 +57,15 @@ public class InvoiceProcessingImp implements InvoiceProcessingIn {
 				
 					Product product = item.getProduct();
 					for(Discountable discountable: code.getDiscountables()){
-						if(discountable instanceof Product && product.getId() == discountable.getId()) { toReduceOrderItems.add(item); }
-						else if(discountable instanceof Category && product.getCategory().getId() == discountable.getId()){ toReduceOrderItems.add(item); }
-						else { otherOrderItems.add(item); }
+						if(discountable instanceof Product && product.getId().equals( discountable.getId())) { toReduceOrderItems.add(item); break;}
+						else if(discountable instanceof Category && product.getCategory().getId().equals(discountable.getId())){ toReduceOrderItems.add(item); break;}
+						
 					}
-		
+					
+					if(!toReduceOrderItems.contains(item)) {
+						 otherOrderItems.add(item);
+					}
+					
 			}
 			
 			//the nature of discount coe (DCC or DCP
@@ -62,7 +73,7 @@ public class InvoiceProcessingImp implements InvoiceProcessingIn {
 				
 				try {
 					DiscountDCC dcc = (DiscountDCC) Utils.getTargetObject(code, DiscountDCC.class);
-					amountHT+= reduceDCC(dcc, toReduceOrderItems, definitely);
+					amountHT+= reduceDCC(dcc, toReduceOrderItems, order.isFulfilled());
 				} catch (Exception e) {
 					// TODO: handle exception
 					e.printStackTrace();
@@ -74,8 +85,8 @@ public class InvoiceProcessingImp implements InvoiceProcessingIn {
 			else if(code.getDiscriminatorValue().equalsIgnoreCase("DCP") && toReduceOrderItems.size()>0){
 				
 				 try {
-					DiscountCode dcp = Utils.getTargetObject(code, DiscountDCP.class);
-					amountHT += reduceDCP(toReduceOrderItems, (DiscountDCP) dcp , definitely);
+					 DiscountDCP dcp =  (DiscountDCP) Utils.getTargetObject(code, DiscountDCP.class);
+					amountHT += reduceDCP(toReduceOrderItems, dcp , order.isFulfilled(), order);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -84,11 +95,12 @@ public class InvoiceProcessingImp implements InvoiceProcessingIn {
 			}
 			
 			//add the other's price, for undiscountables items
-			amountHT += AmountOrderWithoutReduce(otherOrderItems);
+			amountHT += AmountOrderWithoutReduce(otherOrderItems,isFinalyzed);
+			
 		}else { 
 			
 			//add the  price, for undiscountables items if the discount doesn't exists
-			amountHT += AmountOrderWithoutReduce(order.getOrderItems());
+			amountHT += AmountOrderWithoutReduce(order.getOrderItems(), isFinalyzed);
 			
 			
 		}
@@ -101,7 +113,6 @@ public class InvoiceProcessingImp implements InvoiceProcessingIn {
 		order.setTotalAmount(amountHT);
 		//return order if not invoiceed // yet //
 		if(invoice == null) {
-			
 			
 			return order;
 		}
@@ -122,8 +133,18 @@ public class InvoiceProcessingImp implements InvoiceProcessingIn {
 	    
 	    invoice.setTotalAmount(amountInvoice);
 	    
+	    //compute th dueTpay
+	    double dueToPay = amountInvoice;
+	    for(Payment payement: invoice.getPayments()) {
+	    	dueToPay -= payement.getAmount();
+	    }
 	    
+	    //update fulfilled if true
+	    if(isFinalyzed) {
+	    	order.setFulfilled(isFinalyzed);
+	    }
 	    
+	    invoice.setDueToPay(dueToPay);
 		
 		return order;
 	}
@@ -153,17 +174,32 @@ public class InvoiceProcessingImp implements InvoiceProcessingIn {
 		      }
 		      
 		      //delete if unique useful
-	    	  if(dcc.getIsUnique() && definitely){ this.discountCodeService.delete(dcc.getId()); }
+	    	  if(dcc.getIsUnique() && definitely){ 
+	    		  
+	    		//  this.discountCodeService.delete(dcc.getId());
+	    		  dcc.setActif(false);	    	  
+	    		  
+	    	  }
 			
 		}else {
 			
 				for(OrderItem item: items) {
 					
 					toPay += item.getProduct().getPrice() * item.getQuantity() ;
+					
+					if(definitely) {
+						updateProduct(item.getProduct(), item);
+						
+					}
 				}
 				
 				//computing according to percentage discount
 				toPay = toPay - (0.01* toPay* dcc.getDiscount());
+				
+				if(definitely){ 
+		    		  dcc.setActif(false);	    	  
+		    		  
+		    	  }
 				
 		}
 		
@@ -172,25 +208,38 @@ public class InvoiceProcessingImp implements InvoiceProcessingIn {
 	}
 	
 	
-	private Double reduceDCP(List<OrderItem> items, DiscountDCP dcp, Boolean definitely) {
+	private Double reduceDCP(List<OrderItem> items, DiscountDCP dcp, Boolean definitely, Order order) {
 		
 		Double toPay = 0d;
 		
 		for(OrderItem item: items) {
 			
 			toPay += item.getProduct().getPrice() * item.getQuantity() ;
+			
+			if(definitely) {  
+				Product product = item.getProduct();
+				updateProduct(product, item);
+				
+			}
 		}
 		
 		//computing according to percentage discount
 		toPay = toPay - (0.01* toPay* dcp.getDiscount());
 		
 		 //delete if not reusable useful
-  	    if(!dcp.getReusable() && definitely){ this.discountCodeService.delete(dcp.getId()); }
+			if(!dcp.getReusable() && definitely){
+  	    	 dcp.setActif(false); 	    	
+  	    	}else if(definitely) {
+  	    		
+  	    		order.getCustomer().getUsedDiscountCodes().add(dcp);
+  	    		dcp.getUsedBy().add(order.getCustomer());
+  	    	}
+  	    
 		
 		return toPay;
 	}
 	
-	public Double AmountOrderWithoutReduce(List<OrderItem> items) {
+	public Double AmountOrderWithoutReduce(List<OrderItem> items , Boolean definitely) {
 		
 		
 			Double toPay = 0d;
@@ -199,6 +248,11 @@ public class InvoiceProcessingImp implements InvoiceProcessingIn {
 				
 			
 				toPay += (item.getProduct().getPrice() * item.getQuantity()) ;
+				
+				if(definitely) {  
+					Product product = item.getProduct();
+					updateProduct(product, item);
+				}
 			}
 		
 		return toPay;
@@ -213,9 +267,13 @@ public class InvoiceProcessingImp implements InvoiceProcessingIn {
 	
 
 	
-	
-	
-	
+	private void updateProduct(Product product, OrderItem item) {
+		
+		System.out.println("update product quantity*****************");
+		product.setQuantity(product.getQuantity() - item.getQuantity());
+		this.productServiceIn.add(product);
+		
+	}
 	
 	
 	

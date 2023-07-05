@@ -56,7 +56,7 @@ public class Order implements Serializable{
     private Date modifiedAt; // date and time when the order was placed
 
     
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "discountCode_id")
     private DiscountCode discountCode;
     
@@ -81,11 +81,11 @@ public class Order implements Serializable{
     private boolean fulfilled; // flag indicating whether the order has been fulfilled
 
     
-    @OneToOne(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToOne(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Invoice invoice;
     
     
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "customer_id", nullable = true)
     private Customer customer; // user who placed the order
 

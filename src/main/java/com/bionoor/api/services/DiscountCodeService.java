@@ -1,14 +1,17 @@
 package com.bionoor.api.services;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bionoor.api.dto.InputDiscountCustomerDTO;
 import com.bionoor.api.exceptions.FieldsAlreadyExistsException;
 import com.bionoor.api.models.Category;
+import com.bionoor.api.models.Customer;
 import com.bionoor.api.models.DiscountCode;
 import com.bionoor.api.models.DiscountDCC;
 import com.bionoor.api.models.DiscountDCP;
@@ -30,6 +33,9 @@ public class DiscountCodeService{
 	
 	@Autowired
 	private CategoryService categoryService;
+	
+	@Autowired
+	private CustomerService customerService;
 	
 	public DiscountCode add(DiscountCode toSave) {
 		
@@ -71,7 +77,7 @@ public class DiscountCodeService{
 			customer.getUsedDiscountCodes().remove(discountCode);
 		});
 		
-		if(discountCode.getDiscriminatorValue().equalsIgnoreCase("DDC")) {
+		if(discountCode.getDiscriminatorValue().equalsIgnoreCase("DCC")) {
 			((DiscountDCC)discountCode ).getCustomer().getDiscountDCCs().remove(discountCode);
 		}else {
 			
@@ -89,7 +95,7 @@ public class DiscountCodeService{
 		return null;
 	}
 	
-	public DiscountCode addInput(InputDiscountProduct inputDiscount) throws SQLIntegrityConstraintViolationException {
+	public DiscountCode addInput(InputDiscountProduct inputDiscount)  {
 		
 		
 		  DiscountCode discountCode = new DiscountDCP(inputDiscount); 
@@ -104,6 +110,50 @@ public class DiscountCodeService{
 		//return discountCode;
 		return discountCode;
 	}
+	
+	
+	
+	
+	
+	public DiscountCode addInput(InputDiscountCustomerDTO inputDiscount)  {
+		
+		
+		 final DiscountCode discountCode = new DiscountDCC(inputDiscount); 
+		  
+		  List<Product> products = new ArrayList<>();
+		  List<Category> categories = new ArrayList<>();
+		  Customer customer = this.customerService.getCustomerById(inputDiscount.getCustomerId());
+		  
+			 
+		  products = this.productService.getProductRepository().findByNames(inputDiscount.getProducts());	 
+		  categories =this.categoryService.getCategoryRepository().findByNames(inputDiscount.getCategories());
+		  
+		  
+		//  product.getDiscountCodes().add(discountCode);
+		 // discountCode.getDiscountables().add(product);
+		 // discountCode.setActif(true);
+		  
+		//  
+		 
+		 discountCode.getDiscountables().addAll(products);
+		 discountCode.getDiscountables().addAll(categories);
+		 
+		 discountCode.getDiscountables().forEach(d ->{
+			 d.getDiscountCodes().add(discountCode);
+		 });
+		 
+		 ((DiscountDCC)discountCode).setCustomer(customer);
+		 DiscountCode savedDiscount = this.codeRepository.save(discountCode);	 
+		 customer.getDiscountDCCs().add((DiscountDCC) savedDiscount); 
+		 this.customerService.createCustomer(customer);
+		 
+		return savedDiscount;
+	}
+	
+	
+	
+	
+	
 	
 	
 	public DiscountCode addInput(InputDiscountCategory inputDiscount) {

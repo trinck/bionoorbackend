@@ -21,7 +21,8 @@ import com.bionoor.api.models.Invoice;
 import com.bionoor.api.models.Order;
 import com.bionoor.api.models.Order.OrderStatus;
 import com.bionoor.api.models.OrderItem;
-import com.bionoor.api.models.PayAsDelivered;
+import com.bionoor.api.models.PaymentAsDelivered;
+import com.bionoor.api.models.PaymentMethod;
 import com.bionoor.api.models.Product;
 import com.bionoor.api.repositories.CustomerRepository;
 import com.bionoor.api.repositories.OrderItemRepository;
@@ -30,6 +31,8 @@ import com.bionoor.api.utils.InvoiceProcessingIn;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
+
 
 @Service
 public class OrderService {
@@ -51,6 +54,9 @@ public class OrderService {
 	private ProductService productService;
 	
 	@Autowired
+	private PaymentServiceImpl paymentServiceImpl;
+	
+	@Autowired
 	private OrderItemRepository orderItemRepository;
 	
 	@Autowired
@@ -62,7 +68,7 @@ public class OrderService {
 	public Order add(Order toSave) {
 		
 		
-		//return this.orderRepository.save(this.invoiceProcessingIn.TotalAmountOrder(toSave, false));
+		 this.orderRepository.save(this.invoiceProcessingIn.TotalAmountOrder(toSave));
 		
 		return this.orderRepository.save(toSave);
 	}
@@ -113,7 +119,9 @@ public class OrderService {
 				SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
 				
 				throw new DiscountCodeException("DiscountCode :"+code+" is ended in "+dateFormat.format(discountCode.getEndDate()));
-			}
+			}else if(order.getCustomer().getUsedDiscountCodes().contains(discountCode)) {
+				throw new DiscountCodeException(String.format("You already used this discount code"));
+				}
 			
 		}else {
 			throw new DiscountCodeException("DiscountCode :"+code+" is deactivated");
@@ -160,6 +168,7 @@ public class OrderService {
 			if(item.getId() == orderItemDTO.getId()) {
 				
 				Product product = this.productService.findByName(orderItemDTO.getProductName()); 
+				
 				 item.setQuantity(orderItemDTO.getQuantity());
 				 item.setProduct(product); return this.add(order);
 					
@@ -186,6 +195,9 @@ public class OrderService {
 			for(OrderItem item: order.getOrderItems()) {
 				if(item.getId().equals( orderItem.getId())) {
 					
+					if(product.getQuantity()< item.getQuantity()) {
+						throw new IllegalOperationException("Available product's quantity is less than required");
+					}
 					item.setProduct(product);
 					item.setQuantity(orderItemDTO.getQuantity());
 					this.orderItemService.add(item);
@@ -220,8 +232,12 @@ public Order putOrderItemQuantity(Long id, int quantity, Long orderItemId) {
 			
 			if(item.getId().equals( orderItemId) ) {
 				
-				item.setQuantity(quantity);
+				if(item.getProduct().getQuantity()<quantity ){
+					
+					throw new IllegalOperationException("Available product's quantity is less than required");
+				}
 				
+				item.setQuantity(quantity);
 				this.orderItemService.add(item);
 				break;
 			}
@@ -236,17 +252,14 @@ public Order putOrderItemQuantity(Long id, int quantity, Long orderItemId) {
 
 
 //add invoice to order***********************************
-
 public Order addOrderInvoice(InputOrderInvoiceDTO inputOrderInvoiceDTO ) {
 	
 	
 	Order order = this.getById(inputOrderInvoiceDTO.getOrder());
 		
 		if(inputOrderInvoiceDTO.getId() != null) {
-			
-			
-			throw new IllegalArgumentException("you try to create new invoice with an ID! ID must be initialize by hibernate");
-			
+			this.invoiceService.modify(inputOrderInvoiceDTO);
+			return this.add(order);
 		}
 	
 	 this.invoiceService.add(inputOrderInvoiceDTO);
@@ -265,19 +278,12 @@ public Order addOrderInvoice(InputOrderInvoiceDTO inputOrderInvoiceDTO ) {
 	/*************put Payment method*********************************************
 	***************************************************************************/
 
-	public Order putPaymentMethod(int method , Long id) {
+	public Order updatPaymentMethod(Long method , Long id) {
 		
 		Order order = this.getById(id);
-		switch(method) {
+		PaymentMethod paymentMethod = this.paymentServiceImpl.getPaymentMethodById(method);
 		
-		case 0: PayAsDelivered payAsDelivered = new PayAsDelivered();  
-								payAsDelivered.setCreatedAt(new Date()); 
-								payAsDelivered.setDescription("une petite description");	
-								order.setPaymentMethod(payAsDelivered); 
-								break;
-		
-		default: break;
-	}
+		order.setPaymentMethod(paymentMethod);
 		return this.add(order);
 	}
 
@@ -296,25 +302,14 @@ public Order addOrderInvoice(InputOrderInvoiceDTO inputOrderInvoiceDTO ) {
 		
 		Order order = new Order();
 	
-		order.setAdrress("test Address");
-		Customer customer = this.customerRepository.findById(UUID.fromString("24f19be7-84c3-4fd3-94be-bec9e2ff4a97")).orElse(null);
+		
+		Customer customer = this.customerRepository.findById(UUID.fromString("7885f16f-59a7-4d39-b938-d4f2a2cecc7b")).orElse(null);
 		//set customer
 		order.setCustomer(customer);
-
-		//*****put the method of payment for this order***/
+		order.setAdrress(customer.getAddress().getCity().getName() + ","+ customer.getAddress().getStreet());		//*****put the method of payment for this order***/
+		PaymentMethod paymentMethod = this.paymentServiceImpl.getPaymentMethodById(inputOrderDTO.getPaymentMethod());			
 		
-				switch(inputOrderDTO.getPaymentMethod()) {
-				
-					case 0: PayAsDelivered payAsDelivered = new PayAsDelivered(); 
-											//payAsDelivered.setCreatedAt(new Date()); 
-											payAsDelivered.setDescription("Pay as delivered, and assure your order contains all your items");	
-											order.setPaymentMethod(payAsDelivered); 
-											break;
-					
-					default: break;
-				}
-		
-		
+		order.setPaymentMethod(paymentMethod);
 		//order = this.add(order);
 		//order = this.getById(order.getId());
 		

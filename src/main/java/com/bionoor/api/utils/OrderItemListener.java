@@ -5,8 +5,6 @@ import org.springframework.stereotype.Service;
 import com.bionoor.api.models.OrderItem;
 
 import jakarta.persistence.PostPersist;
-import jakarta.persistence.PostRemove;
-import jakarta.persistence.PostUpdate;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreRemove;
 import jakarta.persistence.PreUpdate;
@@ -27,7 +25,7 @@ public class OrderItemListener {
 	
 		this.in = new InvoiceProcessingImp();
 		
-		this.in.TotalAmountOrder(orderItem.getOrder(), false);
+		this.in.TotalAmountOrder(orderItem.getOrder());
 		
 	}
 	
@@ -36,7 +34,7 @@ public class OrderItemListener {
 	public void preUpdate(OrderItem orderItem) {
 			
 		this.in = new InvoiceProcessingImp();
-		this.in.TotalAmountOrder(orderItem.getOrder(), false);
+		this.in.TotalAmountOrder(orderItem.getOrder());
 		
 	}
 	
@@ -58,7 +56,7 @@ public class OrderItemListener {
 	public void preRemove(OrderItem orderItem) {
 			
 		this.in = new InvoiceProcessingImp();
-		this.in.TotalAmountOrder(orderItem.getOrder(), false);
+		this.in.TotalAmountOrder(orderItem.getOrder());
 		
 	}
 }

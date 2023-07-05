@@ -5,6 +5,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.jaxb.SpringDataJaxb.PageRequestDto;
 import org.springframework.stereotype.Service;
 
 import com.bionoor.api.dto.InputOrderInvoiceDTO;
@@ -45,6 +49,26 @@ public class InvoiceService {
 		
 		order.setInvoice(invoice);
 		invoice.setOrder(order);
+		/*rest of processing to do**************
+		 * *****set create by**************
+		 * ******etc..*************************/
+		
+		return this.invoiceRepository.save(invoice);
+		}
+	
+	
+	
+	public Invoice modify(InputOrderInvoiceDTO inputInvoice ) {
+		
+		Order order = this.orderRepository.findById(inputInvoice.getOrder()).orElse(null);
+		
+		if(order == null) {
+		throw new EntityNotFoundException("order with id "+inputInvoice.getOrder()+" doesn't exists");	
+		}
+		
+		Invoice invoice = order.getInvoice();
+		invoice.update(inputInvoice);
+		
 		/*rest of processing to do**************
 		 * *****set create by**************
 		 * ******etc..*************************/
@@ -99,6 +123,32 @@ public class InvoiceService {
 		
 		
 		 return	this.invoiceRepository.findAll();
+		     
+	}
+	
+	
+	public Page<Invoice> pages( int page, int size, Long id , String sort) {
+		
+		String[] sortTarget = sort.split(":");
+		Page<Invoice> pages;
+		if(id != null) {
+			if(sortTarget[1].equalsIgnoreCase("ascending")) {
+				pages = this.invoiceRepository.findById(id, PageRequest.of(page, size, Sort.by(sortTarget[0]).ascending()));
+
+			}else {
+				
+				pages = this.invoiceRepository.findById(id, PageRequest.of(page, size, Sort.by(sortTarget[0]).descending()));
+
+			}
+		}else {
+			
+			pages = this.invoiceRepository.findAll( PageRequest.of(page, size, Sort.by(sortTarget[0]).ascending()));
+
+		}
+		
+		
+		
+		 return	pages;
 		     
 	}
 

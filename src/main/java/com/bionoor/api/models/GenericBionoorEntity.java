@@ -9,10 +9,13 @@ import com.bionoor.api.utils.BionoorEntityListener;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @Data
+@NoArgsConstructor
 @MappedSuperclass
+@EntityListeners(BionoorEntityListener.class)
 public abstract class GenericBionoorEntity {
 
 	

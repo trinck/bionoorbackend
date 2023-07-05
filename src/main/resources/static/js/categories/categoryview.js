@@ -59,14 +59,14 @@ inputDate.min = dateCorrectDigit(new Date())
  
  async function addDiscount(id){
 	 
-	url = "/api/discounts/add"
+	url = "/api/discounts/categories/add"
 	var f = new FormData(formdiscount)
 	f.set("categoryId",id)
 	
 	
 	 try{
 				 
-				 fetchFunction(url, "POST", f,discountToDom)
+				 fetchFunction(url=url,method= "POST", body=f, caller=discountToDom)
 				 
 				 
 	 }catch(e){

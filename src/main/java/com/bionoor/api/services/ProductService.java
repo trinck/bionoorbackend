@@ -15,8 +15,10 @@ import com.bionoor.api.repositories.ProductRepository;
 import com.bionoor.api.utils.*;
 
 import jakarta.persistence.EntityNotFoundException;
+import lombok.Data;
 
 @Service
+@Data
 public class ProductService implements  ProductServiceIn{
 
 	

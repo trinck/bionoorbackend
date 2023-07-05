@@ -5,11 +5,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -73,7 +75,32 @@ public class AdminInvoice {
 		return "invoices/invoices";
 	}
 	
-	@GetMapping(value = "editInvoice")
+	
+	
+	
+	@GetMapping(value = "/invoicesPages")
+	/* this id is for existing invoice*/
+	public String page(Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size,@RequestParam(required = false) Long mc,@RequestParam(defaultValue = "id:ascending") String sort) 
+	{
+		Page<Invoice> invoices = this.invoiceService.pages(page, size, mc, sort);
+		model.addAttribute("invoices", invoices);
+		model.addAttribute("logo", logo);
+		model.addAttribute("name", name);
+		model.addAttribute("totalElements", invoices.getTotalElements());
+		model.addAttribute("pages", new int[invoices.getTotalPages()]);
+		model.addAttribute("mc", mc);
+		model.addAttribute("page", page);
+		model.addAttribute("size", size);
+		model.addAttribute("totalPages", invoices.getTotalPages());
+		model.addAttribute("invoices", invoices.getContent());	
+		return "invoices/invoices";
+	}
+	
+	
+	
+	
+	
+	@GetMapping(value = "/editInvoice")
 	/* this id is for existing invoice*/
 	public String editInvoice(Model model, @RequestParam(name = "id") Long id) 
 	{
@@ -82,12 +109,14 @@ public class AdminInvoice {
 		model.addAttribute("order", invoice.getOrder());
 		model.addAttribute("logo", logo);
 		model.addAttribute("name", name);
+		List<Product> products = this.productService.allProducts();
+		model.addAttribute("productList", products);
 		
 		return "invoices/invoiceedit";
 	}
 	
 	
-	@GetMapping(value = "saveInvoice")
+	@GetMapping(value = "/saveInvoice")
 	/* this id is for existing invoice*/
 	public String saveInvoice(Model model, @ModelAttribute InputOrderInvoiceDTO inputInvoice) 
 	{
@@ -101,6 +130,25 @@ public class AdminInvoice {
 		
 		return "invoices/invoiceview.html";
 	}
+	
+	
+	
+	@GetMapping(value = "modifyInvoice")
+	/* this id is for existing invoice*/
+	public String modifyInvoice(Model model, @ModelAttribute InputOrderInvoiceDTO inputInvoice) 
+	{
+		
+		
+		Invoice invoice = this.invoiceService.add(inputInvoice);
+		model.addAttribute("invoice", invoice);
+		model.addAttribute("order", invoice.getOrder());
+		model.addAttribute("logo", logo);
+		model.addAttribute("name", name);
+		
+		return "invoices/invoiceview.html";
+	}
+	
+	
 	
 	@RequestMapping(value = "/invoice", method = RequestMethod.GET)
 	/* this id is for invoice*/

@@ -3,6 +3,7 @@ package com.bionoor.api.models;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -62,6 +63,8 @@ public class Invoice implements Serializable{
     private Date dueDate;
     
     private int vat;
+    
+    private double dueToPay;
     private Double remise;
     // User who made the purchase and is associated with this invoice
 	/*
@@ -71,7 +74,7 @@ public class Invoice implements Serializable{
 	 */
 
     @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Payment> payments; // list of payments associated with the invoice
+    private List<Payment> payments = new ArrayList<>(); // list of payments associated with the invoice
 
     // Order associated with this invoice
     @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
@@ -82,8 +85,18 @@ public class Invoice implements Serializable{
    
     
     public Invoice(InputOrderInvoiceDTO inputInvoice) {
-    	
     	this.id = inputInvoice.getId();
+    	this.remise = inputInvoice.getRemise();
+    	this.dueDate = inputInvoice.getDueDate();
+    	this.paid = inputInvoice.getPaid();
+    	this.vat = inputInvoice.getVat();
+    	this.transport = inputInvoice.getTransport();
+    	
+    }
+    
+    
+    public void update(InputOrderInvoiceDTO inputInvoice) {
+    	
     	this.remise = inputInvoice.getRemise();
     	this.dueDate = inputInvoice.getDueDate();
     	this.paid = inputInvoice.getPaid();

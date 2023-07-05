@@ -381,7 +381,15 @@ async function createOrderInvoice(event){
  function updateOrderValues(){
 	 
 	 var tht = document.querySelector("#THT")
-	 tht.innerHTML = order.totalAmount.toFixed(2)+" MAD"
+	 
+	 var ttc = document.querySelector("#TTC")
+	 var dtp = document.querySelector("#DTP")
+	 tht.innerHTML = order.totalAmount.toFixed(2)
+	 
+	 if(order.invoice!= undefined){
+		 ttc.innerHTML = order.invoice.totalAmount.toFixed(2)
+		  dtp.innerHTML = order.invoice.dueToPay.toFixed(2)
+	 }
  }
  
  

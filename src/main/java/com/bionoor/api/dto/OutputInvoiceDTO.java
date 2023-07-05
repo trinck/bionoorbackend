@@ -1,5 +1,6 @@
 package com.bionoor.api.dto;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -44,16 +45,16 @@ public class OutputInvoiceDTO {
 	    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm;ss")
 	    private Date dueDate;
 	    
+	    private double dueToPay;
+	    
 	    private int vat;
 	    private Double remise;
 	
 	    private Long customer;
 
-		/*
-		 * @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, fetch =
-		 * FetchType.LAZY) private List<Payment> payments; // list of payments
-		 * associated with the invoice
-		 */
+		 List<OutputPayment> payment = new ArrayList<>(); // list of payments
+		 
+		 
 	   
 	    private Long order;
 
@@ -69,7 +70,14 @@ public class OutputInvoiceDTO {
 		this.transport = invoice.getTransport();
 		this.totalAmount = invoice.getTotalAmount();
 		this.paid = invoice.getPaid();
+		this.dueToPay = invoice.getDueToPay();	
+	
 		//this.customer = invoice.getCustomer().getId();
+		
+		invoice.getPayments().forEach( payment ->{
+			
+			this.payment.add(new OutputPayment(payment));
+		});
 		
 	}
 	

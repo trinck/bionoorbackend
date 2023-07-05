@@ -56,12 +56,12 @@
 				    			<table class="table table-sm table-responsive  table-hover align-middle">
 				    				<thead>
 				    					<tr>
-				    						  <th>ID</th> <th>Last name</th> <th>First name</th>  <th> Email</th> <th>Tel</th> <th>Confirmed</th> <th>Actif</th> <th>Edit</th>
+				    						  <th>ID</th> <th>Last name</th> <th>First name</th>  <th> Email</th> <th>Tel</th> <th>Confirmed</th> <th>Enabled</th> <th>Edit</th>
 				    					</tr>
 				    				</thead>
 				    				<tbody class="">
 				    					<tr th:each="customer:${customers}">
-				    						 <td th:text="${customer.id}"></td> <td th:text="${customer.lastName}"></td> <td th:text="${customer.firstName}"></td>  <td th:text="${customer.email}"></td> <td th:text="${customer.tel}"></td> <td><i class="bi bi-x-circle text-danger"></i></td> <td> <input type="checkbox" class="form-check-input"> </td> <td><div class="d-flex gap-3"> <a href="#"><i class="bi bi-x-lg text-danger"></i> </a> <a th:href="@{customerView(id= ${customer.id})}"><i class="bi bi-arrow-right text-secondary"></i></a></div> </td>
+				    						 <td th:text="${customer.id}"></td> <td th:text="${customer.lastName}"></td> <td th:text="${customer.firstName}"></td>  <td th:text="${customer.email}"></td> <td th:text="${customer.tel}"></td> <td><i class="bi bi-x-circle text-danger"></i></td> <td><input type="checkbox" class="form-check-input" th:attr="checked = ${customer.enabled}"></td> <td><div class="d-flex gap-3"> <a href="#"><i class="bi bi-x-lg text-danger"></i> </a> <a th:href="@{customerView(id= ${customer.id})}"><i class="bi bi-arrow-right text-secondary"></i></a></div> </td>
 				    					</tr>
 				    					
 				    					

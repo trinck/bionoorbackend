@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,8 +31,10 @@ import com.bionoor.api.dto.OutputOrderItemDTO;
 import com.bionoor.api.dto.OutputProductDTO;
 import com.bionoor.api.models.Order;
 import com.bionoor.api.models.OrderItem;
+import com.bionoor.api.models.Payment;
 import com.bionoor.api.models.Product;
 import com.bionoor.api.services.OrderService;
+import com.bionoor.api.services.PaymentServiceImpl;
 
 import io.micrometer.common.lang.NonNull;
 import jakarta.validation.Valid;
@@ -44,8 +47,6 @@ public class RestOrder {
 
 	@Autowired
 	private OrderService orderService;
-	
-	
 	
 	@PostMapping(value = "/save")
 	public OutputOrderDTO addOrder(@RequestBody @Valid InputOrderDTO inputOrderDTO) {
@@ -171,6 +172,16 @@ public class RestOrder {
 	
 	
 	
+
+	@PutMapping("/paymentMethod")
+	public OutputOrderDTO changePaymentMethod(@RequestParam Long methodId, @RequestParam Long orderId) {
+		
+		OutputOrderDTO outputOrderDTO = new OutputOrderDTO(this.orderService.updatPaymentMethod(methodId, orderId));
+			
+	  return	outputOrderDTO;
+		
+		
+	}
 	
 	
 	

@@ -14,7 +14,7 @@ public class InputOrderDTO{
 	 
     
     
-    private int paymentMethod;
+    private Long paymentMethod;
     private List<InputOrderItemDTO> orderItems; // list of items in the order
 
    

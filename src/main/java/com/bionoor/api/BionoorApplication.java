@@ -8,6 +8,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import com.bionoor.api.utils.ServiceStorageIn;
 
+
 @PropertySource("classpath:app.properties")
 @SpringBootApplication
 @EnableJpaAuditing

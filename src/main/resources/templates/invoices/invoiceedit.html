@@ -120,7 +120,7 @@
 		    				
 			    				<tbody>
 			    					<tr th:if="${invoice!=null}">
-			    						<td th:text="${index!=null? index: invoice.id}"></td>  <td th:text="${#dates.format(invoice.createdAt,'dd/MM/yyyy hh:mm')}"></td>  <td ><input name="dueDate" type="date" class="form-control w-50 border-bottom border-3 border-0" required="required"> </td> <td  th:text="${order.customer.id}"></td> <td></td>
+			    					  	<td th:if="${invoice.id != null}" th:inline="text">[[${invoice.id}]]<input name="id" type="hidden" th:value="${invoice.id}"> </td>	 <td th:unless="${invoice.id != null}" th:text="${index}"></td>  <td th:text="${#dates.format(invoice.createdAt,'dd-MM-yyyy hh:mm')}"></td>  <td ><input name="dueDate" type="date" class="form-control w-100 border-bottom border-3 border-0" required="required" th:value="${#dates.format(invoice.dueDate,'yyyy-MM-dd')}"> </td> <td  th:text="${order.customer.id}"></td> <td></td>
 			    					</tr>
 			    				</tbody>
 		    				</table>
@@ -158,7 +158,7 @@
 		    		<div class="d-flex gap-4">
 		    			<div class="payment-info d-flex flex-column">
 		    				<span class="fw-semibold">Payment method :</span>
-		    				<span th:if="${order.paymentMethod != null}" th:inline="text">[[${order.paymentMethod.discriminatorValue}]]</span>
+		    				<span th:if="${order.paymentMethod != null}" th:inline="text">[[${order.paymentMethod.name}]]</span>
 		    			</div>
 		    			<!-- droite section -->
 		    			<div class="ms-auto d-flex flex-column gap-2 " style="min-width: 70px">
@@ -195,11 +195,23 @@
 		    					</div>
 		    					
 		    					<div class="d-flex gap-4 fw-semibold" >
-		    						<span class="">Due to pay:</span> <span id="DTP" class="ms-auto" th:text="${order.invoice!=null? order.invoice.totalAmount:'N/A' }"></span>
+		    						<span class="">Due to pay:</span> <span id="DTP" class="ms-auto" th:text="${order.invoice!=null? order.invoice.dueToPay:'N/A' }"></span>
 		    					</div>
 		    			</div>
 		    			
 		    		</div>
+		    		<!-- payment list -->
+		    		<div th:if="${#lists.size(invoice.payments)> 0}" class="row row-cols-4 g-2 gap-2 mt-5 justify-content-center">
+						<div th:each="payment: ${invoice.payments}" class="card text-center payment-card shadow">
+							<div  class="card-body ">
+								<span class="card-text h3 text-secondary" th:text="${payment.amount}">
+									
+								</span>	
+								
+							</div>
+						</div>
+						
+					</div>
 		    	
 		    </form>
 		    <datalist id="product-list">

@@ -6,3 +6,13 @@ a {
 	
 	cursor: pointer;
 }
+
+
+.payment-card{
+	
+	background-image: url("../../images/card2.jpg");
+	background-repeat: no-repeat;
+	
+	background-size: cover;
+	border: none;
+}

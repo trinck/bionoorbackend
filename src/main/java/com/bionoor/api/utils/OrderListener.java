@@ -36,7 +36,7 @@ public class OrderListener {
 			order.setFulfilled(false);
 			order.setTotalAmount(0d);
 		
-		this.invoiceProcessingIn.TotalAmountOrder(order, false);
+		this.invoiceProcessingIn.TotalAmountOrder(order);
 		
 	}
 	
@@ -47,7 +47,7 @@ public class OrderListener {
 		
 		
 			order.setModifiedAt(new Date());
-		this.invoiceProcessingIn.TotalAmountOrder(order, false);
+		//this.invoiceProcessingIn.TotalAmountOrder(order);
 		
 	}
 	

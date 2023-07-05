@@ -18,7 +18,9 @@ import com.bionoor.api.repositories.ProductRepository;
 import com.bionoor.api.utils.ServiceStorageIn;
 
 import jakarta.persistence.EntityNotFoundException;
+import lombok.Data;
 
+@Data
 @Service
 public class CategoryService implements CategoryServiceIn{
     

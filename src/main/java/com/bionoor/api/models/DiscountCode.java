@@ -8,8 +8,8 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.bionoor.api.dto.InputDiscountIn;
 import com.bionoor.api.web.RestDiscount.InputDiscountCategory;
-import com.bionoor.api.web.RestDiscount.InputDiscountIn;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -61,7 +61,7 @@ public abstract class  DiscountCode implements Serializable{
     private String discriminatorValue;
 
 	
-    @ManyToMany(mappedBy = "discountCodes", cascade = CascadeType.PERSIST)
+    @ManyToMany(mappedBy = "discountCodes", cascade = { CascadeType.PERSIST, CascadeType.MERGE})
     protected List<Discountable> discountables = new ArrayList<>();
     
     @Column(nullable = false)
@@ -84,6 +84,7 @@ public abstract class  DiscountCode implements Serializable{
     	this.code = discountCategory.getCode();
     	this.endDate = discountCategory.getEndDate();
     	this.discount = discountCategory.getDiscount();
+    	this.actif =   discountCategory.getActif();  	
     	
     }
 

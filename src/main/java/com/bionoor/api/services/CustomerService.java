@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.bionoor.api.dto.InputCustomerDTO;
@@ -13,18 +14,21 @@ import com.bionoor.api.models.SimpleCustomer;
 import com.bionoor.api.repositories.CustomerRepository;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Service
 @Data
 @NoArgsConstructor
+@Transactional
 public class CustomerService {
 
 	
 	@Autowired
 	private CustomerRepository customerRepository;
-	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	@Autowired
 	private CityService cityService;
 	
@@ -62,6 +66,7 @@ public class CustomerService {
        address.setCustomer(newCustomer);
        address.setCity(this.cityService.getCityById(customer.getAddress().getCity()));
        newCustomer.setAddress(address);
+       newCustomer.setPassword(passwordEncoder.encode(newCustomer.getPassword()));
        
        return this.customerRepository.save(newCustomer);
        

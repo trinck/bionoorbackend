@@ -21,6 +21,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.bionoor.api.exceptions.DiscountCodeException;
+import com.bionoor.api.exceptions.EntityAlreadyExists;
 import com.bionoor.api.exceptions.EntityUnknowException;
 import com.bionoor.api.exceptions.IllegalOperationException;
 import com.bionoor.api.exceptions.ResponseMessageException;
@@ -32,7 +33,7 @@ public class RestResponseExceptionHandler  extends ResponseEntityExceptionHandle
 
    
     
-	//NullPointerException
+	//EntityAlreadyExists
     
     @ExceptionHandler(value = {EntityNotFoundException.class})
     public ResponseEntity<ResponseMessageException> handleEntityNotFound(EntityNotFoundException ex, WebRequest request ){
@@ -44,6 +45,21 @@ public class RestResponseExceptionHandler  extends ResponseEntityExceptionHandle
     	
     	return new ResponseEntity<ResponseMessageException>(exception, HttpStatus.NOT_FOUND);
     }
+    
+    
+    
+    
+    @ExceptionHandler(value = {EntityAlreadyExists.class})
+    public ResponseEntity<ResponseMessageException> handleEntityAlreadyExists(EntityAlreadyExists ex, WebRequest request ){
+    	
+    	ResponseMessageException exception = new ResponseMessageException();
+    	exception.setMessage(ex.getMessage());
+    	exception.setDateTime(LocalDateTime.now());
+    	exception.setStatus(HttpStatus.CONFLICT.value());
+    	
+    	return new ResponseEntity<ResponseMessageException>(exception, HttpStatus.CONFLICT);
+    }
+    
     
     
     
@@ -79,9 +95,9 @@ public class RestResponseExceptionHandler  extends ResponseEntityExceptionHandle
     	ResponseMessageException exception = new ResponseMessageException();
     	exception.setMessage(ex.getMessage());
     	exception.setDateTime(LocalDateTime.now());
-    	exception.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+    	exception.setStatus(HttpStatus.NOT_ACCEPTABLE.value());
     	
-    	return new ResponseEntity<Object>(exception, HttpStatus.INTERNAL_SERVER_ERROR);
+    	return new ResponseEntity<Object>(exception, HttpStatus.NOT_ACCEPTABLE);
     }
     
     

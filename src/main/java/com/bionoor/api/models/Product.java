@@ -46,7 +46,7 @@ public class Product extends Discountable implements Serializable{
     
     private String ingredients; // product ingredients
     
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<OrderItem> orderItems = new ArrayList<>();
 
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
@@ -67,13 +67,7 @@ public class Product extends Discountable implements Serializable{
     
     private boolean isOnSale; // promotion
 
-	/*
-	 * @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-	 * 
-	 * @JoinTable( name = "discountCode_product", joinColumns = @JoinColumn(name =
-	 * "product_id"), inverseJoinColumns = @JoinColumn(name = "discount_id"))
-	 * private List<DiscountCode> discountCodes = new ArrayList<DiscountCode>();
-	 */
+	
     
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(

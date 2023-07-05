@@ -17,8 +17,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.bionoor.api.models.PaymentMethod;
 import com.bionoor.api.models.Role;
 import com.bionoor.api.models.User;
+import com.bionoor.api.services.PaymentServiceImpl;
 import com.bionoor.api.services.UserDetailsServiceImpl;
 import com.bionoor.api.services.UserServiceIn;
 
@@ -77,7 +79,7 @@ public class SecurityConfig    {
 	
 	 
 	// @Bean
-	 public CommandLineRunner commandLineinitRoles( UserServiceIn userServiceIn) {
+	 public CommandLineRunner commandLineinitRoles( UserServiceIn userServiceIn, PaymentServiceImpl paymentServiceImpl) {
 		 
 		 return args ->{
 			
@@ -97,6 +99,13 @@ public class SecurityConfig    {
 						.build();;
 				
 						userServiceIn.createUser(user);
+						
+					PaymentMethod paymentMethod = PaymentMethod.builder()
+							.name("Pay as delivered")
+							.description("Pay your invoice once you received your Order")
+							.build();
+					
+					paymentServiceImpl.addPaymentMethod(paymentMethod);
 		 };
 	 }
 	 
