@@ -87,6 +87,13 @@ public abstract class  DiscountCode implements Serializable{
     	this.actif =   discountCategory.getActif();  	
     	
     }
+    
+    public boolean isSame(DiscountCode discountCode) {
+    	
+    	return this.id.equals(discountCode.getId())? true:false;
+    }
+    
+
 
     // Constructors, getters, and setters
 }

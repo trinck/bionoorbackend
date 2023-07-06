@@ -35,6 +35,8 @@ import lombok.NoArgsConstructor;
 public class SecurityConfig    {
 	
   
+	@Autowired
+ private CustomAuthenticationEntryPoint authenticationEntryPoint;
 	
 //	@Bean                                                             
 	public UserDetailsService userDetailsService() throws Exception {
@@ -59,16 +61,27 @@ public class SecurityConfig    {
 	    
 	    // http....;
 		
-		 http.formLogin();
-		 http.authorizeHttpRequests(authorizeRequest -> {
+		
+		 http
+		 .cors().disable()
+		 .csrf().disable()
+		 .authorizeHttpRequests(authorizeRequest -> {
 			 
-			 authorizeRequest.requestMatchers("/assets/**", "/api/**").permitAll();
-		 });
-		 http.authorizeHttpRequests().anyRequest().authenticated();
+			 authorizeRequest.requestMatchers("/assets/**", "/api/**", "/webjars/**", "/css/**", "/images/**").permitAll();
+		 })
+		 
+		 .authorizeHttpRequests().anyRequest().authenticated()
+		 .and()
+		 .userDetailsService(userDetailsServiceImpl)
+		 .formLogin()
+		 .loginPage("/login")
+		 .defaultSuccessUrl("/")
+		 .permitAll();
+		 
 	     
-	     
-	     http.userDetailsService(userDetailsServiceImpl);
-	    return  http.cors().and().csrf().disable().build();
+	    // http.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint);
+	    
+	    return  http.build();
 	  }
 	 
 	 @Bean

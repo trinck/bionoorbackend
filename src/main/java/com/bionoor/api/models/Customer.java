@@ -8,12 +8,14 @@ import java.util.UUID;
 import com.bionoor.api.dto.InputCustomerDTO;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "customers")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "status", discriminatorType = DiscriminatorType.STRING)
@@ -76,7 +78,15 @@ public abstract class Customer extends GenericBionoorEntity implements Serializa
 
     // constructors, getters and setters
     
-    
+    public boolean discountDCCsContains( DiscountCode code) {
+    	
+    	for(DiscountDCC dcc: this.discountDCCs) {
+    		if(dcc.getId().equals(code.getId())) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
     
     public Customer(InputCustomerDTO customerDTO) {
     	

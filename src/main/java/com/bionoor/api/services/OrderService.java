@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import org.hibernate.query.IllegalQueryOperationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ import com.bionoor.api.exceptions.DiscountCodeException;
 import com.bionoor.api.exceptions.IllegalOperationException;
 import com.bionoor.api.models.Customer;
 import com.bionoor.api.models.DiscountCode;
+import com.bionoor.api.models.DiscountDCC;
 import com.bionoor.api.models.Invoice;
 import com.bionoor.api.models.Order;
 import com.bionoor.api.models.Order.OrderStatus;
@@ -28,6 +30,7 @@ import com.bionoor.api.repositories.CustomerRepository;
 import com.bionoor.api.repositories.OrderItemRepository;
 import com.bionoor.api.repositories.OrderRepository;
 import com.bionoor.api.utils.InvoiceProcessingIn;
+import com.bionoor.api.utils.Utils;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
@@ -127,6 +130,24 @@ public class OrderService {
 			throw new DiscountCodeException("DiscountCode :"+code+" is deactivated");
 		}
 		
+		
+		Customer customer = order.getCustomer();
+		if(discountCode.getDiscriminatorValue().equalsIgnoreCase("DCC")) {
+			try {
+				System.out.println("dedans************");
+				//(DiscountDCC) Utils.getTargetObject(discountCode, DiscountDCC.class))
+				if(!customer.discountDCCsContains(discountCode)) {
+					throw new IllegalOperationException("you can't use this discoun code");
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				throw new IllegalOperationException(e.getMessage());
+			}
+			
+		}
+		
+		next:
 		order.setDiscountCode(discountCode);
 		 
 		 

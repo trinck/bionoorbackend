@@ -24,6 +24,14 @@ public class AdminController {
 	}
 	
 	
+	@GetMapping(value = "/login")
+	public String login(Model model) {
+		
+		model.addAttribute("name", name);
+		return "login";
+	}
+	
+	
 	
 
 	

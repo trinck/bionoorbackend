@@ -9,6 +9,18 @@
 }
 
 
+.bi{
+	
+	display: flex;
+	align-items: center;
+}
+
+a {
+	
+	text-decoration: none;
+}
+
+
 /*  button and animation */
 .bio-btn-blue{
 	color: white;

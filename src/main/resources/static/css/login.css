@@ -1,0 +1,80 @@
+@charset "UTF-8";
+
+
+
+body{
+	
+	background-image: url("../images/back1\ \(20\).jpeg");
+	background-repeat: round;
+	
+}
+
+
+
+
+.input-glob{
+	
+	display: flex;
+	gap: 4px;
+	height: 35px;
+	background-color: #e8f0fe;
+	
+	padding-left: 6px;
+	padding-right: 6px;
+	box-sizing: border-box;
+	
+	
+}
+
+
+input{
+	
+	border: none;
+	background-color: rgb(232,240,254);
+	width: 100%;
+	
+}
+
+
+input:focus{
+	
+	outline: none;
+	background-color: rgb(232,240,254);
+}
+
+
+
+ a.forgot-password {
+	color: white;
+	
+	text-decoration: none;
+}
+
+
+.password:focus{
+	
+
+	
+}
+
+
+.logo{
+	
+	
+	width: 50%;
+}
+
+.login-body{
+	
+	box-sizing: content-box;
+	
+}
+
+.login-card{
+	
+	background: url("../images/blackbac\ \(2\).jpeg"), rgba(0, 0, 0, 0.5);
+	background-repeat: round;
+	border: none;
+	box-sizing: content-box;
+}
+
