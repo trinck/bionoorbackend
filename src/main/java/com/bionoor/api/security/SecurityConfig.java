@@ -73,6 +73,8 @@ public class SecurityConfig    {
 		 .authorizeHttpRequests().anyRequest().authenticated()
 		 .and()
 		 .userDetailsService(userDetailsServiceImpl)
+		 .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
+		 .and()
 		 .formLogin()
 		 .loginPage("/login")
 		 .defaultSuccessUrl("/")

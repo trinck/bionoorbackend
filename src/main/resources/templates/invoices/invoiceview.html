@@ -18,15 +18,15 @@
 		    				<i class="bi bi-arrow-left" ></i>
 		    			</a>
 		    			
-		    			<a th:if="${order.invoice!=null}" th:href="@{/editInvoice(id=${invoice.id})}" class="btn ms-auto shadow rounded-1" style="background-color: #1976d2; color: white">
+		    			<a th:if="${order.invoice!=null}" th:href="@{/editInvoice(id=${invoice.id})}" class="btn ms-auto shadow rounded-1 bio-bg-blue" >
 		    				Edit invoice
 		    			</a>
 		    			
-		    			<a th:unless="${order.invoice!=null}" class="btn ms-auto shadow rounded-1" th:href="@{/createInvoice(id=${order.id})}" style="background-color: #1976d2; color: white">
+		    			<a th:unless="${order.invoice!=null}" class="btn ms-auto shadow rounded-1 bio-bg-blue" th:href="@{/createInvoice(id=${order.id})}" >
 		    				Create invoice
 		    			</a>
 		    			
-		    			<button id="print" onclick="printInvoice(event)" class="btn shadow rounded-1 text-bg-warning">
+		    			<button id="print" onclick="printInvoice(event)" class="btn shadow rounded-1 bio-bg-brown">
 		    				Print invoice
 		    			</button>
 		    		</div>

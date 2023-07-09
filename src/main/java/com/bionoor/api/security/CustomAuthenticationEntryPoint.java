@@ -16,15 +16,9 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint{
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException, ServletException {
-		
-		if (!isClientRequest(request)) {
-            // Handle unauthorized client requests
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Client authentication required");
-        } else {
-            // Redirect admin users to the login page
-        	System.out.println(" voici l'origine"+  request.getHeader("Origin"));
-            response.sendRedirect("/login");
-        }
+	    	
+           response.sendRedirect("/login");
+      
     }
 
     private boolean isClientRequest(HttpServletRequest request) {
