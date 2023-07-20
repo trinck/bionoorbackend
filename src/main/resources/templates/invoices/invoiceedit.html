@@ -16,12 +16,12 @@
 		    		<div class="section-controls gap-3 d-flex" >
 		    			
 		    			
-		    			<a  class=" ms-auto  btn border-0" style="color: #1976d2">
+		    			<a  class=" ms-auto  bio-btn border-0" style="color: #1976d2">
 		    				Cancel
 		    			</a>
 		    			
 		    			
-		    			<button type="submit" class="btn shadow rounded-1 bio-bg-brown border-0" >
+		    			<button type="submit" class="bio-btn shadow rounded-1 bio-btn-brown border-0" >
 		    				Save
 		    			</button>
 		    		</div>
@@ -106,7 +106,7 @@
 		    		<div class="section-controls ">
 			    		<div class="d-flex">
 							<div class="p-2 d-flex flex-column w-50 border-top border-start border-end rounded-top border-black border-2 ms-auto">
-								<span class="text-uppercase" th:inline="text">[[${order.customer.username}]]</span> <span>EL JADIDA</span>
+								<span class="text-uppercase" th:inline="text">[[${order.customer.lastName}]]</span> <span  th:inline="text">[[${order.customer.firstName}]]</span>
 							</div>
 						</div>
 		    			

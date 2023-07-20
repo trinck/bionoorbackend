@@ -31,22 +31,22 @@
 	    		
 	    			<!-- table header -->
 				<div class="bio-table-head d-flex gap-2 my-3">
-					<div class="input-group w-25 input-group-sm">
-						<input type="search" class="form-control "
-							placeholder="search">
-						<a class="btn btn-outline-primary" type="button"
-							id="button-addon2"><i class="bi bi-search"></i></a>
-																												
+					<div class=" w-25 d-flex gap-1  rounded-1 " id="search-parent">
+				
+						<i class="bi bi-search "></i> <input type="search" name="mc" class=" " placeholder="search. . ."
+							th:value="${mc}" id="search">
+				
 					</div>
-					
-					
-					
-					<a class="bi bi-filter align-items-start  ms-auto" href="#"   >
-						
+				
+				
+				
+				
+					<a class="bio-btn bio-btn-blue rounded-1 btn-sm d-flex text-center">
+						<i class="bi bi-filter"></i> sort
 					</a>
-					
-					
-
+				
+				
+				
 				</div>
 				<!-- table header end -->
 	    	

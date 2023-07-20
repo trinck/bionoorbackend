@@ -10,6 +10,17 @@
  }
  
  
+ function emailAction(event){
+	 
+	  var select = document.querySelector("#emailActionSelect")
+	 fetchFunctionJson(url=select.value, method="GET", body= null ,caller= (response)=>{
+		
+		alert(response.message)
+	}) 
+	 
+ }
+ 
+ 
  function addProduct(event){
 	 
 	 var input = document.querySelector("#input-product")

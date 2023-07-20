@@ -5,7 +5,7 @@
 :root{
 	
 	--blue :  #1976D2;
-	--brown: #edc0ab;
+	--brown: rgb(249, 230, 221);
 }
 
 
@@ -47,6 +47,7 @@ a {
 .bio-btn-blue:hover{
 	
 	background-color: rgb(22, 102, 182);
+	color: white;
 }
 
 
@@ -69,7 +70,8 @@ a {
 
 
 .bio-btn-brown:hover{
-	background-color: rgb(232, 173, 145); 
+	background-color: rgb(243, 213, 197);
+	
 }
 
 
@@ -77,11 +79,13 @@ a {
 	
 	width: fit-content;
 	border: none;
+	text-decoration: none;
 	padding-left: 7px;
 	padding-right: 7px;
 	padding-top: 5px;
 	padding-bottom: 5px;
 	transition: transform 50ms;
+	cursor: pointer;
 }
 
 
@@ -176,6 +180,8 @@ body{
 	position: sticky;
 	top: 0px;
 	z-index: 6;
+ background-color: white;
+	
 	
 }
 
@@ -222,6 +228,50 @@ tr{
 	
 	color: white!;
 	background-color:var(--blue)!;
+}
+
+
+#bio-btn-dashboard{
+	
+	text-decoration: none;
+	background-color: var(--brown);
+	color: black;
+	
+}
+
+
+.nav-link{
+	
+	
+}
+
+
+
+
+
+
+/*  bar de recherche pour les tablaux**/
+
+
+#search{
+	
+	border: 0;
+	width: 100%;
+}
+
+#search-parent{
+	
+	border: 2px solid lightgray;
+	padding-left: 6px;
+	
+	
+}
+
+
+#search:focus{
+
+	border: none;
+	outline: none;
 }
 
 

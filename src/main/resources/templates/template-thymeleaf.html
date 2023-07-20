@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    
+    
+  </head>
+  <body>
+	  
+	  <style>
+		  #logo{
+			  
+			  background-color: black;
+			   width: fit-content;
+			    text-align: center;
+		  }
+		  
+	  </style>
+	 
+<table class="table align-midle">
+	<thead class="table-light">
+		<tr>
+			<th>Code</th>
+			<th>Item name</th>
+			<th>Unit price(TTC)</th>
+			<th>Quantity</th>
+			<th>Total</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr th:each="item:${order.orderItems}">
+			<td th:inline="text">[[${item.product.code}]]</td>
+			<td th:inline="text">[[${item.product.name}]]</td>
+			<td th:inline="text">[[${item.product.price}]]
+			<td th:inline="text">[[${item.quantity}]]</td>
+			<td th:inline="text">[[${#numbers.formatDecimal(item.quantity * item.product.price,1,2)}]]</td>
+		</tr>
+
+
+	</tbody>
+</table>
+    
+    <p id="logo"><img src="cid:attachment.png" /></p>
+  </body>
+</html>

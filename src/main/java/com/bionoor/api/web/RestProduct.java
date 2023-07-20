@@ -37,7 +37,6 @@ import lombok.NoArgsConstructor;
 
 @RestController
 @CrossOrigin("*")
-
 public class RestProduct {
 
 	@Autowired
@@ -47,8 +46,6 @@ public class RestProduct {
 		
 		return  new OutputProductDTO(this.productService.findByName(name));
 	}
-	
-	
 	
 	@GetMapping(value = "/api/products/all")
 	public List<OutputProductDTO> AllProduct() {
@@ -63,11 +60,6 @@ public class RestProduct {
 		
 		return productDTOs; 
 	}
-	
-	
-	
-	
-	public class InputProductDTO{}
 	
 	
 }

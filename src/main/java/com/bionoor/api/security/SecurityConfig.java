@@ -118,6 +118,7 @@ public class SecurityConfig    {
 					PaymentMethod paymentMethod = PaymentMethod.builder()
 							.name("Pay as delivered")
 							.description("Pay your invoice once you received your Order")
+							.ClassProcessing("PayAsDeliveredProcessing")
 							.build();
 					
 					paymentServiceImpl.addPaymentMethod(paymentMethod);

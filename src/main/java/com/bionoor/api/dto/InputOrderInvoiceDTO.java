@@ -5,6 +5,8 @@ import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.annotation.Nonnull;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,6 +30,7 @@ public class InputOrderInvoiceDTO{
 	private Date dueDate;
 
 	private int vat;
+	@DecimalMax(value = "100.0")
 	private Double remise;
 
 

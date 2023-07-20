@@ -68,6 +68,24 @@ public class OrderService {
 	@Autowired
 	private CustomerRepository customerRepository;
 	
+	@Autowired
+	private MailServiceIn mailServiceIn;
+	
+	
+	
+	public void sendOrderConfirmation(Long id) {
+		
+		Order order = this.getById(id);
+		this.mailServiceIn.sendConfirmationOrder(order);
+		
+	}
+	
+	
+	
+	
+
+
+	
 	public Order add(Order toSave) {
 		
 		

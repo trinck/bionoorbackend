@@ -9,6 +9,7 @@ import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bionoor.api.exceptions.IllegalOperationException;
 import com.bionoor.api.models.Category;
 import com.bionoor.api.models.DiscountCode;
 import com.bionoor.api.models.DiscountDCC;
@@ -125,9 +126,14 @@ public class InvoiceProcessingImp implements InvoiceProcessingIn {
 		int vat = invoice.getVat();
 	    Double transport = invoice.getTransport();
 	    
-	    amountInvoice = amountHT- remise;
+	    amountInvoice = amountHT- (0.01 * amountHT * remise);
 	    
-	    amountInvoice += (0.01 * amountInvoice * vat);
+	    if(remise> 100) {
+	    	
+	    	throw new IllegalOperationException("The remise can't be more than total amount");
+	    }
+	    
+	   // amountInvoice -= (0.01 * amountHT * remise);
 	    
 	    amountInvoice += transport;
 	    

@@ -9,9 +9,11 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -33,7 +35,7 @@ public class RestResponseExceptionHandler  extends ResponseEntityExceptionHandle
 
    
     
-	//EntityAlreadyExists
+	//MailException
     
     @ExceptionHandler(value = {EntityNotFoundException.class})
     public ResponseEntity<ResponseMessageException> handleEntityNotFound(EntityNotFoundException ex, WebRequest request ){
@@ -44,6 +46,20 @@ public class RestResponseExceptionHandler  extends ResponseEntityExceptionHandle
     	exception.setStatus(HttpStatus.NOT_FOUND.value());
     	
     	return new ResponseEntity<ResponseMessageException>(exception, HttpStatus.NOT_FOUND);
+    }
+    
+    
+    
+    
+    @ExceptionHandler(value = {MailException.class})
+    public ResponseEntity<ResponseMessageException> handleMailException(MailException ex, WebRequest request ){
+    	
+    	ResponseMessageException exception = new ResponseMessageException();
+    	exception.setMessage(ex.getMessage());
+    	exception.setDateTime(LocalDateTime.now());
+    	exception.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+    	
+    	return new ResponseEntity<ResponseMessageException>(exception, HttpStatus.INTERNAL_SERVER_ERROR);
     }
     
     

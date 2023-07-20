@@ -32,6 +32,19 @@ public class CustomerService {
 	@Autowired
 	private CityService cityService;
 	
+	
+	@Autowired
+	private MailServiceIn mailServiceIn;
+	
+	public void sendEmailConfirmation(UUID userId) {
+		
+		Customer  customer = this.getCustomerById(userId);
+		this.mailServiceIn.sendVerificationEmail(customer);
+		
+	}
+	
+	
+	
 	public Customer getCustomerById(UUID id) {
         
 		
@@ -41,9 +54,23 @@ public class CustomerService {
 		   throw new EntityNotFoundException("customer with id: "+id+" did no found");
 	   }
 	   
-	   
 	   return customer;
     }
+	
+	
+	
+	
+	
+	public Customer toogleEnabled(UUID id, Boolean enabled) {
+        
+		   Customer customer =	this.getCustomerById(id);
+		   customer.setEnabled(enabled.booleanValue());
+		   
+		   return this.customerRepository.save(customer);
+	}
+		
+	
+	
 	
 
     public Customer createCustomer(Customer customer) {

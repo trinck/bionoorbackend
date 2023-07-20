@@ -3,6 +3,7 @@ package com.bionoor.api.web;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -55,6 +57,20 @@ public class RestOrder {
 		
 	   return	 new OutputOrderDTO(order);
 	}
+	
+	
+	
+	//send a confirmation order
+	@GetMapping(value = "/orderConfirmation")
+	public Map<String,String> orderConfirmation(@RequestParam Long id) {
+		
+		 this.orderService.sendOrderConfirmation(id);
+		
+		 return Map.of("message","Order confirmation has successfuly sent") ;
+	}
+	
+	
+	
 	
 	
 	

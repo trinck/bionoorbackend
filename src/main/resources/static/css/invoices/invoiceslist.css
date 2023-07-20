@@ -13,27 +13,5 @@
 }
 
 
-#search{
-	
-	border: 0;
-	width: 100%;
-}
-
-#search-parent{
-	
-	border: 2px solid lightgray;
-	padding-left: 6px;
-	
-	
-}
-
-
-#search:focus{
-
-	border: none;
-	outline: none;
-}
-
-
 
 

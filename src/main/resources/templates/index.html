@@ -35,7 +35,7 @@
 			<ul
 				class="d-block nav flex-grow-1 nav-pills bio-list-hover overflow-auto px-1 py-1 gap-3">
 
-				<li><a href="#" class="nav-link rounded-1 d-flex gap-2" style="background-color: var(--brown);">
+				<li><a href="#" class="nav-link rounded-1 d-flex gap-2 " id="bio-btn-dashboard">
 						<i class="bi bi-speedometer2"></i> Dashboard
 				</a></li>
 
@@ -49,7 +49,7 @@
 				<!-- collapse product nav item----------------- -->
 				
 				<li><a href="#collapseproduct" data-bs-toggle="collapse" class="nav-link text-white d-flex gap-2"> <i
-						class="bi bi-basket3-fill"></i> Products <span class="badge  text-bg-warning rounded-pill ms-auto">14</span>
+						class="bi bi-basket3-fill"></i> Products 
 				</a></li>
 				
 				<!-- menu Products -->
@@ -59,7 +59,7 @@
 			
 								<ul class="d-block bio-list-hover p-1">
 									<li><a th:href="@{/products}" class="nav-link text-white d-flex ">
-											Products list </a></li>
+											Products </a></li>
 											
 									<li><a href="#" class="nav-link text-white d-flex ">
 											Product range </a></li>
@@ -89,7 +89,7 @@
 			
 								<ul class="d-block bio-list-hover p-1">
 									<li><a href="/customers" class="nav-link text-white d-flex ">
-											Customers list </a></li>
+											Customers</a></li>
 											
 									<li><a href="#" class="nav-link text-white d-flex ">
 											New customer </a></li>
@@ -245,7 +245,7 @@
             <div id="content" class="" style="background-color: #F7F7F7">
 
                 <!-- Topbar -->
-                <nav class="navbar gap-2 navbar-expand bio-toolbar navbar-light p-2 bg-white topbar mb-4 shadow ">
+                <nav class="navbar gap-2 navbar-expand bio-toolbar navbar-light p-2  topbar mb-4 shadow ">
 						
 						<a href="#" class="btn border-0">
 							<i class="bi bi-list " style="font-size: 1.5rem;" ></i>
@@ -270,7 +270,7 @@
 						</span>
                         <!-- Nav Item - User Information -->
                         <div class="d-flex  align-items-center gap-2" >
-                        	<span    sec:authentication="name" >Username</span>
+                        	<span    th:text="${authentication!= null?authentication.principal.username:''}" >Username</span>
                         	<div class="border border-warning d-flex justify-content-center align-items-center border-1 rounded-circle" style="width: 50px; height: 50px;"><img class=" rounded-circle" alt="" src="assets/media/Capture d’écran (192).png" style="width: 40px; height: 40px"></div>
                         </div>
                           
