@@ -32,8 +32,8 @@
 					role="tab" aria-controls="nav-home" aria-selected="true">Details</button>
 				<button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-invoices" type="button"
 					role="tab" aria-controls="nav-profile" aria-selected="false">Invoices</button>
-				<button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button"
-					role="tab" aria-controls="nav-contact" aria-selected="false">Contact</button>
+				<!--<button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button"
+					role="tab" aria-controls="nav-contact" aria-selected="false">Contact</button>-->
 				
 			</div>
 		</nav>
@@ -279,7 +279,8 @@
 									<td>candice armane</td>
 									<td><span class="badge text-bg-secondary" th:text="${order.status}"></span></td>
 									<td th:text="${order.id}"></td>
-									<td> <span class="badge text-bg-danger"> Not paid</span></td>
+									<td> <span th:class="badge + ${order.invoice.dueToPay>0? ' text-bg-danger':' text-bg-success'}" th:text="${order.invoice.dueToPay>0? 'Not paid': 'Paid'}"> </span></td>
+							
 									<td th:text="${#numbers.formatDecimal(order.invoice.totalAmount,1,2)}"></td>
 									<td th:text="${order.invoice.vat}">20</td>
 									<td>
