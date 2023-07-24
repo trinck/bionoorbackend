@@ -22,3 +22,20 @@
 	z-index: -1;
 	
 }
+
+.col{
+	
+	height: fit-content;
+}
+
+
+#fragment{
+	
+	/*background-image: url("../../images/pngegg\ \(4\).png");
+	background-repeat: round;*/
+}
+
+.action-activation{
+	
+	padding: 4px;
+}

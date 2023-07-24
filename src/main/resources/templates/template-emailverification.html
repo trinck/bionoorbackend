@@ -5,12 +5,32 @@
   </head>
   <body>
 	  
-    <p th:text="#{greetings(${recipientName})}"></p>
-    <p th:text="${customer.id}"></p>
-    <p th:text="#{regards}"></p>
-    <p>
-      <em th:text="#{signature(${senderName})}"></em> <br />
-    </p>
+    
+    <style>
+		
+		#link{
+			
+			width: 100%;
+			text-decoration: none;
+			background-color: rgb(25,118,210);
+			border-radius: 5px;
+			padding: 8px;
+			color: white;
+		}
+		
+		div{
+			
+			width: 100%;
+		}
+		
+	</style>
+	
+	<div th:inline="text"> Hi [[${customer.lastName}]], you should confirm your email address by this link. </div>
+	
+	<div>
+		<a id="link" th:href="@{api/customers/emailConfirmationCallback(id=${customer.id})}" target="_blank">Confirm</a>
+	</div>
+    
     <p style="background-color: black; width: fit-content; text-align: center;"><img src="cid:attachment.png" /></p>
   </body>
 </html>

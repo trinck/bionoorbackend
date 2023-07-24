@@ -68,6 +68,14 @@ public class CustomerService {
 		   
 		   return this.customerRepository.save(customer);
 	}
+	
+	
+	public Customer emailConfirmationCallback(UUID id) {
+        
+		   Customer customer =	this.getCustomerById(id);
+		   customer.setConfirmed(true);;
+		   return this.customerRepository.save(customer);
+	}
 		
 	
 	

@@ -68,6 +68,15 @@ public class RestCustomer {
 	    }
 	    
 	    
+	    @GetMapping(value = "/emailConfirmationCallback")
+	    public OutputCustomerDTO emailConfirmationCallback(@RequestParam UUID id) {
+	       
+	        Customer createdCustomer = customerService.emailConfirmationCallback(id);
+	        OutputCustomerDTO customerDTO = new OutputCustomerDTO(createdCustomer);
+	        return customerDTO;
+	    }
+	    
+	    
 	    
 	    
 	    @GetMapping

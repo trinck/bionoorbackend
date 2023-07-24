@@ -2,6 +2,7 @@ package com.bionoor.api.web;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,11 +13,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bionoor.api.dto.OutputCategoryDTO;
+import com.bionoor.api.dto.OutputProductDTO;
 import com.bionoor.api.models.Category;
-
+import com.bionoor.api.models.Product;
 import com.bionoor.api.services.CategoryService;
 
 
@@ -62,11 +65,30 @@ public class RestCategory {
 	}
 	
 	
-	@GetMapping(value = "/api/categories/index/{id}")
+	@GetMapping(value = "/api/categories/{id}")
 	public OutputCategoryDTO  category(@PathVariable(value = "id") Long id) {
 		
 		 Category category = this.categoryService.getById(id);	
 		return new OutputCategoryDTO(category);
+	}
+	
+	
+	@GetMapping(value = "/api/categories/graphs/{id}")
+	@ResponseBody
+	public  Map<String, Object>  graphs(@PathVariable(value = "id") Long id) {
+		System.out.println("bien arrivéééééééééééééééééééé");
+		 Map<String, Object> data = this.categoryService.getDataGraphs(id);
+		 
+		 OutputCategoryDTO category =	new OutputCategoryDTO((Category)data.get("category"));
+		 
+		 List<OutputProductDTO> outputProductDTOs = new ArrayList<>();	
+			for( Product product :(List<Product>) data.get("products")) {
+				outputProductDTOs.add(new OutputProductDTO(product));
+			}
+		 
+			Map<String, Object> body = Map.of("products",outputProductDTOs, "category", category);
+			
+		return body;
 	}
 	
 	

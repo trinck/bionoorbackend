@@ -22,14 +22,12 @@ import com.bionoor.api.utils.ServiceStorageIn;
 @SpringBootApplication
 @EnableJpaAuditing
 
-
 public class BionoorApplication  implements CommandLineRunner{
 
 	@Autowired
 	private ServiceStorageIn serviceStorageIn;
 	
-	
-	
+
 	public static void main(String[] args) {
 		SpringApplication.run(BionoorApplication.class, args);
 	}

@@ -79,7 +79,7 @@ inputDate.min = dateCorrectDigit(new Date())
  
  
  
-async function toggleDiscountActif(event){
+ async function toggleDiscountActif(event){
 	
 	event.preventDefault()
 	var url = "/api/discounts/toggleActif"
@@ -98,8 +98,6 @@ async function toggleDiscountActif(event){
 		 showToast("origin toggle discountActif :"+e,1)
 	 }
 }
-
-
 
 
 //******************change category name */
@@ -147,4 +145,67 @@ function discountToDom(discount){
 	discountList.appendChild(clone)
 }
 
+
+
+//**************charts********************************** */
+
+
+document.addEventListener("DOMContentLoaded", event =>{
+	
+	var editname = document.getElementById("edit-name")
+	var editparent = document.getElementById("edit-parent")
+	
+	editname.addEventListener("click", editName)
+	editparent.addEventListener("click", editParent)
+	
+	
+	
+	
+	const id = document.querySelector(".infos").id
+	fetchFunction("api/categories/graphs/"+id, "GET", null, initGrapghs)
+	
+	
  
+	
+})
+
+/***********init graphs************************** */
+ function initGrapghs(data){
+	
+	
+	const canvas = document.getElementById("nbr-product");
+
+	const chart = new Chart(canvas, {
+	
+				type: 'doughnut',
+			    data: {labels: [
+			    'This catégory',
+			    'Others'
+			  ],
+			  datasets: [{
+			    label: 'My First Dataset',
+			    data: [data.category.products.length, data.products.length],
+			    backgroundColor: [
+			      'rgb(54, 162, 235)',
+			      'rgb(255, 205, 86)'
+			    ],
+			    hoverOffset: 4
+			  }]
+			    }
+			});
+	
+}
+
+/**********************Edit************************* */
+
+function editName(event){
+	
+	var element = document.getElementById("categoryName")
+	element.toggleAttribute("disabled")
+}
+
+function editParent(event){
+	
+	var element = document.getElementById("categoryParent")
+	element.toggleAttribute("disabled")
+}

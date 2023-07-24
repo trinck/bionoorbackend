@@ -7,7 +7,7 @@
 <link th:href="@{css/categories/categoryview.css}" type="text/css" rel="stylesheet">
 </head>
 <body>
-    <div style="width: 95%;"	class="container d-flex flex-column gap-4"	layout:fragment="content">
+    <div id="fragment" style="width: 95%;"	class="container d-flex flex-column gap-4"	layout:fragment="content">
     
     <!-- start hearder commun with all pages -->
     	<header class=" border-bottom p-1" >
@@ -19,34 +19,60 @@
     
     
     <!-- start content -->
-	    <section class="row  g-0 gap-2    p-1 pb-3  rounded-1" >
-	    	<div class="col-8 shadow-sm  bg-white">
-	    		<div class="card d-flex flex-row border-0">
+	    <section class="row row-cols-3 gx-0    p-1 pb-3  rounded-1" >
+	    	<div class="col d-flex flex-column gap-2">
+	    		<!--infos  category-->
+	    		<div class="d-none infos" th:id="${category.id}">
+					
+				</div>
+	    		<div class="card  shadow-sm border-0 ">
 	    			
-	    			<img class="border w-50" alt="" th:src="${category.image}">
-	    			<div class="card-body d-flex flex-column gap-1">
-	    				<div> <label for="#categoryName">Title</label> <input th:onchange="'changeName(event,'+${category.id}+')'" type="text" class="form-control form-control-sm rounded-1"id="categoryName"   th:value="${category.name}"> </div>
-	    				<div> 
-	    					<label for="#categoryParent">Parent</label> 
-	    					<select class="form-select form-select-sm rounded-1" id="categoryParent" > 
-	    									<option th:each="parent:${categories}"  th:value="${parent.id}" th:text="${parent.name}"  > </option> 
-	    									<option th:if="${category.parentCategory}!=null" selected th:value="${category.parentCategory!= null? category.parentCategory.id:'' }" th:text="${category.parentCategory!= null ? category.parentCategory.name:'N/A'}"  > </option> 
-											<option  th:attr="selected=${category.parentCategory==null}"  value="" >N/A</option>
-	    					</select>
-	    			     </div>
-	    				<div class="align-self-end mt-auto"> <a href="#" class="text-decoration-none">Category's Products</a> </div>
-	    			</div>
+	    			<img class="card-img-top" alt="" th:src="${category.image}">
+	    			
+	    			<div class="card-body">
+						
+					</div>
 	    		
 	    		</div>
+	    		<!-- card for detail name, parent-->
+	    		<div class="card border-0 shadow-sm">
+					<div class="card-body d-flex flex-column gap-1">
+						<div>
+							<div class="d-flex action-activation">
+								<label for="#categoryName">Title</label> 
+								<i class="bi bi-pencil-square ms-auto" id="edit-name"></i>
+								</div>
+								
+							<input disabled  th:onchange="'changeName(event,'+${category.id}+')'" type="text" class="form-control  rounded-1"
+								id="categoryName" th:value="${category.name}">
+						</div>
+						
+						
+						<div>
+							<div class="d-flex action-activation">
+								<label for="#categoryParent">Parent</label>
+								<i class="bi bi-pencil-square ms-auto" id="edit-parent"></i>
+							</div>
+							
+							<select disabled class="form-select  rounded-1" id="categoryParent">
+								<option th:each="parent:${categories}" th:value="${parent.id}" th:text="${parent.name}"> </option>
+								<option th:if="${category.parentCategory}!=null" selected
+									th:value="${category.parentCategory!= null? category.parentCategory.id:'' }"
+									th:text="${category.parentCategory!= null ? category.parentCategory.name:'N/A'}"> </option>
+								<option th:attr="selected=${category.parentCategory==null}" value="">N/A</option>
+							</select>
+						</div>
+						<div class="align-self-end mt-auto"> <a href="#" class="text-decoration-none">Category's Products</a> </div>
+					</div>
+				</div>
+	    		
+	    		
 	    	</div>
 	    	
-	    	  		
-	    </section>
-		 
-		 <section class="row g-0   p-1 pb-5 ">
-	     	<div class="col-5   p-1">
+	    	<!--  discount code-->
+	    	<div class="col  ps-1 pe-1 shadow-sm">
 	    		<!-- discountcode -->
-	    		 <div class="card pb-4 rounded-1">
+	    		 <div class="card pb-4 rounded-1 border-0">
 	    		 	<div class="card-body">
 	    			 	<span class="card-title fs-4">Discount Code</span>
 	    			 	<ul class="list-group gap-2 discountsList">
@@ -65,20 +91,16 @@
 	    		
 	    	</div>
 	    	
+	    	 <!-- col for stats -->
 	    	
-	    	<!-- col for stats -->
-	    	
-	    	<div class="col-5   p-1 ">
-	    		<div class="row g-0 gap-2">
-	    			<div class="col-5 p-1 bg-white  shadow-sm"> <div class="card-body flex-column d-flex text-center"> <span class="fs-2" th:inline="text"> [[${#lists.size(category.products)}]] <sub class="fs-6">/500</sub> </span> <span class="text-secondary">Products</span> </div> </div>
-	    			<div class="col-5 p-1 bg-white shadow-sm"> <div class="card-body d-flex flex-column text-center"><span class="fs-2">0</span> <span class="text-secondary">Sold</span> </div> </div>
-	    			<div class=" col-5  p-1 bg-white shadow-sm"> <div class="card-body d-flex flex-column text-center"><span class="fs-2">0 </span> <span class="text-secondary">Earning</span></div>  </div>
-	    			
-	    		</div>
+	    	<div class="col  ">
+	    		<canvas class="bg-white" width="100%"   id="nbr-product">  </canvas>
 	    		
 	    	</div>
-	     
-	     </section>
+	    	
+	    	
+	    </section>
+		 
 	     
 	     <!-- the template for creat new discount -->
 	     
@@ -87,6 +109,8 @@
 	     </template>
 		 
     <script type="text/javascript" th:src="@{js/categories/categoryview.js}"></script>
+     <script type="module" src="webjars/chart.js/4.3.0/dist/chart.umd.js" ></script>
+     
     </div>
     
 </body>

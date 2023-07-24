@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Service
-public class PaymentServiceImpl {
+public class PaymentServiceImpl implements PaymentServiceIn{
 
 	
 	@Autowired

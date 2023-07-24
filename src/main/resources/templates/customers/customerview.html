@@ -18,7 +18,7 @@
 				
 				<div class="ms-auto">
 					
-					<button class=" bio-btn bio-btn-brown rounded-1" type="button" data-bs-toggle="modal" data-bs-target="#form-modal">Add discount</button>
+					<button class=" bio-btn bio-btn-brown rounded-1 d-flex align-items-center gap-1" type="button" data-bs-toggle="modal" data-bs-target="#form-modal"> <i class="bi bi-plus-lg"></i> Add discount</button>
 				</div>
 			</header>
 	
@@ -185,7 +185,7 @@
 									</div>
 									
 									<div class="mt-3">
-										<button onclick="emailAction(event)" class=" rounded-1 d-flex align-items-center gap-1 bio-btn-blue bio-btn " type="button" ><i class="bi bi-envelope"></i> Send Email</button>
+										<button onclick="emailAction(event)" class=" rounded-1 d-flex align-items-center gap-1 bio-btn-blue bio-btn " type="button" ><i class="bi bi-envelope-fill"></i> Send Email</button>
 									</div>
 									
 								</div>
@@ -279,7 +279,7 @@
 									<td>candice armane</td>
 									<td><span class="badge text-bg-secondary" th:text="${order.status}"></span></td>
 									<td th:text="${order.id}"></td>
-									<td> <span th:class="badge + ${order.invoice.dueToPay>0? ' text-bg-danger':' text-bg-success'}" th:text="${order.invoice.dueToPay>0? 'Not paid': 'Paid'}"> </span></td>
+									<td> <span th:class="badge + ${order.invoice.dueToPay>0? ' tex-bg-danger':' text-bg-success'}" th:text="${order.invoice.dueToPay>0? 'Not paid': 'Paid'}"> </span></td>
 							
 									<td th:text="${#numbers.formatDecimal(order.invoice.totalAmount,1,2)}"></td>
 									<td th:text="${order.invoice.vat}">20</td>

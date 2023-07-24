@@ -22,7 +22,7 @@ import com.bionoor.api.repositories.OrderRepository;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
-public class InvoiceService {
+public class InvoiceService implements InvoiceServiceIn{
  
 	
 	@Autowired

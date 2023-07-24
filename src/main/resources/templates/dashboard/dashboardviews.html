@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light"  xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="index">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard</title>
+</head>
+<body>
+    <div id="fragment" style="width: 95%;"	class="container d-flex flex-column gap-4"	layout:fragment="content">
+    
+    <!-- start hearder commun with all pages -->
+    	<header class=" border-bottom p-1" >
+    		<h5 >Dashboard</h5>
+    	</header>
+    	
+     <!-- end hearder commun with all pages -->
+    
+    
+    
+    <!-- start content -->
+	    <section class="row gx-0    p-1 pb-3  rounded-1" >
+	    	
+	    	<div class="col-12">
+				
+				<div class="d-block d-sm-flex gap-2 mb-5">
+						<div class="card-body shadow-sm d-flex gap-3 bio-bl-green align-items-center p-3">
+							<div> <i class="bi bi-currency-dollar stat-icon"></i> </div>
+						
+							<div class="d-flex flex-column ">
+								<span class="fs-6">This week sales</span>
+								<span class="fw-semibold">500</span>
+							</div>
+						
+							<div class="ms-auto">
+								<a><i class="bi bi-arrow-right"></i> </a>
+							</div>
+						</div>
+						
+						
+						
+						<div class="card-body shadow-sm d-flex bio-bl-red gap-3 align-items-center p-3">
+							<div> <i class="bi bi-truck stat-icon"></i> </div>
+						
+							<div class="d-flex flex-column  ">
+								<span class="fs-6 ">Order to deliver</span>
+								<span class="fw-semibold">500</span>
+							</div>
+						
+							<div class="ms-auto">
+								<a><i class="bi bi-arrow-right"></i> </a>
+							</div>
+						</div>
+						
+						
+						<div class="card-body shadow-sm d-flex bio-bl-blue gap-3 align-items-center p-3">
+							<div> <i class="bi bi-cash stat-icon"></i> </div>
+						
+							<div class="d-flex flex-column  ">
+								<span class="fs-6 ">Earned</span>
+								<span class="fw-semibold" th:inline="text"> [[${earned}]] </span>
+							</div>
+						
+							<div class="ms-auto">
+								<a><i class="bi bi-arrow-right"></i> </a>
+							</div>
+						</div>
+						
+						
+						<div class="card-body shadow-sm d-flex bio-bl-brown gap-3 align-items-center p-3">
+							<div> <i class="bi bi-person-fill stat-icon"></i> </div>
+						
+							<div class="d-flex flex-column  ">
+								<span class="fs-6 ">Customers</span>
+								<span class="fw-semibold">500</span>
+							</div>
+						
+							<div class="ms-auto">
+								<a><i class="bi bi-arrow-right"></i> </a>
+							</div>
+						</div>
+				</div>
+				
+			
+				
+			</div>
+			
+		<!-- encdcol-->	
+			
+			<div class="col-6 ">
+				
+				<div class="card-body shadow-sm bg-white p-2">
+					<canvas width="100%" id="graph-orders-fulfilled"></canvas>
+				</div>
+			</div>
+			
+		<!-- encdcol-->	
+		
+			
+			<div class="col bg-danger">
+				
+				
+			</div>
+	    	
+	    	
+	    </section>
+		 
+		 
+		 
+		
+		 
+	     
+	     <!-- the template for creat new discount -->
+	     
+	     <template id="template">
+	    		<li  class="list-group-item shadow-sm  " > <div  class=" w-100 d-flex gap-2 "> <span class="discount-name text-secondary" ></span> <span  class="ms-auto text-secondary discount-date" ></span>  <input  onchange="toggleDiscountActif(event)" class="form-check-input discount-check" type="checkbox"></input> </div> </li>
+	     </template>
+		 
+     <script type="module" src="webjars/chart.js/4.3.0/dist/chart.umd.js" ></script>
+      <script type="text/javascript" src="js/dashboard/dashboardviews.js" ></script>
+     
+    </div>
+    
+</body>
+</html>

@@ -6,8 +6,18 @@
 	
 	--blue :  #1976D2;
 	--brown: rgb(249, 230, 221);
+	--icon-size: 21px;
+	--font-size-text: 19px;
+	--stat-icon-size: 48px;
 }
 
+
+
+
+body{
+	
+	font-size: var(--font-size-text);
+}
 
 .bio-bg-brown{
 	
@@ -25,10 +35,18 @@
 
 
 
-.bi{
+.bi.icon {
 	
 	display: flex;
 	align-items: center;
+	font-size: var(--icon-size);
+}
+
+
+
+.stat-icon{
+	
+	font-size: var(--stat-icon-size);
 }
 
 a {
@@ -121,6 +139,14 @@ a {
 }
 
 
+
+.bio-bl-brown{
+	
+	color: rgb(220, 109, 56);
+	background-color: rgba(249, 230, 221, 0.58);
+}
+
+
 /*   puce blur*/
 
 .bio-bl-puce{
@@ -132,10 +158,6 @@ a {
 }
 
 
-body{
-	
-	/*font-family: "roboto";*/
-}
 .bio-sidebar{
 		
 	width: 255px;
@@ -257,12 +279,18 @@ tr{
 	
 	border: 0;
 	width: 100%;
+	
 }
 
 #search-parent{
 	
-	border: 2px solid lightgray;
+	
+	border-width: 2px;
+	border-color: var(--brown);
+	border-style: solid;
 	padding-left: 6px;
+	box-shadow: 1px 1px 6px 5px var(--brown);
+	
 	
 	
 }
