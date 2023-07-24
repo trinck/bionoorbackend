@@ -38,7 +38,7 @@ import jakarta.transaction.Transactional;
 
 
 @Service
-public class OrderService {
+public class OrderService implements  OrderServiceIn{
 
 	
 
@@ -412,6 +412,18 @@ public Order addOrderInvoice(InputOrderInvoiceDTO inputOrderInvoiceDTO ) {
 			 throw new EntityNotFoundException("Order with id ="+id+" doesn't exists");
 		 }
 		 return order;
+	}
+
+
+
+
+
+
+
+	@Override
+	public List<Order> findByStatus(OrderStatus status) {
+		
+		return this.orderRepository.findAllByStatus(status);
 	}
     
   

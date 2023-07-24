@@ -9,9 +9,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.bionoor.api.models.Order.OrderStatus;
 import com.bionoor.api.models.Payment;
 import com.bionoor.api.services.CategoryServiceIn;
 import com.bionoor.api.services.InvoiceServiceIn;
+import com.bionoor.api.services.OrderServiceIn;
 import com.bionoor.api.services.PaymentServiceIn;
 import com.bionoor.api.services.ProductServiceIn;
 
@@ -27,6 +29,8 @@ public class AdminDashboard {
 	private PaymentServiceIn paymentServiceIn;
 	@Autowired
 	private InvoiceServiceIn invoiceServiceIn;
+	@Autowired
+	private OrderServiceIn orderServiceIn;
 	
 	@GetMapping("dashboard")
 	public String dashboard(Model model, Authentication authentication) {
@@ -36,7 +40,8 @@ public class AdminDashboard {
 		List<Payment> payments = this.paymentServiceIn.getPayments();
 		
 		Double earned =   payments.stream().map(payment -> payment.getAmount()).reduce((t, u) -> t+u ).orElse(0d);
-		
+		int toDeliver = this.orderServiceIn.findByStatus(OrderStatus.READY).size();
+		model.addAttribute("toDeliver", toDeliver);
 		model.addAttribute("authentication", authentication);
 		model.addAttribute("earned", earned);
 		return "dashboard/dashboardviews";
