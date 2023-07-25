@@ -46,7 +46,7 @@ public class OutputProductDTO {
    
     private Date createAt; // creation date 
     
-   
+   private Long id;
   
     private String description; // product description
 
@@ -94,6 +94,7 @@ public class OutputProductDTO {
         this.code = product.getCode();
         this.steps = product.getSteps();
         this.ingredients = product.getIngredients();
+        this.id = product.getId();
         
         this.createAt = product.getCreateAt();
         this.description = product.getDescription();

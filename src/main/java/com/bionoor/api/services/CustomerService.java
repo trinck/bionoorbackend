@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Transactional
-public class CustomerService {
+public class CustomerService implements CustomerServiceIn {
 
 	
 	@Autowired

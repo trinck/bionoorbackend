@@ -26,13 +26,8 @@ public interface OrderServiceIn {
 	
 	
 
-	
+	public List<Order> getAllByYear( int year) ;
 	public void sendOrderConfirmation(Long id) ;
-	
-	
-	
-
-
 	public List<Order> findByStatus(OrderStatus status) ;
 	public Order add(Order toSave) ;
 	
@@ -40,16 +35,12 @@ public interface OrderServiceIn {
 	
 	public Order putStatus(String status, Long id) ;
 	
-	
-		
 	public Order toogleFilfilled(Boolean fulfilled , Long id) ;
 	/*************put discountcode*********************************************
 	***************************************************************************/
 	public Order addDiscountCode(String  code, Long id) ;
 	
 	public Order deleteDiscountCode(Long id) ;
-	
-	
 	public DiscountCode getDiscountCode(Long id) ;
 	
 	/*************put orderitem*********************************************
@@ -62,17 +53,9 @@ public interface OrderServiceIn {
 	
 	/* put the item quantity*/
 public Order putOrderItemQuantity(Long id, int quantity, Long orderItemId) ;
-	
-
-
-
 //add invoice to order***********************************
 public Order addOrderInvoice(InputOrderInvoiceDTO inputOrderInvoiceDTO );
 
-
-	
-
-	
 	/*************put Payment method*********************************************
 	***************************************************************************/
 
@@ -81,17 +64,14 @@ public Order addOrderInvoice(InputOrderInvoiceDTO inputOrderInvoiceDTO );
 	***************************************************************************/
 	
 	public  Order add( InputOrderDTO inputOrderDTO ) ;
-
 	
 	public String delete(Long id) ;
 	
 	public Order deleteOrderItem(Long OrderItemId, Long id) ;
 	
 	public Order modify(Order modified) ;
-	
-	
-
-	
 	public Order getById(Long id) ;
+	
+	public List<Order> getAllByFulfilled(boolean fulfilled, int annee);
     
 }

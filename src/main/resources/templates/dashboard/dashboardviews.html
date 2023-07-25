@@ -71,7 +71,7 @@
 						
 							<div class="d-flex flex-column  ">
 								<span class="fs-6 ">Customers</span>
-								<span class="fw-semibold">500</span>
+								<span class="fw-semibold" th:inline="text">[[${customers}]]</span>
 							</div>
 						
 							<div class="ms-auto">
@@ -86,7 +86,7 @@
 			
 		<!-- encdcol-->	
 			
-			<div class="col-6 ">
+			<div class="col-8 ">
 				
 				<div class="card-body shadow-sm bg-white p-2">
 					<canvas width="100%" id="graph-orders-fulfilled"></canvas>

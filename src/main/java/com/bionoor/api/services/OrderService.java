@@ -425,6 +425,24 @@ public Order addOrderInvoice(InputOrderInvoiceDTO inputOrderInvoiceDTO ) {
 		
 		return this.orderRepository.findAllByStatus(status);
 	}
+
+
+
+
+
+
+
+	@Override
+	public List<Order> getAllByFulfilled(boolean fulfilled, int annee) {
+		// TODO Auto-generated method stub
+		return this.orderRepository.findByFulfilledAndYears(fulfilled,annee );
+	}
+	
+	
+	public List<Order> getAllByYear( int year) {
+		// TODO Auto-generated method stub
+		return this.orderRepository.findByYear(year );
+	}
     
   
 }
