@@ -2,7 +2,7 @@ package com.bionoor.api.models;
 
 import java.io.Serializable;
 
-import com.bionoor.api.web.RestDiscount.InputDiscountIn;
+import com.bionoor.api.dto.InputDiscountIn;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;

@@ -3,16 +3,23 @@ package com.bionoor.api.models;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+
+import com.bionoor.api.dto.InputCustomerDTO;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "customers")
-public class Customer implements Serializable{
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "status", discriminatorType = DiscriminatorType.STRING)
+public abstract class Customer extends GenericBionoorEntity implements Serializable{
 	
 
     /**
@@ -21,46 +28,75 @@ public class Customer implements Serializable{
 	
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    protected UUID id;
+    @Column(unique = true)
+	protected String username;
     
-    private String username;
+	protected String firstName;
     
-    
+	protected String lastName;
 	  @ManyToMany(fetch = FetchType.LAZY)
 	  
 	  @JoinTable( name = "usedDiscountCode", joinColumns
 	  = @JoinColumn(name="customer_id"), inverseJoinColumns
 	  = @JoinColumn(name="discountCode_id") )
-	  private List<DiscountCode> usedDiscountCodes= new ArrayList<>(); // discount codes used by customer
+	  protected List<DiscountCode> usedDiscountCodes= new ArrayList<>(); // discount codes used by customer
 	 
-	@OneToMany(mappedBy = "customer")
-    private List<DiscountDCC> discountDCCs = new ArrayList<>();
+	@OneToMany(mappedBy = "customer", orphanRemoval = true, cascade = CascadeType.ALL)
+	protected List<DiscountDCC> discountDCCs = new ArrayList<>();
 	  
 	  
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-    private List<Order> orders; // list of orders associated with the user
+    protected List<Order> orders = new ArrayList<>();; // list of orders associated with the user
     
-    @OneToOne(mappedBy = "customer")
-	private Address address;
+    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    protected Address address;
+    
+    
+    @Column(name = "status", insertable = false, updatable = false)
+    protected String discriminatorValue;
     
     
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-	 private List<Review> reviews = new ArrayList<>(); // list of reviews associated with the user
+    protected List<Review> reviews = new ArrayList<>(); // list of reviews associated with the user
 	 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-	 private List<Payment> payments = new ArrayList<>(); // payments realized by customers 
    
-    private String email;
-    private String password;
-    private boolean confirmed;
-    private boolean blocked;
+    @Column(nullable = false, unique = true)
+    protected String email;
+    
+    protected String password;
+    
+    protected String tel;
+    protected boolean confirmed;
+    
 
-    private boolean enabled;
+    protected boolean enabled;
     
     
     
 
     // constructors, getters and setters
+    
+    public boolean discountDCCsContains( DiscountCode code) {
+    	
+    	for(DiscountDCC dcc: this.discountDCCs) {
+    		if(dcc.getId().equals(code.getId())) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
+    
+    public Customer(InputCustomerDTO customerDTO) {
+    	
+    	 this.username = customerDTO.getUsername();
+         this.firstName = customerDTO.getFirstName();
+         this.lastName = customerDTO.getLastName();
+         this.tel = customerDTO.getTel();
+         this.email = customerDTO.getEmail();
+         this.password = customerDTO.getPassword();
+        
+    }
 }
 

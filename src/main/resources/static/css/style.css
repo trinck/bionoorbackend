@@ -1,9 +1,163 @@
 @charset "UTF-8";
 
+
+
+:root{
+	
+	--blue :  #1976D2;
+	--brown: rgb(249, 230, 221);
+	--icon-size: 21px;
+	--font-size-text: 19px;
+	--stat-icon-size: 48px;
+}
+
+
+
+
 body{
 	
-	font-family: "roboto";
+	font-size: var(--font-size-text);
 }
+
+.bio-bg-brown{
+	
+	background-color: var(--brown);
+	color: black;
+}
+
+
+
+.bio-bg-blue{
+	
+	background-color: var(--blue);
+	color: rgb(255, 255, 255);
+}
+
+
+
+.bi.icon {
+	
+	display: flex;
+	align-items: center;
+	font-size: var(--icon-size);
+}
+
+
+
+.stat-icon{
+	
+	font-size: var(--stat-icon-size);
+}
+
+a {
+	
+	text-decoration: none;
+}
+
+
+/*  button and animation */
+.bio-btn-blue{
+	color: white;
+	background-color: var(--blue);
+}
+
+
+.bio-btn-blue:hover{
+	
+	background-color: rgb(22, 102, 182);
+	color: white;
+}
+
+
+.bio-btn-brown{
+	color: black;
+	background-color: var(--brown);
+}
+
+
+
+
+.bio-btn-secondary{
+	color: white;
+	background-color: grey;
+}
+
+.bio-btn-secondary:hover{
+	background-color: rgb(108, 108, 108);
+}
+
+
+.bio-btn-brown:hover{
+	background-color: rgb(243, 213, 197);
+	
+}
+
+
+.bio-btn{
+	
+	width: fit-content;
+	border: none;
+	text-decoration: none;
+	padding-left: 7px;
+	padding-right: 7px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	transition: transform 50ms;
+	cursor: pointer;
+}
+
+
+
+.bio-btn:active{
+	transform: scale(0.97);
+}
+
+
+@keyframes bio-btn-anim-color{
+	
+	
+}
+
+/*  colors and background */
+
+.bio-bl-red{
+	
+	color: red;
+	background-color: rgba(255, 0, 0, 0.18);
+}
+
+.bio-bl-green{
+	color: rgb(0, 128, 0);
+	background-color: rgba(0, 128, 0, 0.18);
+}
+
+
+.bio-bl-blue{
+	
+	color: rgb(25, 118, 210);
+	background-color: rgba(25, 118, 210, 0.18);
+}
+
+
+
+.bio-bl-brown{
+	
+	color: rgb(220, 109, 56);
+	background-color: rgba(249, 230, 221, 0.58);
+}
+
+
+/*   puce blur*/
+
+.bio-bl-puce{
+	padding-left: 5px;
+	padding-right: 5px;
+	font-size: small; 
+	width: fit-content;
+	border-radius: 1px;
+}
+
+
 .bio-sidebar{
 		
 	width: 255px;
@@ -48,6 +202,8 @@ body{
 	position: sticky;
 	top: 0px;
 	z-index: 6;
+ background-color: white;
+	
 	
 }
 
@@ -84,8 +240,67 @@ body{
 
 
 
+tr{
+	
+	height: 4rem;
+}
 
 
+.bio-active{
+	
+	color: white!;
+	background-color:var(--blue)!;
+}
+
+
+#bio-btn-dashboard{
+	
+	text-decoration: none;
+	background-color: var(--brown);
+	color: black;
+	
+}
+
+
+.nav-link{
+	
+	
+}
+
+
+
+
+
+
+/*  bar de recherche pour les tablaux**/
+
+
+#search{
+	
+	border: 0;
+	width: 100%;
+	
+}
+
+#search-parent{
+	
+	
+	border-width: 2px;
+	border-color: var(--brown);
+	border-style: solid;
+	padding-left: 6px;
+	box-shadow: 1px 1px 6px 5px var(--brown);
+	
+	
+	
+}
+
+
+#search:focus{
+
+	border: none;
+	outline: none;
+}
 
 
 

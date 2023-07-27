@@ -1,45 +1,101 @@
 package com.bionoor.api.web;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bionoor.api.dto.InputOrderDTO;
+import com.bionoor.api.dto.InputOrderInvoiceDTO;
+import com.bionoor.api.dto.InputOrderItemDTO;
+import com.bionoor.api.dto.OutputDiscountCodeDTO;
+import com.bionoor.api.dto.OutputOrderDTO;
+import com.bionoor.api.dto.OutputOrderItemDTO;
+import com.bionoor.api.dto.OutputProductDTO;
 import com.bionoor.api.models.Order;
 import com.bionoor.api.models.OrderItem;
+import com.bionoor.api.models.Payment;
+import com.bionoor.api.models.Product;
 import com.bionoor.api.services.OrderService;
+import com.bionoor.api.services.PaymentServiceImpl;
 
 import io.micrometer.common.lang.NonNull;
-
-
+import jakarta.validation.Valid;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @RestController
+@RequestMapping("api/orders")
 public class RestOrder {
 
 	@Autowired
 	private OrderService orderService;
 	
-	
-	
-	@PostMapping(value = "/api/orders/save")
-	public Order addOrder(@RequestBody InputOrderDTO inputOrderDTO) {
+	@PostMapping(value = "/save")
+	public OutputOrderDTO addOrder(@RequestBody @Valid InputOrderDTO inputOrderDTO) {
 		
-	   return	this.orderService.add(inputOrderDTO);
+		Order order = this.orderService.add(inputOrderDTO);
+		
+	   return	 new OutputOrderDTO(order);
 	}
 	
 	
 	
-	@PostMapping(value = "/api/orders/put/fulfilled")
+	//send a confirmation order
+	@GetMapping(value = "/orderConfirmation")
+	public Map<String,String> orderConfirmation(@RequestParam Long id) {
+		
+		 this.orderService.sendOrderConfirmation(id);
+		
+		 return Map.of("message","Order confirmation has successfuly sent") ;
+	}
+	
+	
+	
+	
+	
+	
+	@GetMapping
+	public List<OutputOrderDTO>  allOrders() {
+		
+		List<Order> list = this.orderService.allOrders();
+		List<OutputOrderDTO> orderDTOs = new ArrayList<>();
+		
+		list.forEach(o ->{
+			
+			orderDTOs.add(new OutputOrderDTO(o));
+		});
+		
+	   return	orderDTOs;
+	}
+	
+	
+	
+	
+	
+	
+	@PostMapping(value = "/put/fulfilled")
 	public ResponseEntity<String> toogleFulfilled(@RequestParam Boolean fulfilled, @RequestParam Long id) {
 		
 		
@@ -48,88 +104,114 @@ public class RestOrder {
 	}
 	
 	
-	@PostMapping(value = "/api/orders/orderItems/delete")
-	public ResponseEntity<OutputOrderItemDTO> deleteOrderItem(@RequestParam Long orderItemId, @RequestParam Long id) {
+	@PostMapping(value = "/orderItems/delete")
+	public OutputOrderDTO deleteOrderItem(@RequestParam Long orderItemId, @RequestParam Long id) {
 		
 		
-		 OutputOrderItemDTO outputOrderItemDTO = new OutputOrderItemDTO(this.orderService.deleteOrderItem(orderItemId, id));
-	   return	new ResponseEntity<>(outputOrderItemDTO, HttpStatus.OK);
+		 OutputOrderDTO orderItemDTO = new OutputOrderDTO(this.orderService.deleteOrderItem(orderItemId, id));
+	   return	orderItemDTO;
 	}
 	
 	
 	
-	@PostMapping(value = "/api/orders/orderItems/save")
-	public ResponseEntity<OutputOrderItemDTO> addOrderItem(@ModelAttribute InputOrderItemDTO inputOrderItemDTO) {
+	@GetMapping(value = "/discountCode/delete")
+	public OutputOrderDTO deleteDiscountCode( @RequestParam Long id) {
 		
+		return new OutputOrderDTO( this.orderService.deleteDiscountCode(id));
+	   	
+	}
+	
+	
+	@GetMapping(value = "/discountCode/get")
+	public OutputDiscountCodeDTO getDiscountCode( @RequestParam Long id) {
 		
-		OutputOrderItemDTO OutputOrderItemDTO = new OutputOrderItemDTO(this.orderService.addOrderItem(inputOrderItemDTO));
+		return new OutputDiscountCodeDTO(this.orderService.getDiscountCode(id));
+	   	
+	}
+	
+	
+	@PostMapping(value = "/discountCode/add")
+	public OutputOrderDTO addDiscountCode(@RequestParam String code, @RequestParam Long id) {
 		
-	   return	new ResponseEntity<>(OutputOrderItemDTO, HttpStatus.OK);
+	   return	 new OutputOrderDTO(this.orderService.addDiscountCode(code, id));
 	}
 	
 	
 	
-	@PostMapping(value = "/api/orders/orderItems/put/quantity")
-	public ResponseEntity<String> putOrderItemQuantity(@RequestParam int quantity, @RequestParam Long id) {
+	@PostMapping(value = "/orderItems/save")
+	public OutputOrderDTO addOrderItem(@ModelAttribute InputOrderItemDTO inputOrderItemDTO) {
 		
 		
-		this.orderService.putOrderItemQuantity(id, quantity);
+		OutputOrderDTO outputOrderDTO = new OutputOrderDTO(this.orderService.addOrderItem(inputOrderItemDTO));
 		
-	   return	new ResponseEntity<>("item quantity udapted", HttpStatus.OK);
-	}
-	
-	
-	@PostMapping(value = "/api/orders/put/status")
-	public ResponseEntity<String> putStatus(@RequestParam String status, @RequestParam long id) {
-		
-	   return new ResponseEntity<String>(this.orderService.putStatus(status, id).getStatus().name(), HttpStatus.OK)	;
+	   return	outputOrderDTO;
 	}
 	
 	
 	
-	@Data
-	@NoArgsConstructor
-	public class InputOrderDTO{
+	@PostMapping(value = "/invoice/save")
+	public OutputOrderDTO addOrderInvoice(@ModelAttribute @Valid InputOrderInvoiceDTO inputOrderInvoiceDTO) {
 		
-		private Long id;
-	    private Long discountCode;
-	    
-	    private Double totalAmount; // total price of the order
+		
+		 Order order =  this.orderService.addOrderInvoice(inputOrderInvoiceDTO);
+		 OutputOrderDTO outputOrderDTO = new OutputOrderDTO(order);
+		
+	   return outputOrderDTO;
+	}
+	
+	
+	
+	
+	@GetMapping(value = "/{id}")
+	
+	public OutputOrderDTO findOrderById(@PathVariable Long id) {
+		
+		OutputOrderDTO orderDTO = new OutputOrderDTO( this.orderService.getById(id));
+		
+	   return	orderDTO;
+	}
+	
+	
+	
+	
+	
+	@PostMapping(value = "/orderItems/put/quantity")
+	public OutputOrderDTO putOrderItemQuantity(@RequestParam int quantity, @RequestParam Long id,  @RequestParam Long orderItemId ) {
+		
+		
+			Order order = this.orderService.putOrderItemQuantity(id, quantity, orderItemId);
+		
+	   return	new OutputOrderDTO(order);
+	}
+	
+	
+	@PostMapping(value = "/put/status")
+	public OutputOrderDTO putStatus(@RequestParam String status, @RequestParam long id) {
+		
+	   return new OutputOrderDTO(this.orderService.putStatus(status, id))	;
+	}
+	
+	
+	
 
-	    @NonNull
-	    private int paymentMethod;
-	    
-	    private List<InputOrderItemDTO> orderItems; // list of items in the order
-
-	   
-	}
-	
-	@Data
-	@NoArgsConstructor
-	public class InputOrderItemDTO{
-		 
-			private Long order;
-			private Long id;
-		    private int quantity; // quantity of the product in the order
-		    private Long product; // product that the order item refers to
-		    
+	@PutMapping("/paymentMethod")
+	public OutputOrderDTO changePaymentMethod(@RequestParam Long methodId, @RequestParam Long orderId) {
+		
+		OutputOrderDTO outputOrderDTO = new OutputOrderDTO(this.orderService.updatPaymentMethod(methodId, orderId));
+			
+	  return	outputOrderDTO;
+		
+		
 	}
 	
 	
-	@Data
-	@NoArgsConstructor
-	public class OutputOrderItemDTO{
-		 
-			private Long id;
-		    private int quantity; // quantity of the product in the order
-		    private Long product; // product that the order item refers to
-		    
-		    public OutputOrderItemDTO(OrderItem orderItem) {
-		    	this.id = orderItem.getId();
-		    	this.quantity = orderItem.getQuantity();
-		    	this.product = orderItem.getProduct().getId();
-		    }
-	}
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }

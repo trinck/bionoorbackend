@@ -1,0 +1,125 @@
+@charset "UTF-8";
+
+.tab-col-body-item{
+	
+	border-bottom: 1px solid lightgray;
+	padding: 12px;
+	display: flex;
+}
+
+
+.tab-col-head{
+	
+	border-bottom: 1px solid lightgray;
+	padding: 10px;
+}
+
+
+.tab-col-body-action{
+	
+	display: flex;
+	gap: 12px;
+	padding: 12px;
+	cursor: pointer;
+}
+
+
+.tab-col-body-action:hover{
+	
+	
+}
+
+
+
+.bio-coupon{
+	position: relative;
+	background-color: rgba(0, 91, 0, 0.15);
+	border-color: rgb(0,91,0);
+	border-style: dotted;
+	overflow: hidden;
+	cursor: pointer;
+}
+
+
+
+.bio-coupon .discount{
+	
+	color:rgb(0,91,0) ;
+	font-size: x-large;
+	font-weight: 600;
+}
+
+.ruban{
+	
+	transform: rotateZ(45deg);
+	top: 0px;
+	position: absolute;
+	width: 100%;
+	left: 42%;
+	text-align: center;
+}
+
+
+.ruban-blue{
+	
+	background-color: var(--blue);
+	color: white;
+	
+}
+
+
+.ruban-brown{
+	
+	background-color: var(--brown);
+	color: black;
+	
+}
+
+
+
+.ruban-image{
+	
+	background-image:  url("../../images/card4.jpg");
+	
+}
+
+
+
+
+.products-list{
+	
+	border: 1px dotted var(--brown);
+	padding: 10px;
+	cursor: pointer;
+}
+
+
+.discountable{
+	
+	width: fit-content;
+    border-radius: 5%;
+    background-color: rgba(0, 106, 0, 0.20);
+    padding-left: 4px;
+     padding-right: 4px;
+}
+
+
+
+
+.key{
+	
+	width: 50%;
+}
+
+.value{
+	
+	width: 50%;
+	
+}
+
+.card{
+	
+	border: none;
+	height: fit-content;
+	width: 32%;
+}

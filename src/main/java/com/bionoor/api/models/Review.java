@@ -13,7 +13,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "reviews")
-public class Review implements Serializable{
+public class Review extends GenericBionoorEntity implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id; // unique identifier for the review

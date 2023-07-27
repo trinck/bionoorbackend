@@ -1,6 +1,7 @@
 package com.bionoor.api.services;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
@@ -18,7 +19,9 @@ import com.bionoor.api.repositories.ProductRepository;
 import com.bionoor.api.utils.ServiceStorageIn;
 
 import jakarta.persistence.EntityNotFoundException;
+import lombok.Data;
 
+@Data
 @Service
 public class CategoryService implements CategoryServiceIn{
     
@@ -32,6 +35,7 @@ public class CategoryService implements CategoryServiceIn{
 	
 	@Autowired
 	private ProductRepository productRepository;
+	
 	
 	
 	
@@ -116,6 +120,15 @@ public class CategoryService implements CategoryServiceIn{
 		return this.categoryRepository.save(Category);
 	}
 
-
+ 
+	public Map<String, Object> getDataGraphs(Long id){
+		
+		List<Product>  products = this.productRepository.findAll();
+		
+		Category category = this.getById(id);
+		Map<String, Object> data = Map.of("products", products, "category", category);
+		
+		return data;
+	} 
 }
 

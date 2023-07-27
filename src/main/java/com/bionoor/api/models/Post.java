@@ -7,10 +7,14 @@ import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "posts")
-public class Post implements Serializable{
+@Data
+@NoArgsConstructor
+public class Post extends GenericBionoorEntity implements Serializable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -17,9 +17,9 @@ import com.bionoor.api.models.Order;
 import com.bionoor.api.models.Order.OrderStatus;
 import com.bionoor.api.services.InvoiceService;
 import com.bionoor.api.services.OrderService;
+import com.bionoor.api.utils.InvoiceProcessingIn;
 
 @Controller
-
 public class AdminOrder {
 
 	
@@ -33,6 +33,8 @@ public class AdminOrder {
 	
 	@Autowired
 	private InvoiceService invoiceService;
+	
+	
 
 	@GetMapping(value = "/order")
 	public String order(Model model,@RequestParam(name = "id") int id) {
@@ -47,10 +49,11 @@ public class AdminOrder {
 	public String orders(Model model) {
 		
 		Map<String, String> mapStatusBG = new HashMap<>();
-		mapStatusBG.put(OrderStatus.PENDING.name(), "text-bg-danger");
+		mapStatusBG.put(OrderStatus.PENDING.name(), "text-bg-warning");
 		mapStatusBG.put(OrderStatus.PROCESSING.name(), "text-bg-secondary");
 		mapStatusBG.put(OrderStatus.READY.name(), "text-bg-primary");
 		mapStatusBG.put(OrderStatus.DELIVERED.name(), "text-bg-success");
+		mapStatusBG.put(OrderStatus.RETURNED.name(), "text-bg-danger");
 		List<Order>orders = this.orderService.allOrders();
 		
 		model.addAttribute("mapStatusBG", mapStatusBG);
@@ -65,6 +68,7 @@ public class AdminOrder {
 	public String orederView(Model model, @RequestParam(name = "id") Long id) 
 	{
 		Order order = this.orderService.getById(id);
+		
 		model.addAttribute("order", order);
 		model.addAttribute("invoice", order.getInvoice());
 		model.addAttribute("logo", logo);
