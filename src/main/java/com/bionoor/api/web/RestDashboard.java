@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bionoor.api.dto.OutputOrderDTO;
 import com.bionoor.api.models.Order;
+import com.bionoor.api.models.Order.OrderStatus;
 import com.bionoor.api.services.CategoryServiceIn;
 import com.bionoor.api.services.CustomerServiceIn;
 import com.bionoor.api.services.InvoiceServiceIn;
@@ -38,6 +39,29 @@ public class RestDashboard {
 	private OrderServiceIn orderServiceIn;
 	@Autowired
 	private CustomerServiceIn customerServiceIn;
+	
+	
+	
+	@GetMapping("/ordersByStatus")
+	public Map<OrderStatus, List<OutputOrderDTO>> ordersByStatus(){
+		
+		List<OutputOrderDTO> ready = toOutputDTO( this.orderServiceIn.findByStatus(OrderStatus.READY));
+		List<OutputOrderDTO> pending = toOutputDTO( this.orderServiceIn.findByStatus(OrderStatus.PENDING));
+		List<OutputOrderDTO> processing = toOutputDTO( this.orderServiceIn.findByStatus(OrderStatus.PROCESSING));
+		List<OutputOrderDTO> returned = toOutputDTO( this.orderServiceIn.findByStatus(OrderStatus.RETURNED));
+		List<OutputOrderDTO> delivered = toOutputDTO( this.orderServiceIn.findByStatus(OrderStatus.DELIVERED));
+		
+		Map<OrderStatus, List<OutputOrderDTO> > body = new HashMap<>();
+		
+		body.put(OrderStatus.READY, ready);
+		body.put(OrderStatus.PENDING, pending);
+		body.put(OrderStatus.PROCESSING, processing);
+		body.put(OrderStatus.RETURNED, returned);
+		body.put(OrderStatus.DELIVERED, delivered);
+		
+		return body;
+	} 
+	
 	
 	
 	@GetMapping("/fulfilled")

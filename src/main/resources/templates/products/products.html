@@ -12,8 +12,12 @@
     
     <!-- start hearder commun with all pages -->
     	<header class="d-flex border-bottom p-1" >
-    		<h5 >Products List</h5>
-    		
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="#"> <i class="bi bi-house-fill"></i> </a></li>
+					<li class="breadcrumb-item active" aria-current="page">Products list</li>
+				</ol>
+			</nav>
     		<div class="btn-group ms-auto btn-group-sm">
 						<a th:href="@{/productForm}" class="btn d-flex btn-outline-primary ">
 							<i class="bi bi-plus-lg"></i>new
@@ -81,7 +85,7 @@
 	    				</thead>
 	    				<tbody class=" ">
 	    					<tr th:each="p:${products}" th:id="${p.name}">
-	    						<td><img style="width: 70px;height: auto" th:src="${p.images[0].url}"></td> <td th:text="${p.name}"></td> <td th:text="${p.price}"></td> <td><span th:text="${p.code}" class=""></span></td> <td th:text="${p.category!=null? p.category.name: N/A}"></td> <td><span class="badge text-bg-success" th:text="${p.quantity}">485</span></td> <td>45</td> <td><div class="d-flex gap-3"><a class="" href="#"><i class="bi bi-pencil-fill text-secondary"></i></a><a th:href="@{/product(id=${p.id})}"><i class="bi bi-arrow-right text-secondary"></i></a></div> </td>
+	    						<td><img style="width: 70px;height: auto" th:src="${p.images[0].url}" class="rounded"></td> <td th:text="${p.name}"></td> <td th:text="${p.price}"></td> <td><span th:text="${p.code}" class=""></span></td> <td th:text="${p.category!=null? p.category.name: N/A}"></td> <td><span class="badge text-bg-success" th:text="${p.quantity}">485</span></td> <td>45</td> <td><div class="d-flex gap-3"><a class="" href="#"><i class="bi bi-pencil-fill text-secondary"></i></a><a th:href="@{/product(id=${p.id})}"><i class="bi bi-arrow-right text-secondary"></i></a></div> </td>
 	    					</tr>
 	    								    					
 	    					

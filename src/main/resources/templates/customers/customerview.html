@@ -14,7 +14,13 @@
 
 			<!-- start hearder commun with all pages -->
 			<header class="d-flex border-bottom p-1">
-				<h5 th:inline="text">customer #[[${customer.id}]] </h5>
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a href="#"> <i class="bi bi-house-fill"></i> </a></li>
+						<li class="breadcrumb-item"><a href="#">Customer list</i> </a></li>
+						<li class="breadcrumb-item active" aria-current="page">Customer view</li>
+					</ol>
+				</nav>
 				
 				<div class="ms-auto">
 					

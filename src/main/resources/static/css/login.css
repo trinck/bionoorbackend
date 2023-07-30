@@ -4,10 +4,9 @@
 
 body{
 	
-	background-image: url("../images/back1\ \(20\).jpeg");
-	background-repeat: round;
+	background-color: var(--brown)
 	
-}
+	}
 
 
 
@@ -16,7 +15,7 @@ body{
 	
 	display: flex;
 	gap: 4px;
-	height: 35px;
+	height: 45px;
 	background-color: #e8f0fe;
 	
 	padding-left: 6px;
@@ -33,6 +32,7 @@ input{
 	background-color: rgb(232,240,254);
 	width: 100%;
 	
+	
 }
 
 
@@ -45,7 +45,7 @@ input:focus{
 
 
  a.forgot-password {
-	color: white;
+
 	
 	text-decoration: none;
 }
@@ -61,7 +61,7 @@ input:focus{
 .logo{
 	
 	
-	width: 50%;
+	width: 90%;
 }
 
 .login-body{
@@ -72,9 +72,9 @@ input:focus{
 
 .login-card{
 	
-	background: url("../images/blackbac\ \(2\).jpeg"), rgba(0, 0, 0, 0.5);
-	background-repeat: round;
+	
 	border: none;
 	box-sizing: content-box;
+	background-color: transparent;
 }
 
