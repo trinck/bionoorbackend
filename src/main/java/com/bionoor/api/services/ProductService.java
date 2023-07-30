@@ -15,8 +15,10 @@ import com.bionoor.api.repositories.ProductRepository;
 import com.bionoor.api.utils.*;
 
 import jakarta.persistence.EntityNotFoundException;
+import lombok.Data;
 
 @Service
+@Data
 public class ProductService implements  ProductServiceIn{
 
 	
@@ -98,9 +100,16 @@ public class ProductService implements  ProductServiceIn{
 		return this.productRepository.findAll();
 	}
 	
-	public List<Product> findByName(String productName) {
+	public Product findByName(String productName) {
 		
-		return this.productRepository.findByName(productName);
+		List<Product>  products = this.productRepository.findByName(productName);
+		
+		if(products.size()>0) {
+			
+			return products.get(0);
+		}
+		
+		throw new EntityNotFoundException("product with name = "+productName+" doesn't exist");
 	}
 	
 	

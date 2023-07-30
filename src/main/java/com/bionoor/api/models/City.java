@@ -1,5 +1,8 @@
 package com.bionoor.api.models;
 
+import com.bionoor.api.dto.InputCityDTO;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -16,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "cities")
 @Data
 @NoArgsConstructor
-public class City {
+public class City extends GenericBionoorEntity{
 
 	
 	
@@ -28,7 +31,12 @@ public class City {
 	private String name;
 	
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "country_id")
 	private Country country;
+	
+	public City(InputCityDTO cityDTO) {
+		
+		this.name = cityDTO.getName();
+	}
 }

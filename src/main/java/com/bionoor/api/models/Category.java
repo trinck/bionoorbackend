@@ -33,12 +33,7 @@ public class Category extends Discountable implements Serializable{
 	 */
 	
 
-	/*
-	 * @Id
-	 * 
-	 * @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id; //
-	 * unique identifier for the category
-	 */
+	
 	@Column(nullable = false, unique = true)
 	private String name; // name of the category
 	
@@ -54,14 +49,7 @@ public class Category extends Discountable implements Serializable{
     @OneToMany(mappedBy = "parentCategory", cascade = CascadeType.PERSIST)
     private List<Category> subCategories = new ArrayList<Category>();;
     
- // The child categories of this category
-	/*
-	 * @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-	 * 
-	 * @JoinTable( name = "discountCode_category", joinColumns = @JoinColumn(name =
-	 * "category_id"), inverseJoinColumns = @JoinColumn(name = "discount_id"))
-	 * private List<DiscountCode> discountCodes = new ArrayList<DiscountCode>();
-	 */
+ 
 
 
 	@OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)

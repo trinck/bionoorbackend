@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -24,7 +24,7 @@
 			<a href="/"
 				class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
 				
-				<span class="navbar-brand fs-4" th:inline="text">[[${name}]]</span>
+				<span class="navbar-brand fs-4" th:inline="text"><img alt="" src="images/logo2.png" style="width: 100%"></span>
 				
 			</a>
 			<hr style="height: 2px; color: white">
@@ -35,7 +35,7 @@
 			<ul
 				class="d-block nav flex-grow-1 nav-pills bio-list-hover overflow-auto px-1 py-1 gap-3">
 
-				<li><a href="#" class="nav-link text-bg-warning rounded-1 d-flex gap-2">
+				<li><a href="dashboard" class="nav-link rounded-1 d-flex gap-2 " id="bio-btn-dashboard">
 						<i class="bi bi-speedometer2"></i> Dashboard
 				</a></li>
 
@@ -49,7 +49,7 @@
 				<!-- collapse product nav item----------------- -->
 				
 				<li><a href="#collapseproduct" data-bs-toggle="collapse" class="nav-link text-white d-flex gap-2"> <i
-						class="bi bi-basket3-fill"></i> Products <span class="badge  text-bg-warning rounded-pill ms-auto">14</span>
+						class="bi bi-basket3-fill"></i> Products 
 				</a></li>
 				
 				<!-- menu Products -->
@@ -59,7 +59,7 @@
 			
 								<ul class="d-block bio-list-hover p-1">
 									<li><a th:href="@{/products}" class="nav-link text-white d-flex ">
-											Products list </a></li>
+											Products </a></li>
 											
 									<li><a href="#" class="nav-link text-white d-flex ">
 											Product range </a></li>
@@ -89,7 +89,7 @@
 			
 								<ul class="d-block bio-list-hover p-1">
 									<li><a href="/customers" class="nav-link text-white d-flex ">
-											Customers list </a></li>
+											Customers</a></li>
 											
 									<li><a href="#" class="nav-link text-white d-flex ">
 											New customer </a></li>
@@ -168,7 +168,7 @@
 				<!-- divider APPS-->
 				<li class="text-muted bio-sidebar-title">APPS</li>
 				
-				<li><a href="#" class="nav-link text-white d-flex gap-2">
+				<li><a th:href="@{/medias}" class="nav-link text-white d-flex gap-2">
 				 <i class="bi bi-film"></i>Medias
 				</a></li>
 				
@@ -188,7 +188,7 @@
 									<li><a href="#" class="nav-link text-white d-flex ">
 											Sales </a></li>
 											
-									<li><a href="#" class="nav-link text-white d-flex ">
+									<li><a th:href="@{/payments}" class="nav-link text-white d-flex ">
 											Payment </a></li>
 								</ul>
 			
@@ -208,7 +208,7 @@
 				
 				
 				<!-- invoices  nav-item -->
-				<li><a th:href="@{invoices}" class="nav-link text-white d-flex gap-2">
+				<li><a th:href="@{/invoicesPages}" class="nav-link text-white d-flex gap-2">
 				 <i class="bi bi-receipt"></i>Invoice builder
 				</a></li>
 				
@@ -242,10 +242,10 @@
         <div id="content-wrapper" class="flex-grow-1 d-flex flex-column">
 
             <!-- Main Content -->
-            <div id="content" style="background-color: #F7F7F7">
+            <div id="content" class="" style="background-color: #F7F7F7">
 
                 <!-- Topbar -->
-                <nav class="navbar gap-2 navbar-expand bio-toolbar navbar-light p-2 bg-white topbar mb-4 shadow ">
+                <nav class="navbar gap-2 navbar-expand bio-toolbar navbar-light p-2  topbar mb-4 shadow ">
 						
 						<a href="#" class="btn border-0">
 							<i class="bi bi-list " style="font-size: 1.5rem;" ></i>
@@ -269,8 +269,8 @@
 						
 						</span>
                         <!-- Nav Item - User Information -->
-                        <div class="d-flex  align-items-center gap-2">
-                        	<span class="">User name, or email</span>
+                        <div class="d-flex  align-items-center gap-2" >
+                        	<span    th:text="${authentication!= null?authentication.principal.username:''}" >Username</span>
                         	<div class="border border-warning d-flex justify-content-center align-items-center border-1 rounded-circle" style="width: 50px; height: 50px;"><img class=" rounded-circle" alt="" src="assets/media/Capture d’écran (192).png" style="width: 40px; height: 40px"></div>
                         </div>
                           
@@ -284,11 +284,24 @@
 
              <!-- start content template fluid -->
              
-             <section  layout:fragment="content">
+             	<section  layout:fragment="content">
             
-             </section>
+             	</section>
              
+             <!-- for alert toast -->
+	             <div class="position-fixed w-100  d-flex  align-items-end " style="bottom: 6%;">
+	             	 <!-- toast container -->
+	             	 <div class="toast-container  p-2">
+							
+							
+						
+						</div>
+	             </div>
+            
              
+            
+             	
+            
              <!-- end content template fluid -->
            
             </div>
@@ -297,10 +310,10 @@
 
 
             <!-- Footer -->
-            <footer class="py-3 bin-footer bg-warning">
+            <footer class="py-3 bin-footer bio-bg-brown" >
                 <div class="container my-auto">
                     <div class="copyright text-center text-black my-auto">
-                        <span>Copyright © Your Website 2023</span>
+                        <span>Copyright © Bionoor Website 2023</span>
                     </div>
                 </div>
             </footer>
@@ -312,10 +325,26 @@
 	</div>
 	<!-- end of page wrapper -->
 	
+	<template id="toast-template">
+		<div class="toast " role="alert" aria-live="assertive"
+			aria-atomic="true">
+			<div class="toast-header">
+				<img src="images/logo.png" class="rounded me-2 " style="width: 50px; height: auto" alt="logo"> 
+				<strong
+					class="me-auto">Bionoor
+				</strong> <small
+					class="text-body-secondary">just now</small>
+				<button type="button" class="btn-close" data-bs-dismiss="toast"
+					aria-label="Close"></button>
+			</div>
+			<div class="toast-body"> <span class="toast-message"></span> </div>
+		</div>
+	</template>
 	
 
 	<!-- script bootstrap -->
 <script type="text/javascript"  src="webjars/bootstrap/5.2.3/js/bootstrap.min.js"></script>
 <script type="text/javascript"  src="webjars/jquery/3.6.4/jquery.min.js"></script>
+<script type="text/javascript"  src="js/index.js"></script>
 </body>
 </html>

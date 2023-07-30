@@ -52,44 +52,23 @@ inputDate.min = dateCorrectDigit(new Date())
 	 	
  }
  
- //******************************************** */
- function showToast(message, nature=1){
-	 switch(nature){
-		 case 1: alert(message);  break;
-		 case 2: break;
-		 case 3: break;
-		 default : break;
-	 }
- }
- 
+
  
  
  //************************************************ */
  
  async function addDiscount(id){
 	 
-	discountUrl = "/api/discounts/add"
+	url = "/api/discounts/categories/add"
 	var f = new FormData(formdiscount)
 	f.set("categoryId",id)
 	
 	
 	 try{
-				 fetch(discountUrl,{
-					method: "POST",
-					body: f,
-					
-					
-				}).then(response => {
-					if(response.status == 200){return response.json()}
-					else {
-						console.log(response.json())
-						throw new Error('error occured '+response.status);
-					}
-				})
-				.then(discountToDom)
-				.catch(error => showToast(error,1))
-				
-			
+				 
+				 fetchFunction(url=url,method= "POST", body=f, caller=discountToDom)
+				 
+				 
 	 }catch(e){
 		
 		 showToast("origin adding discount :"+e,1)
@@ -100,7 +79,7 @@ inputDate.min = dateCorrectDigit(new Date())
  
  
  
-async function toggleDiscountActif(event){
+ async function toggleDiscountActif(event){
 	
 	event.preventDefault()
 	var url = "/api/discounts/toggleActif"
@@ -112,23 +91,13 @@ async function toggleDiscountActif(event){
 	
 	
 	 try{
-				 fetch(url,{
-					method: "POST",
-					body: form
-					
-					
-					
-				}).then(response => response.json)
-				.catch(error => showToast(error,1))
-					
-				
-			
+		 
+		 fetchFunction(url, "POST", form, resultat =>{} )
+		 		
 	 }catch(e){
-		 showToast("origin adding discount :"+e,1)
+		 showToast("origin toggle discountActif :"+e,1)
 	 }
 }
-
-
 
 
 //******************change category name */
@@ -140,25 +109,17 @@ async function changeName(event, id){
 	f.set("id",id)
 	f.set("name", event.target.value)
 
-
+//fetchFunction
 	try{
-				 fetch(url,{
-					method: "POST",
-					body: f
+				
+				fetchFunction(url, "POST", f, resultat =>{
 					
-				}).then(response => {
-					if(response.status == 200){return response.text()}
-					else {
-						console.log(response.json())
-						throw new Error('error occured '+response.status)
-					}}).then(e => showToast("name mis à jour to :"+e)
-						
-					).catch(error => showToast(error))
 					
+				})
 				
 			
 	 }catch(e){
-		 showToast("origin adding discount :"+e)
+		 showToast("origin changing category name :"+e)
 	 }
 	
 }
@@ -184,9 +145,67 @@ function discountToDom(discount){
 	discountList.appendChild(clone)
 }
 
-function updateName(name){
+
+
+//**************charts********************************** */
+
+
+document.addEventListener("DOMContentLoaded", event =>{
 	
+	var editname = document.getElementById("edit-name")
+	var editparent = document.getElementById("edit-parent")
+	
+	editname.addEventListener("click", editName)
+	editparent.addEventListener("click", editParent)
+	
+	
+	
+	
+	const id = document.querySelector(".infos").id
+	fetchFunction("api/categories/graphs/"+id, "GET", null, initGrapghs)
+	
+	
+ 
+	
+})
+
+/***********init graphs************************** */
+ function initGrapghs(data){
+	
+	
+	const canvas = document.getElementById("nbr-product");
+
+	const chart = new Chart(canvas, {
+	
+				type: 'doughnut',
+			    data: {labels: [
+			    'This catégory',
+			    'Others'
+			  ],
+			  datasets: [{
+			    label: 'My First Dataset',
+			    data: [data.category.products.length, data.products.length],
+			    backgroundColor: [
+			      'rgb(54, 162, 235)',
+			      'rgb(255, 205, 86)'
+			    ],
+			    hoverOffset: 4
+			  }]
+			    }
+			});
 	
 }
- 
- 
+
+/**********************Edit************************* */
+
+function editName(event){
+	
+	var element = document.getElementById("categoryName")
+	element.toggleAttribute("disabled")
+}
+
+function editParent(event){
+	
+	var element = document.getElementById("categoryParent")
+	element.toggleAttribute("disabled")
+}

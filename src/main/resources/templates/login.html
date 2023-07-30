@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Login</title>
+<link type="text/css" rel="stylesheet" href="webjars/bootstrap/5.2.3/css/bootstrap.min.css">
+<link type="text/css" rel="stylesheet" href="webjars/bootstrap-icons/1.10.2/font/bootstrap-icons.css">
+<link type="text/css" rel="stylesheet" th:href="@{css/style.css}">
+<link type="text/css" rel="stylesheet" th:href="@{css/login.css}">
+
+</head>
+<body>
+
+
+
+ <div class="container " style="height: 100vh;">
+	 
+	 
+	 <div class="row justify-content-center align-items-center  h-100">
+		 
+		 <div class="col-4  ">
+			 
+			<div class="login-header d-flex mb-5 flex-column gap-1 w-100 align-items-center">
+				<img class="logo d-block" src="images/LOGO8RETURNED.png">
+				<span class="welcome  text-center fs-4">Welcome</span>
+			</div>
+			 <form class=" login-card " action="login" method="post">
+				 
+				
+				 <div class=" d-flex flex-column gap-4">
+					 
+					 
+					 
+					 <div class="login-body " >
+						 
+						<div class=" d-flex flex-column gap-4 ">
+							
+							<div class="input-glob rounded-1">
+								<i class="bi bi-person-fill d-flex align-items-center"></i>
+								<input required class=" rounded-1 " placeholder="username" name="username" type="text">
+							</div>
+							
+							<div class="input-glob rounded-1">
+								<i class="bi bi-key-fill d-flex align-items-center"></i>
+								<input required class=" rounded-1" placeholder="password" name="password" type="password">
+							</div>
+							
+							
+							
+							<button class="bio-btn bio-btn-blue w-100 rounded-1" type="submit"> Submit</button>
+							
+						</div>
+						<div class="text-end k">
+							<a class="forgot-password" href="#">Forgot password ?</a>
+						</div>
+					 </div>
+				 </div>
+				 
+			 </form>
+		 </div>
+	 </div>
+		 
+	 
+	 
+ </div>
+
+
+
+
+
+
+
+
+
+
+<!-- script bootstrap -->
+<script type="text/javascript"  src="webjars/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+<script type="text/javascript"  src="webjars/jquery/3.6.4/jquery.min.js"></script>
+</body>
+</html>

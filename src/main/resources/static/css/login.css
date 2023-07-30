@@ -1,0 +1,80 @@
+@charset "UTF-8";
+
+
+
+body{
+	
+	background-color: var(--brown)
+	
+	}
+
+
+
+
+.input-glob{
+	
+	display: flex;
+	gap: 4px;
+	height: 45px;
+	background-color: #e8f0fe;
+	
+	padding-left: 6px;
+	padding-right: 6px;
+	box-sizing: border-box;
+	
+	
+}
+
+
+input{
+	
+	border: none;
+	background-color: rgb(232,240,254);
+	width: 100%;
+	
+	
+}
+
+
+input:focus{
+	
+	outline: none;
+	background-color: rgb(232,240,254);
+}
+
+
+
+ a.forgot-password {
+
+	
+	text-decoration: none;
+}
+
+
+.password:focus{
+	
+
+	
+}
+
+
+.logo{
+	
+	
+	width: 90%;
+}
+
+.login-body{
+	
+	box-sizing: content-box;
+	
+}
+
+.login-card{
+	
+	
+	border: none;
+	box-sizing: content-box;
+	background-color: transparent;
+}
+

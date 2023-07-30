@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light"  xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="index">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard</title>
+</head>
+<body>
+    <div id="fragment" style="width: 95%;"	class="container d-flex flex-column gap-4"	layout:fragment="content">
+    
+    <!-- start hearder commun with all pages -->
+    	<header class=" border-bottom p-1" >
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="#"> <i class="bi bi-house-fill"></i> </a></li>
+					<li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+				</ol>
+			</nav>
+    	</header>
+    	
+     <!-- end hearder commun with all pages -->
+    
+    
+    
+    <!-- start content -->
+	    <section class="row gx-0    p-1 pb-3  rounded-1" >
+	    	
+	    	<div class="col-12">
+				
+				<div class="d-block d-sm-flex gap-2 mb-5">
+						<div class="card-body shadow-sm d-flex gap-3 bio-bl-green align-items-center p-3">
+							<div> <i class="bi bi-currency-dollar stat-icon"></i> </div>
+						
+							<div class="d-flex flex-column ">
+								<span class="fs-6">This week sales</span>
+								<span class="fw-semibold">500</span>
+							</div>
+						
+							<div class="ms-auto">
+								<a><i class="bi bi-arrow-right"></i> </a>
+							</div>
+						</div>
+						
+						
+						
+						<div class="card-body shadow-sm d-flex bio-bl-red gap-3 align-items-center p-3">
+							<div> <i class="bi bi-truck stat-icon"></i> </div>
+						
+							<div class="d-flex flex-column  ">
+								<span class="fs-6 ">Order to deliver</span>
+								<span class="fw-semibold" th:inline="text"> [[${toDeliver}]]</span>
+							</div>
+						
+							<div class="ms-auto">
+								<a><i class="bi bi-arrow-right"></i> </a>
+							</div>
+						</div>
+						
+						
+						<div class="card-body shadow-sm d-flex bio-bl-blue gap-3 align-items-center p-3">
+							<div> <i class="bi bi-cash stat-icon"></i> </div>
+						
+							<div class="d-flex flex-column  ">
+								<span class="fs-6 ">Earned</span>
+								<span class="fw-semibold" th:inline="text"> [[${earned}]] </span>
+							</div>
+						
+							<div class="ms-auto">
+								<a><i class="bi bi-arrow-right"></i> </a>
+							</div>
+						</div>
+						
+						
+						<div class="card-body shadow-sm d-flex bio-bl-brown gap-3 align-items-center p-3">
+							<div> <i class="bi bi-person-fill stat-icon"></i> </div>
+						
+							<div class="d-flex flex-column  ">
+								<span class="fs-6 ">Customers</span>
+								<span class="fw-semibold" th:inline="text">[[${customers}]]</span>
+							</div>
+						
+							<div class="ms-auto">
+								<a><i class="bi bi-arrow-right"></i> </a>
+							</div>
+						</div>
+				</div>
+				
+			
+				
+			</div>
+			
+		<!-- encdcol-->	
+			
+			<div class="col-12 ">
+				
+				<div class="d-block d-sm-flex gap-2 mb-3">
+					<!-- graph-start-->
+					<div class="card-body shadow-sm bg-white p-2">
+						<canvas width="100%" id="graph-orders-fulfilled"></canvas>
+					</div>
+					
+					<!-- graph-start-->
+					<div class="card-body shadow-sm bg-white p-2" style="width: 35%;">
+						<canvas width="100%" id="graph-orders-status"></canvas>
+					</div>
+				</div>
+				
+			</div>
+		
+			
+			<!-- encdcol-->	
+		
+			
+			<div class="col-12 ">
+				
+				<div class="d-block d-sm-flex gap-2 mb-3">
+					<!-- graph-start-->
+					<div class="card-body d-flex  shadow-sm bg-white p-2 gap-4"  style="width: 40%;">
+						
+						<div class="d-flex flex-column  justify-content-around fw-semibold" style="width: 40%;">
+							<div class="d-flex text-danger"> <span>Stockout Items</span> <span class="ms-auto">230</span> </div>
+							<div class="d-flex"> <span>Low Stock Items</span> <span class="ms-auto">500</span></div>
+							<div class="d-flex"> <span>Available Items</span> <span class="ms-auto">1000</span></div>
+						</div>
+						
+						<div class="">
+							
+							<canvas   id="graph-stock"></canvas>
+						</div>
+					</div>
+					
+					<!-- graph-start-->
+					<div class="card-body shadow-sm  bg-white p-2" >
+						
+						<div class="card-title">
+							Titre
+						</div>
+						
+						<div class="table-responsive">
+							<table class="table">
+								<thead>
+									<tr>
+										<th>Image</th>
+										<th>Name</th>
+										<th>Revenue</th>
+										<th>Stock status</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td > <img src="images/_7cacb172-2bdd-42e8-89da-3f58ece65a8d.jpeg" class="rounded" style="width: 49px;"> </td>
+										<td>Huile d'argan</td>
+										<td>500 MAD</td>
+										<td> <span class="badge bg-success shadow">400 available</span></td>
+										<td> <i class="bi bi-pencil-fill text-success" ></i> </td>
+									</tr>
+									
+									<tr>
+										<td > <img src="images/card3.jpg" class="rounded" style="width: 49px;"> </td>
+										<td>Huile d'argan</td>
+										<td>500 MAD</td>
+										<td><span class="badge bg-danger shadow">Out of stock</span> </td>
+										<td> <i class="bi bi-pencil-fill text-success"></i> </td>
+									</tr>
+									
+									
+									<tr>
+										<td > <img src="images/card2.jpg" class="rounded" style="width: 49px;"> </td>
+										<td>Huile d'argan</td>
+										<td>500 MAD</td>
+										<td> <span class="badge bg-warning shadow">40 available</span> </td>
+										<td> <i class="bi bi-pencil-fill text-success"></i> </td>
+									</tr>
+									
+									
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+	    	
+	    	
+	    	<!-- encdcol-->	
+			
+			<div class="col-8 ">
+				
+				<div class="card-body shadow-sm bg-white p-2">
+					<canvas width="100%" id="graph-sales"></canvas>
+				</div>
+			</div>
+			
+	    	
+	    </section>
+		 
+		 
+		 
+		
+		 
+	     
+	     <!-- the template for creat new discount -->
+	     
+	     <template id="template">
+	    		<li  class="list-group-item shadow-sm  " > <div  class=" w-100 d-flex gap-2 "> <span class="discount-name text-secondary" ></span> <span  class="ms-auto text-secondary discount-date" ></span>  <input  onchange="toggleDiscountActif(event)" class="form-check-input discount-check" type="checkbox"></input> </div> </li>
+	     </template>
+		 
+     <script type="module" src="webjars/chart.js/4.3.0/dist/chart.umd.js" ></script>
+      <script type="text/javascript" src="js/dashboard/dashboardviews.js" ></script>
+     
+    </div>
+    
+</body>
+</html>

@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
@@ -28,7 +30,7 @@ public abstract class Discountable implements Serializable {
 	@GeneratedValue
 	protected Long id;
 	
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	@JoinTable(
 			name = "discountable_discountCode",
 			joinColumns = @JoinColumn(name="discountable_id"),

@@ -1,0 +1,51 @@
+@charset "UTF-8";
+
+
+
+.media-opt{
+	
+	background: linear-gradient(to bottom, rgba(0,0,0,.1), rgba(0,0,0,.3), rgba(0,0,0,.7) );
+	width: 100%;
+	height: 100%;
+	color: white;
+	padding: 8px;
+	position: absolute;
+	z-index: 1;
+	top: 0px;
+	cursor: pointer;
+	transform: scale(0);
+	border-radius: 50%;
+	transition: transform 0.5s, border-radius 0.5s; 
+	
+}
+
+
+.media-opt .media-name{
+	
+	
+	
+}
+
+
+.media-opt-scal{
+	
+	transform: scale(1);
+	border-radius: inherit;
+}
+
+
+.media-view{
+	
+	
+	position: relative;
+	top: 0px;
+	z-index: 1;
+	cursor: pointer;
+	width: 100%;
+	
+}
+
+
+
+
+

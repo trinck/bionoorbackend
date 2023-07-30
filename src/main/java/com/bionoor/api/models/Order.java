@@ -9,11 +9,13 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.bionoor.api.web.RestOrder.InputOrderDTO;
+import com.bionoor.api.dto.InputOrderDTO;
+import com.bionoor.api.utils.OrderListener;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
@@ -31,12 +33,13 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @NoArgsConstructor
+@EntityListeners(OrderListener.class)
 @Table(name = "orders")
 public class Order implements Serializable{
 
 	public enum OrderStatus{
 		
-		PENDING, DELIVERED,PROCESSING, READY;
+		PENDING, DELIVERED,PROCESSING, READY, RETURNED;
 	}
 	
 	
@@ -48,7 +51,12 @@ public class Order implements Serializable{
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Date createdAt; // date and time when the order was placed
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+   
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    private Date modifiedAt; // date and time when the order was placed
+
+    
+    @OneToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "discountCode_id")
     private DiscountCode discountCode;
     
@@ -65,7 +73,7 @@ public class Order implements Serializable{
     @Column(nullable = false)
     private String adrress;
     
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "paymentMethod_id")
     private PaymentMethod paymentMethod;
     
@@ -73,20 +81,18 @@ public class Order implements Serializable{
     private boolean fulfilled; // flag indicating whether the order has been fulfilled
 
     
-    @OneToOne(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToOne(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Invoice invoice;
     
     
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "customer_id", nullable = true)
     private Customer customer; // user who placed the order
 
     @OneToMany(mappedBy = "order",fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> orderItems = new ArrayList<>(); // list of items in the order
 
-   public Order(InputOrderDTO inputOrderDTO) {
-	   this.totalAmount = inputOrderDTO.getTotalAmount();
-   }
+   
 	
 
     // other properties and methods

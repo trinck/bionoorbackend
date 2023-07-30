@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light"  xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="index">
+<head>
+<meta charset="UTF-8">
+<link type="text/css" rel="stylesheet" href="css/medias/medias.css">
+<title>Media Library</title>
+</head>
+<body>
+    <div style="width: 95%;"	class="container d-flex flex-column gap-4"	layout:fragment="content">
+    
+    <!-- start hearder commun with all pages -->
+    	<header class="d-flex  p-1 gap-2 align-items-center" >
+    		
+    		<h5  ></h5> 
+    		
+    		<!-- breadcrumb -->
+			
+			
+			
+			
+			<!-- end breadcrumb -->
+    		
+    		<button href="" class="bio-btn d-flex gap-1 ms-auto bio-btn-brown  rounded shadow"   data-bs-toggle="modal" data-bs-target="#exampleModal">
+						<i class="bi bi-plus-lg"></i> Add new assets
+			</button>
+    	</header>
+    	
+    <!-- end hearder commun with all pages -->
+    
+    
+    <!-- start content -->
+    
+    	
+    
+	    <section class="shadow-sm container mb-3 bg-white p-1 pb-5" >
+	    	
+	    	
+	    	<div class="d-flex flex-column gap-4 ">
+	    	
+	    	
+	    	
+	    	
+	    	<!-- table card start -->
+	    		<div class="card border-0">
+	    	
+	    		<div class="card-body">
+	    		
+	    			<!-- table header -->
+				<div class="bio-table-head d-flex gap-2 my-3">
+			
+				</div>
+	    		
+				<!-- media header end -->
+	    		
+	    		
+	    		<div class="container">
+					
+		    		<div   class=" row  g-2  " >
+						
+						<div th:each="col, index:${medias}" class="col-12 col-lg-4 d-flex flex-column gap-2 col-md-6 flex-wrap">
+							
+								<div th:each="media:${col}" class="position-relative" onmouseleave="onMediaLeave(event)" >
+									<img   th:src="${media.url}" class=" media-view " onmouseover="onMediaHover(event)">
+									<div class="media-opt  d-flex flex-column justify-content-end">
+										<span th:text="${media.name}" class="media-name ">	
+										</span>
+										
+										<div class="d-flex gap-2 media-action">
+											<span th:text="${media.type}"></span>  <i class="bi bi-pencil-square " style="font-size: large;"></i>
+										</div>
+									</div>
+								</div>
+						</div>
+					</div>
+					
+					
+				</div>
+	    		
+	    		<!-- end container media-->
+	    		
+	    		
+				</div>
+	    		
+	    	
+	    			<!-- navigation -->
+	    			
+	    		</div>			    		
+	    		
+	    		
+	    	<!-- table card end -->
+	    	
+	    	</div>
+	    	
+	    	
+	    	
+	    	<!-- Modal -->
+	    	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h1 class="modal-title fs-5" id="exampleModalLabel">New assets</h1>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body" th:inline="text">
+							
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary rounded-1" data-bs-dismiss="modal">Close</button>
+							<button type="button" class="btn rounded-1" style="background-color: #1976d2; color: white">Save</button>
+						</div>
+					</div>
+				</div>
+			</div>
+	    	
+	    	
+	    </section>
+	    <script src="js/medias/medias.js">
+			
+		</script>
+    </div>
+</body>
+</html>

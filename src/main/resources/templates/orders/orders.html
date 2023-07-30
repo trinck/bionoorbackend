@@ -10,7 +10,12 @@
     
     <!-- start hearder commun with all pages -->
     	<header class="row border-bottom p-1" >
-    		<h5 >Orders List</h5>
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="#"> <i class="bi bi-house-fill"></i> </a></li>
+					<li class="breadcrumb-item active" aria-current="page">Orders list</li>
+				</ol>
+			</nav>
     	</header>
     	
      <!-- end hearder commun with all pages -->
@@ -31,22 +36,22 @@
 	    		
 	    			<!-- table header -->
 				<div class="bio-table-head d-flex gap-2 my-3">
-					<div class="input-group w-25 input-group-sm">
-						<input type="search" class="form-control "
-							placeholder="search">
-						<a class="btn btn-outline-primary" type="button"
-							id="button-addon2"><i class="bi bi-search"></i></a>
-																												
+					<div class=" w-25 d-flex gap-1  rounded-1 " id="search-parent">
+				
+						<i class="bi bi-search "></i> <input type="search" name="mc" class=" " placeholder="search. . ."
+							th:value="${mc}" id="search">
+				
 					</div>
-					
-					
-					
-					<a class="btn btn-primary btn-sm rounded-1" style="background-color: #1976d2; color: white">
+				
+				
+				
+				
+					<a class="bio-btn bio-btn-blue rounded-1 btn-sm d-flex text-center">
 						<i class="bi bi-filter"></i> sort
 					</a>
-					
-					
-
+				
+				
+				
 				</div>
 				<!-- table header end -->
 	    	
@@ -54,12 +59,12 @@
 	    			<table class="table table-sm table-responsive table-hover align-middle">
 	    				<thead>
 	    					<tr>
-	    						<th>#No</th> <th>customer</th> <th> Date</th> <th>total amount</th> <th>products number</th> <th>Status</th> <th>Invoiced</th> <th>Method</th> <th>Edit</th>
+	    						<th>#No</th> <th>customer</th> <th> Date</th> <th>total amount</th> <th>Items number</th> <th>Status</th> <th>Invoiced</th> <th>Method</th> <th>Edit</th>
 	    					</tr>
 	    				</thead>
 	    				<tbody class="">
 	    					<tr th:each="order:${orders}">
-	    						<td th:text="${order.id}"></td> <td th:text="${order.customer.username}"></td> <td th:text="${#dates.format(order.createdAt, 'dd-MM-yyyy hh:mm:ss')}"> </td> <td th:text="${order.totalAmount}+' MAD'"></td> <td>45</td> <td><span th:class="'badge '+${mapStatusBG[order.status.name]}" th:text="${order.status}"> </span></td> <td><i th:class=" ${order.invoice!=null? 'bi bi-check-circle text-success': 'bi bi-check-circle text-danger'}"></i></td> <td th:text="${order.paymentMethod!=null ?order.paymentMethod.discriminatorValue:'N/A' }"></td> <td><div class="d-flex gap-3"><a href="#"><i class="bi bi-check-lg text-success"></i></a> <a href="#"><i class="bi bi-x-lg text-danger"></i> </a> <a th:href="@{/orederView(id = ${order.id})}"><i class="bi bi-arrow-right text-secondary"></i></a></div> </td>
+	    						<td th:text="${order.id}"></td> <td th:text="${order.customer.username}"></td> <td th:text="${#dates.format(order.createdAt, 'dd-MM-yyyy hh:mm:ss')}"> </td> <td th:text="${#numbers.formatDecimal(order.totalAmount,1,2)}"></td> <td th:text="${#lists.size(order.orderItems)}"></td> <td><span th:class="'badge '+${mapStatusBG[order.status.name]}" th:text="${order.status}"> </span></td> <td><i th:class=" ${order.invoice!=null? 'bi bi-check-circle text-success': 'bi bi-check-circle text-danger'}"></i></td> <td th:text="${order.paymentMethod!=null ?order.paymentMethod.name:'N/A' }"></td> <td><div class="d-flex gap-3"><a href="#"><i class="bi bi-check-lg text-success"></i></a> <a href="#"><i class="bi bi-x-lg text-danger"></i> </a> <a th:href="@{/orederView(id = ${order.id})}"><i class="bi bi-arrow-right text-secondary"></i></a></div> </td>
 	    					</tr>
 	    					
 	    					

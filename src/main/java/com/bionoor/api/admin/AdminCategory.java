@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -54,6 +56,8 @@ public class AdminCategory {
 	@Value("${app.logo}")
 	 private String logo;
 	
+	 
+	
 	
 	
 
@@ -62,7 +66,9 @@ public class AdminCategory {
 		 List<Category> categories = this.categoryService.allCategories();
 		model.addAttribute("name", name);
 		model.addAttribute("categories", categories);
-		 
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		
+		model.addAttribute("authentication", authentication);
 		//System.out.println(this.productRepository.findAll());
 		//System.out.println(categories);
 		return "categories/categorieslist.html";
@@ -75,6 +81,9 @@ public class AdminCategory {
 		model.addAttribute("name", name);
 		model.addAttribute("category", newCategory);
 		model.addAttribute("categories", categories);
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		
+		model.addAttribute("authentication", authentication);
 		return "categories/categoryform.html";
 	}
 	
@@ -97,6 +106,9 @@ public class AdminCategory {
 	
 	@GetMapping(value = "/deleteCategory")
 	public String deleteCategory(Model model,@RequestParam Long id) {
+		
+		
+		
 		
 		 this.categoryService.delete(id);	
 	    return categories(model); 

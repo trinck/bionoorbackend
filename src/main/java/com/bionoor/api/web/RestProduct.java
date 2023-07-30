@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bionoor.api.dto.OutputProductDTO;
 import com.bionoor.api.models.Category;
 import com.bionoor.api.models.Certificat;
 import com.bionoor.api.models.Media;
@@ -36,79 +37,30 @@ import lombok.NoArgsConstructor;
 
 @RestController
 @CrossOrigin("*")
-
 public class RestProduct {
 
 	@Autowired
 	private ProductService productService;
 	@GetMapping(value = "/api/products/search")
-	public List<OutputProductDTO> search(@RequestParam @NotEmpty String name) {
+	public OutputProductDTO search(@RequestParam @NotEmpty String name) {
 		
-		return  new OutputProductDTO().fromListProduct(this.productService.findByName(name));
+		return  new OutputProductDTO(this.productService.findByName(name));
+	}
+	
+	@GetMapping(value = "/api/products/all")
+	public List<OutputProductDTO> AllProduct() {
+		
+		
+		List<Product> list = this.productService.allProducts();
+		List<OutputProductDTO> productDTOs = new ArrayList<>();
+		
+		list.forEach(p ->{
+			productDTOs.add(new OutputProductDTO(p));
+		});
+		
+		return productDTOs; 
 	}
 	
 	
-	
-	
-	public class InputProductDTO{}
-	
-	@Data
-	@NoArgsConstructor
-	public class OutputProductDTO{
-		
-		    private Long id;
-		    private String name; // product name
-
-		    private String code; // product name
-		    
-		    private String steps; // product steps preparation
-		    
-		    private String ingredients; // product ingredients
-		    
-
-		    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
-		    private Date createAt; // creation date 
-		    
-		   
-		  
-		    private String description; // product description
-
-		    private Double price; // product price
-		    
-		   
-		    private Long quantity; // product price
-		    
-		    private Double promotion; // promotion
-
-		   public  OutputProductDTO(Product product) {
-			   this.id = product.getId();
-			   this.code = product.getCode();
-			   this.createAt = product.getCreateAt();
-			   this.description = product.getDescription();
-			   this.name = product.getName();
-			   this.quantity = product.getQuantity();
-			   this.promotion = product.getPromotion();
-			   this.price = product.getPrice();
-			   this.ingredients = product.getIngredients();
-			   this.steps = product.getSteps();
-		   }
-		   
-		   public  List<OutputProductDTO> fromListProduct(List<Product> list){
-			
-			   List<OutputProductDTO> dtos = new ArrayList<>();
-			   
-			   list.forEach(product ->{
-				   dtos.add(new OutputProductDTO(product));
-			   });
-			   return dtos;
-			   
-		   }
-		   
-		   
-		  
-		   
-		   
-		 
-	}
 }
 

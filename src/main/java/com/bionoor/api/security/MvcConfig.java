@@ -15,14 +15,29 @@ public class MvcConfig implements WebMvcConfigurer {
 	@Value("${app.moduls.media.storage}")
 	private  String rootMedia;
 	
+	@Value("${app.professional.documents.storage}")
+	private String rootDocuments;
+	
 	
    @Override
 public void addResourceHandlers(ResourceHandlerRegistry registry) {
 	// TODO Auto-generated method stub
 	WebMvcConfigurer.super.addResourceHandlers(registry);
-	exposeDirectory(rootMedia, registry);
+	exposeMediaDirectory(rootMedia, registry);
+	exposeProfessionalDocumentDirectory(rootDocuments, registry);
 }
-    private void exposeDirectory(String dirName, ResourceHandlerRegistry registry) {
+    private void exposeMediaDirectory(String dirName, ResourceHandlerRegistry registry) {
+        Path uploadDir = Paths.get(dirName);
+        String uploadPath = uploadDir.toFile().getAbsolutePath();
+         
+        if (dirName.startsWith("../")) dirName = dirName.replace("../", "");
+         
+        registry.addResourceHandler("/" + dirName + "/**").addResourceLocations("file:/"+ uploadPath + "/");
+    }
+    
+    
+    
+    private void exposeProfessionalDocumentDirectory(String dirName, ResourceHandlerRegistry registry) {
         Path uploadDir = Paths.get(dirName);
         String uploadPath = uploadDir.toFile().getAbsolutePath();
          

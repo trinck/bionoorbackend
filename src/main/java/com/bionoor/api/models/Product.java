@@ -15,6 +15,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -45,7 +46,7 @@ public class Product extends Discountable implements Serializable{
     
     private String ingredients; // product ingredients
     
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<OrderItem> orderItems = new ArrayList<>();
 
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
@@ -53,6 +54,7 @@ public class Product extends Discountable implements Serializable{
     
    
   
+    @Column(length = 10000)
     private String description; // product description
 
     @Column(nullable = false)
@@ -62,14 +64,10 @@ public class Product extends Discountable implements Serializable{
     private Long quantity; // product price
     
     private Double promotion; // promotion
+    
+    private boolean isOnSale; // promotion
 
-	/*
-	 * @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-	 * 
-	 * @JoinTable( name = "discountCode_product", joinColumns = @JoinColumn(name =
-	 * "product_id"), inverseJoinColumns = @JoinColumn(name = "discount_id"))
-	 * private List<DiscountCode> discountCodes = new ArrayList<DiscountCode>();
-	 */
+	
     
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(
@@ -98,6 +96,7 @@ public class Product extends Discountable implements Serializable{
 
     // other properties and methods
     
+   
     
    
     public void setReview(Review review) {
@@ -113,10 +112,10 @@ public class Product extends Discountable implements Serializable{
     
     public Product(InputProductDto productDto ) {
     	this.price = productDto.getPrice();
-    	this.code = productDto.getCode();
-    	this.description = productDto.getDescription();
-    	this.name = productDto.getName();
-    	this.ingredients = productDto.getIngredients();
+    	this.code = productDto.getCode().trim();
+    	this.description = productDto.getDescription().trim();
+    	this.name = productDto.getName().trim();
+    	this.ingredients = productDto.getIngredients().trim();
     	this.promotion = productDto.getPromotion();
     	this.quantity = productDto.getQuantity();
     	

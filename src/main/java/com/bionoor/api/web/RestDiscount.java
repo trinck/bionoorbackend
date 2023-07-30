@@ -19,14 +19,21 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bionoor.api.dto.InputDiscountCustomerDTO;
+import com.bionoor.api.dto.InputDiscountIn;
+import com.bionoor.api.dto.OutputDiscounDCP;
+import com.bionoor.api.dto.OutputDiscountCodeDTO;
+import com.bionoor.api.dto.OutputDiscountDCC;
 import com.bionoor.api.exceptions.EntityUnknowException;
 import com.bionoor.api.exceptions.FieldsAlreadyExistsException;
 import com.bionoor.api.models.Category;
 import com.bionoor.api.models.DiscountCode;
+import com.bionoor.api.models.DiscountDCC;
 import com.bionoor.api.models.Product;
 import com.bionoor.api.services.DiscountCodeService;
 
@@ -44,6 +51,7 @@ import lombok.NoArgsConstructor;
 
 @RestController
 @CrossOrigin("*")
+@RequestMapping("/api/discounts")
 public class RestDiscount {
 
 	
@@ -61,14 +69,14 @@ public class RestDiscount {
 	
 	
 
-	@GetMapping(value = "/api/discounts/all")
+	@GetMapping(value = "/all")
 	public List<DiscountCode> discountCodes() {
 		 List<DiscountCode> discountCodes = this.discountCodeService.all();
 		return discountCodes;
 	}
 	
 	
-	@PostMapping(value = "/api/discounts/put/code")
+	@PostMapping(value = "/put/code")
 	public ResponseEntity<String>  putCode(@Valid @ModelAttribute DistcountDtoCode  distcountDtoCode) {
 		
 		
@@ -79,43 +87,105 @@ public class RestDiscount {
 		return new ResponseEntity<String>(discountCode.getCode(), HttpStatus.OK);
 	}
 	
-	@PostMapping(value = "/api/discounts/put/endDate")
-	public ResponseEntity<String>  putEndDate(@Valid @ModelAttribute DistcountDtoEndDate  distcountDtoEndDate) {
+	@PostMapping(value = "/put/endDate")
+	public OutputDiscountCodeDTO  putEndDate(@Valid @ModelAttribute DistcountDtoEndDate  distcountDtoEndDate) {
 		
 		
 		 DiscountCode discountCode = this.discountCodeService.getById(distcountDtoEndDate.getId());
 		 discountCode.setEndDate(distcountDtoEndDate.getEnDate());
 		 discountCode = this.discountCodeService.add(discountCode);
 		
-		return new ResponseEntity<String>(discountCode.getEndDate().toString(), HttpStatus.OK);
+		return new OutputDiscountCodeDTO(discountCode);
 	}
 	
 
-	@PostMapping(value = "/api/discounts/toggleActif", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_PLAIN_VALUE})
-	public ResponseEntity toggleActif(@ModelAttribute toggleActif toggle) {
+	@PostMapping(value = "/toggleActif", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_PLAIN_VALUE})
+	public OutputDiscountCodeDTO toggleActif(@ModelAttribute toggleActif toggle) {
 		
-		this.discountCodeService.toggleActif(toggle.getDiscountId(), toggle.getToggle());
-		return ResponseEntity.ok(HttpStatus.OK);
+		  DiscountCode discountCode =  this.discountCodeService.toggleActif(toggle.getDiscountId(), toggle.getToggle());
+		return new OutputDiscountCodeDTO(discountCode);
 	}
 	
 	
-	@GetMapping(value = "/api/discounts/index/{id}")
-	public DiscountCode discount( @PathVariable(value = "id") Long id) {
+	@GetMapping(value = "/index/{id}")
+	public OutputDiscountCodeDTO discount( @PathVariable(value = "id") Long id) {
 		
 		DiscountCode discountCode = this.discountCodeService.getById(id);
 		
-		return discountCode;
-	}
-	
-	
-	@PostMapping(value = "/api/discounts/add", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_PLAIN_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public OutputDiscountCategory  addDiscount(@ModelAttribute InputDiscountCategory inputDiscount) {
+		if( discountCode instanceof DiscountDCC) {
+			
+			return new OutputDiscountDCC(discountCode);
+		}
 		
-		OutputDiscountCategory  code = new OutputDiscountCategory(this.discountCodeService.addInput(inputDiscount), inputDiscount) ; 
-
-		 	return code;
+		return new OutputDiscounDCP(discountCode) ;
 	}
+	
+	
+	@GetMapping(value = "/find/code")
+	public OutputDiscountCodeDTO findByCode( @RequestParam String code) {
+		
+		DiscountCode discountCode = this.discountCodeService.getByCode(code);
+		
+		if( discountCode instanceof DiscountDCC) {
+			
+			return new OutputDiscountDCC(discountCode);
+		}
+		
+		return new OutputDiscounDCP(discountCode) ;
+	}
+	
+	
+	
+	@GetMapping(value = "/delete")
+	public OutputDiscountCodeDTO deleteDiscountCode( @RequestParam Long id) {
+		
+		DiscountCode discountCode = this.discountCodeService.delete(id);
+		
+		if( discountCode instanceof DiscountDCC) {
+			
+			return new OutputDiscountDCC(discountCode);
+		}
+		
+		return new OutputDiscounDCP(discountCode) ;
+	}
+	
+	
+	
+	
+	@PostMapping(value = "categories/add", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_PLAIN_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public OutputDiscountCodeDTO  addDiscountCategory(@ModelAttribute InputDiscountCategory inputDiscount) {
+		
+		DiscountCode discountCode = this.discountCodeService.addInput(inputDiscount);
+
+		if (discountCode instanceof DiscountDCC) {
+
+			return new OutputDiscountDCC(discountCode);
+		}
+
+		return new OutputDiscounDCP(discountCode);
+
+		
+	}
+	
+	
+	
+	@PostMapping(value="/customers/add", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_PLAIN_VALUE,"text/plain;charset=UTF-8" })
+	public OutputDiscountCodeDTO  addDiscountCustomer(@RequestBody InputDiscountCustomerDTO discountCustomerDTO) {
+			
+		System.out.println(discountCustomerDTO);
+			DiscountCode discountCode = this.discountCodeService.addInput(discountCustomerDTO);
+	
+			if (discountCode instanceof DiscountDCC) {
+	
+				return new OutputDiscountDCC(discountCode);
+			}
+	
+			return new OutputDiscounDCP(discountCode);
+	
+			
+		}
+		
 	
 	
 	//class pojos class***************************************************************************************
@@ -131,16 +201,15 @@ public class RestDiscount {
 
 		    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
 		    private Date endDate;
+		    private Boolean actif;
 
 	}
 	
 	
 	
-	public interface InputDiscountIn{
-		public String getCode();
-		public Double getDiscount();
-		public Date getEndDate();
-	}
+
+	
+
 	
 	@Data
 	@NoArgsConstructor
@@ -183,6 +252,8 @@ public class RestDiscount {
 			@NotNull
 		    @DateTimeFormat(pattern = "yyyy-MM-dd")
 		    private Date endDate;
+			private Boolean actif;
+			
 
 	}
 	

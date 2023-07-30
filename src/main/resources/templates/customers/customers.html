@@ -10,7 +10,12 @@
     
     <!-- start hearder commun with all pages -->
     	<header class=" border-bottom p-1" >
-    		<h5 >Customers List</h5>
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="#"> <i class="bi bi-house-fill"></i> </a></li>
+					<li class="breadcrumb-item active" aria-current="page">Customers list</li>
+				</ol>
+			</nav>
     	</header>
     	
      <!-- end hearder commun with all pages -->
@@ -31,24 +36,34 @@
 			    	<div class="card-body ">
 			    		
 				    			<!-- table header -->
-						<div class="bio-table-head d-flex  gap-2 my-3">
-							<form class="input-group w-25 input-group-sm"  action="/">
-								<input name="email" type="search"  class="form-control "
-									placeholder="search by email">
-								<button class="btn btn-outline-primary " type="submit"
-									id=""><i class="bi bi-search"></i></button>
-																														
-							</form>
-							
-							
-							
-							<a class="btn btn-sm btn-primary rounded-1" style="background-color: #1976d2; color: white">
-								<i class="bi bi-filter"></i> sort
-							</a>
-							
-							
-							
-		
+						<div class="bio-table-head d-flex gap-2 my-3">
+							<div class=" w-25 d-flex gap-1  rounded-1 " id="search-parent">
+						
+								<i class="bi bi-search "></i> <input type="search" name="mc" class=" " placeholder="search. . ."
+									th:value="${mc}" id="search">
+						
+						
+							</div>
+						
+						
+							<div class="dropdown ">
+								<button class="btn  rounded-1 btn-sm dropdown-toggle" data-bs-toggle="dropdown" type="button"
+									style="background-color: #1976d2; color: white">Sort</button>
+						
+								<ul class="dropdown-menu">
+									<li><a class="dropdown-item" href="#">Action</a></li>
+									<li><a class="dropdown-item" href="#">Another action</a></li>
+									<li><a class="dropdown-item" href="#">Something else
+											here</a></li>
+								</ul>
+						
+							</div>
+						
+						
+						
+						
+						
+						
 						</div>
 						<!-- table header end -->
 			    	
@@ -56,24 +71,16 @@
 				    			<table class="table table-sm table-responsive  table-hover align-middle">
 				    				<thead>
 				    					<tr>
-				    						  <th>Picture</th> <th>ID</th> <th>Last name</th> <th>First name</th> <th>Address</th> <th> Email</th> <th>Tel</th> <th>Confirmed</th> <th>Actif</th> <th>Edit</th>
+				    						  <th>ID</th> <th>Last name</th> <th>First name</th>  <th> Email</th> <th>Tel</th> <th>Confirmed</th> <th>Enabled</th> <th>Edit</th>
 				    					</tr>
 				    				</thead>
 				    				<tbody class="">
-				    					<tr>
-				    						 <td><img style="width: 50px;" class="rounded-circle" alt="" src="https://urlz.fr/lDoj"></td> <td>krt4j4jryihjtte5jir57rgr</td> <td>marwan ugugkuvuk</td> <td> akim </td> <td> moustakbal, appart 1 avenu saperpompier</td> <td>exemple@gmail.com</td> <td>+212 6 54 12 41</td> <td><i class="bi bi-x-circle text-danger"></i></td> <td> <input type="checkbox" class="form-check-input"> </td> <td><div class="d-flex gap-3"> <a href="#"><i class="bi bi-x-lg text-danger"></i> </a> <a th:href="@{customer(id= 1)}"><i class="bi bi-arrow-right text-secondary"></i></a></div> </td>
-				    					</tr>
-				    					
-				    					<tr>
-				    						 <td><img style="width: 50px;" class="rounded-circle" alt="" src="https://urlz.fr/lDog"></td> <td>krt4j4jryihjtte5jir57rgr</td> <td>marwan ugugkuvuk</td> <td> akim </td> <td> moustakbal, appart 1 avenu saperpompier</td> <td>exemple@gmail.com</td> <td>+212 6 54 12 41</td> <td><i class="bi bi-x-circle text-danger"></i></td> <td> <input type="checkbox" class="form-check-input"> </td> <td><div class="d-flex gap-3"> <a href="#"><i class="bi bi-x-lg text-danger"></i> </a> <a th:href="@{customer(id= 1)}"><i class="bi bi-arrow-right text-secondary"></i></a></div> </td>
-				    					</tr>
-				    					
-				    					<tr>
-				    						 <td><img style="width: 50px;" class="rounded-circle" alt="" src="https://urlz.fr/lDoj"></td> <td>krt4j4jryihjtte5jir57rgr</td> <td>marwan ugugkuvuk</td> <td> akim </td> <td> moustakbal, appart 1 avenu saperpompier</td> <td>exemple@gmail.com</td> <td>+212 6 24 12 75</td> <td><i class="bi bi-x-circle text-danger"></i></td> <td> <input type="checkbox" class="form-check-input"> </td> <td><div class="d-flex gap-3"> <a href="#"><i class="bi bi-x-lg text-danger"></i> </a> <a th:href="@{customer(id= 1)}"><i class="bi bi-arrow-right text-secondary"></i></a></div> </td>
+				    					<tr th:each="customer:${customers}">
+				    						 <td th:text="${customer.id}"></td> <td th:text="${customer.lastName}"></td> <td th:text="${customer.firstName}"></td>  <td th:text="${customer.email}"></td> <td th:text="${customer.tel}"></td> <td><i class="bi bi-x-circle text-danger"></i></td> <td><input type="checkbox" class="form-check-input" th:attr="checked = ${customer.enabled}" onchange="toogleEnabled(event)" th:id="${customer.id}"></td> <td><div class="d-flex gap-3"> <a href="#"><i class="bi bi-x-lg text-danger"></i> </a> <a th:href="@{customerView(id= ${customer.id})}"><i class="bi bi-arrow-right text-secondary"></i></a></div> </td>
 				    					</tr>
 				    					
 				    					
-				    					
+				    			
 				    					
 				    				</tbody>
 				    				
@@ -123,6 +130,8 @@
 	    	
 	    </section>
     
+    
+    <script src="js/customers/customers.js" type="text/javascript"></script>
     </div>
     
 </body>
