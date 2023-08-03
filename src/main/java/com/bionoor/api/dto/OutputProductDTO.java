@@ -13,6 +13,7 @@ import com.bionoor.api.models.OrderItem;
 import com.bionoor.api.models.Product;
 import com.bionoor.api.models.ProductRange;
 import com.bionoor.api.models.Review;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -61,6 +62,8 @@ public class OutputProductDTO {
     private Double promotion; // promotion
     
     private List<Media> images = new ArrayList<Media>(); // URL for product image
+    
+    private List<Long> orderItems = new ArrayList();
 
     
 	/*
@@ -104,7 +107,10 @@ public class OutputProductDTO {
         
         this.images = product.getImages();
         this.isOnSale = product.isOnSale();
-    	
+        
+        product.getOrderItems().forEach(item ->{
+        	this.orderItems.add(item.getId());
+        });
     }
    
    

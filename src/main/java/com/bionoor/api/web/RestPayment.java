@@ -27,6 +27,7 @@ public class RestPayment {
 	@PostMapping("/save/pay_as_delivered")
 	public Payment addPayment(@RequestParam Long invoiceId, @RequestParam Double amount) {
 		
+		System.out.println("dans le payment********");
 		Invoice invoice = this.invoiceService.getById(invoiceId);
 		
 		PaymentAsDelivered asDelivered = new  PaymentAsDelivered();

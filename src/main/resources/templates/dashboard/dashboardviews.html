@@ -4,6 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Dashboard</title>
+<link href="css/dashboard/dashboardview.css" rel="stylesheet" type="text/css">
 </head>
 <body>
     <div id="fragment" style="width: 95%;"	class="container d-flex flex-column gap-4"	layout:fragment="content">
@@ -117,38 +118,48 @@
 					<!-- graph-start-->
 					<div class="card-body d-flex  shadow-sm bg-white p-2 gap-4"  style="width: 40%;">
 						
-						<div class="d-flex flex-column  justify-content-around fw-semibold" style="width: 40%;">
-							<div class="d-flex text-danger"> <span>Stockout Items</span> <span class="ms-auto">230</span> </div>
-							<div class="d-flex"> <span>Low Stock Items</span> <span class="ms-auto">500</span></div>
-							<div class="d-flex"> <span>Available Items</span> <span class="ms-auto">1000</span></div>
+						<div class="d-flex flex-column  justify-content-center gap-5 fw-semibold" style="width: 40%;">
+							<div class="d-flex text-danger gap-3"> <span class="bg-danger   badge  align-self-center" ><span  class=""></span></span>  <span>Stockout Items</span> <span class="ms-auto">230</span> </div>
+							<div class="d-flex gap-3 "> <span class="bg-warning   badge  align-self-center" ><span  class=""></span> </span>  <span>Low Stock Items</span> <span class="ms-auto">500</span></div>
+							<div class="d-flex gap-3"> <span class="bio-bg-blue   badge  align-self-center" > <span  class=""></span> </span> <span>Available Items</span> <span class="ms-auto">1000</span></div>
 						</div>
 						
-						<div class="">
+						<div class="d-flex align-items-center">
 							
 							<canvas   id="graph-stock"></canvas>
 						</div>
 					</div>
 					
 					<!-- graph-start-->
-					<div class="card-body shadow-sm  bg-white p-2" >
+					<div class="card-body shadow-sm  bg-white " >
 						
-						<div class="card-title">
-							Titre
+						<div class="d-flex px-4 pt-4">
+							<span  class="fw-semibold fs-5">Top Sales Products</span>
+							<div class="ms-auto">
+								<div class="bio-select position-relative">
+									<button class="bio-select-btn">
+										option1 <i class="bi bi-chevron-down"></i>
+									</button>
+									<div class="bio-select-menu">
+										<span class="bio-selct-opt-"> option1</span>
+									</div>
+								</div>
+							</div>
 						</div>
 						
 						<div class="table-responsive">
-							<table class="table">
-								<thead>
-									<tr>
-										<th>Image</th>
-										<th>Name</th>
-										<th>Revenue</th>
-										<th>Stock status</th>
-										<th>Action</th>
+							<table class="table ">
+								<thead class="fw-semibold">
+									<tr class="text-center">
+										<th></th>
+										<th class="fw-semibold">Name</th>
+										<th class="fw-semibold">Revenue</th>
+										<th class="fw-semibold">Stock status</th>
+										<th class="fw-semibold">Action</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
+									<tr class="text-center">
 										<td > <img src="images/_7cacb172-2bdd-42e8-89da-3f58ece65a8d.jpeg" class="rounded" style="width: 49px;"> </td>
 										<td>Huile d'argan</td>
 										<td>500 MAD</td>
@@ -156,7 +167,7 @@
 										<td> <i class="bi bi-pencil-fill text-success" ></i> </td>
 									</tr>
 									
-									<tr>
+									<tr class="text-center">
 										<td > <img src="images/card3.jpg" class="rounded" style="width: 49px;"> </td>
 										<td>Huile d'argan</td>
 										<td>500 MAD</td>
@@ -165,7 +176,7 @@
 									</tr>
 									
 									
-									<tr>
+									<tr class="text-center">
 										<td > <img src="images/card2.jpg" class="rounded" style="width: 49px;"> </td>
 										<td>Huile d'argan</td>
 										<td>500 MAD</td>
@@ -184,12 +195,55 @@
 	    	
 	    	<!-- encdcol-->	
 			
-			<div class="col-8 ">
-				
-				<div class="card-body shadow-sm bg-white p-2">
-					<canvas width="100%" id="graph-sales"></canvas>
+			<div class="col-12 ">
+				<div class="d-block d-sm-flex gap-2 mb-3">
+					<div class="card-body shadow-sm bg-white p-2 w-50">
+						<div width="" id="graph-geo"></div>
+					</div>
+					
+					<!--  end graph-->
+					<div class="row g-0  row-cols-2 mb-3 w-50 gy-1"> 
+						
+							<div class="card-body shadow-sm bg-white p-2 ">
+								<canvas width="" id="graph-"></canvas>
+							</div>
+							
+							<div class="card-body shadow-sm bg-white p-2 ">
+								<canvas width="" id="graph-"></canvas>
+							</div>
+							
+							<div class="card-body shadow-sm bg-white p-2">
+								<canvas width="" id="graph-"></canvas>
+							</div>
+							
+							<div class="card-body shadow-sm bg-white p-2">
+								<canvas width="" id="graph-"></canvas>
+							</div>
+					</div>
+					
+					
+					<!--  end graph-->
 				</div>
 			</div>
+			
+			
+			<!-- encdcol-->	
+			
+			<div class="col-12 ">
+				<div class="d-block d-sm-flex gap-2 mb-3">
+					<div class="card-body shadow-sm bg-white p-2 ">
+						<canvas width="" id="graph-sales"></canvas>
+					</div>
+					
+					
+					
+					<!--  end graph-->
+				</div>
+			</div>
+			
+			
+			
+			
 			
 	    	
 	    </section>
@@ -207,6 +261,7 @@
 		 
      <script type="module" src="webjars/chart.js/4.3.0/dist/chart.umd.js" ></script>
       <script type="text/javascript" src="js/dashboard/dashboardviews.js" ></script>
+      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
      
     </div>
     

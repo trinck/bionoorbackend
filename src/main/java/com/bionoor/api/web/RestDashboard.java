@@ -1,6 +1,10 @@
 package com.bionoor.api.web;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+
+import java.util.Date;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -13,8 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bionoor.api.dto.OutputOrderDTO;
+import com.bionoor.api.dto.OutputProductDTO;
 import com.bionoor.api.models.Order;
 import com.bionoor.api.models.Order.OrderStatus;
+import com.bionoor.api.models.OrderItem;
+import com.bionoor.api.models.Product;
 import com.bionoor.api.services.CategoryServiceIn;
 import com.bionoor.api.services.CustomerServiceIn;
 import com.bionoor.api.services.InvoiceServiceIn;
@@ -39,6 +46,74 @@ public class RestDashboard {
 	private OrderServiceIn orderServiceIn;
 	@Autowired
 	private CustomerServiceIn customerServiceIn;
+	
+	
+	
+	@GetMapping("/productsOfMonth")
+	public   Map<Integer,OutputProductDTO>  productsOfMonth(@RequestParam(defaultValue = "true") Boolean fulfilled, Integer month){
+		
+		
+		
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(new Date());
+			 int year = calendar.get(Calendar.YEAR);
+		
+		
+			 month = month == null? calendar.get(Calendar.MONTH): month;
+			 
+		List<Order> list = this.orderServiceIn.getAllByFulfilled(fulfilled, year);
+		Map<String, List<Order>> sortedByMonth = sortByMonthOrder(list);
+		
+		 List<Order> currentMonthOrders = sortedByMonth.get(""+month);
+		 Map<Product,Integer> products = new HashMap();
+		 for(Order order: currentMonthOrders) {
+			 
+			 for(OrderItem item: order.getOrderItems()) {
+				 
+				 if(products.get(item.getProduct())== null) {
+					 products.put(item.getProduct(), item.getQuantity());
+					
+				 }else {
+					
+					 products.put(item.getProduct(), products.get(item.getProduct())+item.getQuantity());
+					
+				 }
+				 
+				 
+				 
+			 }
+			 
+		 }
+		 
+		 
+		 
+		 Map<Integer,OutputProductDTO> body = new HashMap();
+		 products.forEach((p,i)->{
+			 body.put( i, new OutputProductDTO(p));
+			
+		 });
+		 
+		return body ;
+	}
+	
+	
+	
+	
+	@GetMapping("/sales")
+	public Map<String,  List<OutputOrderDTO>> sales(@RequestParam(defaultValue = "true") Boolean fulfilled, Integer year){
+		
+		
+		if(year ==null) {
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(new Date());
+			year = calendar.get(Calendar.YEAR);
+		}
+		
+		List<Order> list = this.orderServiceIn.getAllByFulfilled(fulfilled, year);
+		List<OutputOrderDTO> orderDTOs = toOutputDTO(list);
+		Map<String, List<OutputOrderDTO>> sortedByMonth = sortByMonth(orderDTOs);
+		return sortedByMonth;
+	}
 	
 	
 	
@@ -105,6 +180,31 @@ public class RestDashboard {
 					}else{
 						List<OutputOrderDTO> newlist = new ArrayList<>();
 						newlist.add(order);
+						groupedByDate.put(stringBuilder, newlist);
+					}
+				}
+		return groupedByDate;
+	}
+	
+	
+	
+	
+public Map<String, List<Order>> sortByMonthOrder(List<Order> orders){
+		
+		Map<String, List<Order>> groupedByDate = new HashMap<>();
+			
+			for(Order order2: orders) {
+					
+					Calendar calendar = Calendar.getInstance();
+					calendar.setTime(order2.getCreatedAt());
+					int month = calendar.get(Calendar.MONTH);
+					String stringBuilder = ""+month;
+					if(groupedByDate.containsKey(stringBuilder)) {
+						
+						groupedByDate.get(stringBuilder).add(order2);
+					}else{
+						List<Order> newlist = new ArrayList<>();
+						newlist.add(order2);
 						groupedByDate.put(stringBuilder, newlist);
 					}
 				}

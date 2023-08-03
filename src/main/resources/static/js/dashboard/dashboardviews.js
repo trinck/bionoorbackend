@@ -10,6 +10,9 @@ document.addEventListener("DOMContentLoaded", event =>{
 	ordersFulfilledGraph()
 	ordersByStausGraph()
 	stockGraph()
+	geoGraph()
+	//salesGraph()
+	salesGraph2()
 })
 
 
@@ -17,6 +20,127 @@ document.addEventListener("DOMContentLoaded", event =>{
  
  
  //**************charts********************************** */
+
+async function salesGraph(){
+	
+	
+	google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawSalesChart);
+	
+}
+
+
+async function salesGraph2(){
+	
+	const labels = ["Janvier", "Fevrier", "Mars", "Avril","Mais", "Juin", "Juillet","Aout", "Septembre", "Octobre","Novembre", "Decembre"]
+
+fetchFunction(url="api/dashboard/sales",method= "GET", null, result =>{
+		
+		var dataSales =  toGraphData(labels, result)
+	
+		var toMAtchSales =toMatch(labels, dataSales)
+	
+		
+	
+		
+	const data = {
+	  labels: labels,
+	  datasets: [
+	    
+	     {
+		      label: 'Sales',
+		      data: [...toMAtchSales.values()],
+		      borderColor: "rgba(0, 128, 0, 0.9)",
+		      backgroundColor: "rgba(0, 128, 0, 0.9)",
+	    }
+	    
+	    
+	  ]
+	};
+	
+	
+options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Report on Sales'
+      }
+    },
+    
+   
+  }
+
+
+ const canvas = document.getElementById("graph-sales");
+	initGrapghs(canvas,data, "line", options)
+	
+})
+
+}
+
+
+
+
+async function geoGraph(){
+	
+	
+	 google.charts.load('current', {
+        'packages':['geochart'],
+      });
+      google.charts.setOnLoadCallback(drawRegionsMap);
+	
+}
+
+
+ function drawRegionsMap() {
+        var data = google.visualization.arrayToDataTable([
+          ['Country', 'Customers'],
+          ['Morocco', 900],
+          ['United States', 700],
+          ['Gabon', 500],
+          ['France', 600],
+          ['Senegal', 200],
+          ['Algeria', 700]
+        ]);
+
+        var options = {};
+
+        var chart = new google.visualization.GeoChart(document.getElementById('graph-geo'));
+
+        chart.draw(data, options);
+      }
+
+
+
+
+
+
+function drawSalesChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Year', 'Sales', 'Expenses'],
+          ['2004',  1000,      400],
+          ['2005',  1170,      460],
+          ['2006',  660,       1120],
+          ['2007',  1030,      540]
+        ]);
+
+        var options = {
+          title: 'Company Performance',
+          curveType: 'function',
+          legend: { position: 'bottom' }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('graph-sales'));
+
+        chart.draw(data, options);
+      }
+
+
+//********************************************************************* */
 
 async function stockGraph(){
 	
@@ -26,8 +150,8 @@ var data = {
     
   ],
   datasets: [{
-    label: 'Orders By Status',
-    data: [45,85,34],
+    
+    data: [230,1000,500],
     backgroundColor: [
       'rgba(255, 99, 132,0.9)',
       'rgba(54, 162, 235,0.9)',
@@ -45,10 +169,6 @@ options = {
     plugins: {
       legend: {
         position: 'top',
-      },
-      title: {
-        display: true,
-        text: 'Report on Stock status'
       }
     },
     
@@ -92,16 +212,7 @@ fetchFunction(url="api/dashboard/fulfilled?fulfilled=true&annee=2023",method= "G
 		      backgroundColor: "rgba(255,0,0,0.4)",
 	    },
 	    
-	     {
-			 type:"line",
-		      label: 'Sales',
-		      data: [...toMAtchFulfilled.values()],
-		      borderColor: "rgba(0, 128, 0, 0.9)",
-		      backgroundColor: "rgba(0, 128, 0, 0.9)",
-	    }
-	    
-	    ,
-	    
+	     
 	    
 	    {
 		      label: 'Order received',

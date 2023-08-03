@@ -61,7 +61,7 @@ public class PaymentServiceImpl implements PaymentServiceIn{
 		
 		
 			if(Validation) {
-				//reduce th due to pay 
+				//reduce the due to pay 
 				Invoice invoice = payment.getInvoice();
 				invoice.setDueToPay(invoice.getDueToPay()-payment.getAmount());
 				return this.paymentRepository.save(payment);
