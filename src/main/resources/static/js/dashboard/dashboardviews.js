@@ -2,8 +2,117 @@
  * 
  */
 
+//****set the default value parameter************ */
+if(localStorage.getItem("defaultBestSellerMonth") == null){
+	localStorage.setItem("defaultBestSellerMonth",0)
+}
+
+/*******************defaults values graphs***************************** */
+updateBestSellerMonth(localStorage.getItem("defaultBestSellerMonth"), null)
+
+
+
+//******************************************** */
+
+
+function updateBestSellerMonth(month, event=null){
+	
+	localStorage.setItem("defaultBestSellerMonth",month)
+	var text= document.querySelector("#dropdown-best-seller-action span")
+	
+	if(event != null){
+		text.textContent = event.target.textContent
+	}else{
+		
+		text.textContent = month == 0? "Last month":"This month"
+	}
+	
+	
+}
+
+
+
+ 
+function filter(event, graphId){
+ 
+ if(graphId === 'top-sales'){
+	 
+	 salesFilter(event.target.value)
+	 updateBestSellerMonth(event.target.value, event)
+	 
+ }
+ 	
+}
  
  
+ //*****functions filters */
+ 
+ 
+ 
+ 
+ 
+ function salesFilter(month){
+	  
+	 
+	 url = month == 1? "api/dashboard/productsOfMonth" : "api/dashboard/productsOfMonth?month="+(new Date().getMonth()-1)
+	 
+	 
+	
+	 fetchFunction(url=url,method= "GET", null, result =>{
+		
+		const bestSellerBody = document.querySelector("#best-seller-body")
+		bestSellerBody.innerHTML = ""
+		bestSellerBody.appendChild( addSpinnerTable())
+		setTimeout(()=>{
+			productsSalesToDom(result)
+		}, 500)
+		
+	 })
+ }
+ 
+ 
+ function productsSalesToDom(bestSeller){
+	
+	const template = document.querySelector('#best-seller-template');
+	const bestSellerBody = document.querySelector("#best-seller-body")
+	bestSellerBody.innerHTML= ""
+	for(let product of bestSeller.products){
+		
+		const clone = template.content.cloneNode(true);
+		 let tds = clone.querySelectorAll("td");
+		
+		 let img = tds[0].querySelector("#best-seller-img")
+		
+		 
+		 
+		 img.src = product.images[0].url
+		tds[1].innerHTML = product.name
+		tds[2].innerHTML = (product.earned).toFixed(2)
+		
+		 var stockSpan = document.createElement('span')
+		 stockSpan.className= "badge shadow"
+		  var stockstatusClass= product.quantity>= bestSeller.stockAverage? 'bg-success': product.quantity == 0? 'bg-danger': 'bg-warning'
+		  var stockmessage =  product.quantity == 0? 'Out of stock': 'Available'
+		  
+		  stockSpan.classList.add(stockstatusClass)
+		  
+		  stockSpan.innerHTML =  `${product.quantity >0 ?product.quantity: '' } ${stockmessage}` 
+		  tds[3].appendChild(stockSpan)
+		 
+		// bestSellerBody.replaceChildren(clone)
+		 bestSellerBody.appendChild(clone)
+	}
+	
+	
+	
+}
+ 
+ 
+ 
+ 
+ 
+ 
+//*************************** */ 
  
 document.addEventListener("DOMContentLoaded", event =>{
 	
@@ -13,6 +122,8 @@ document.addEventListener("DOMContentLoaded", event =>{
 	geoGraph()
 	//salesGraph()
 	salesGraph2()
+	salesFilter(localStorage.getItem("defaultBestSellerMonth"))
+	
 })
 
 
@@ -32,7 +143,7 @@ async function salesGraph(){
 
 async function salesGraph2(){
 	
-	const labels = ["Janvier", "Fevrier", "Mars", "Avril","Mais", "Juin", "Juillet","Aout", "Septembre", "Octobre","Novembre", "Decembre"]
+	const labels = ["January", "February", "March", "April","May", "June", "July","August", "September", "October","November", "December"]
 
 fetchFunction(url="api/dashboard/sales",method= "GET", null, result =>{
 		
@@ -190,7 +301,7 @@ options = {
 async function ordersFulfilledGraph(){
 	
 	
-const labels = ["Janvier", "Fevrier", "Mars", "Avril","Mais", "Juin", "Juillet","Aout", "Septembre", "Octobre","Novembre", "Decembre"]
+const labels = ["January", "February", "March", "April","May", "June", "July","August", "September", "October","November", "December"]
 
 fetchFunction(url="api/dashboard/fulfilled?fulfilled=true&annee=2023",method= "GET", null, result =>{
 		

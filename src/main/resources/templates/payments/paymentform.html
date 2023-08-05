@@ -1,10 +1,47 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" data-bs-theme="light"  xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="index">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Add Payment</title>
+<link th:href="@{css/payment/paymentedit.css}"  rel="stylesheet" type="text/css">
 </head>
 <body>
-
+    <div	class="container " style="width: 95%;"	layout:fragment="content">
+    
+    
+	    <!-- start content -->
+	   		 <div class=" container g-0 mb-3 d-flex flex-column gap-2 bg-white shadow-sm pt-2 pb-3" >
+		    	<!-- section controls -->
+		    		<div class="section-controls gap-3 d-flex px-3 align-items-center" >
+		    			<a  href="/payments" class="text-black">
+		    				<i class="bi bi-arrow-left" ></i>
+		    			</a>
+		    			
+		    			<span class="fs-5">
+		    				Add New Payment
+		    			</span>
+		    		</div>
+		    		<!--end section controls -->		    		
+		    		
+		    		<hr>
+		    		
+		    		
+		    			
+		    			<form  th:action="addCategory" method="post" class="row form-group px-3 gy-3" >
+		    			
+			    			
+			    			
+		    			</form>
+		    			
+		    			
+		    			
+		    		
+		    	
+		    	
+		    </div>
+	    <script type="text/javascript" src="js/payments/paymentedit.js"></script>
+    </div>
+    
 </body>
 </html>

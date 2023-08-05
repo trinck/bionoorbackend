@@ -11,20 +11,26 @@
     <div style="width: 95%;"	class="container d-flex flex-column gap-5" 	layout:fragment="content">
     
     <!-- start hearder commun with all pages -->
-    	<header class="d-flex border-bottom p-1" >
+    	<header class="d-flex border-bottom p-1 align-items-start" >
 			<nav aria-label="breadcrumb">
 				<ol class="breadcrumb">
 					<li class="breadcrumb-item"><a href="#"> <i class="bi bi-house-fill"></i> </a></li>
 					<li class="breadcrumb-item active" aria-current="page">Products list</li>
 				</ol>
 			</nav>
-    		<div class="btn-group ms-auto btn-group-sm">
-						<a th:href="@{/productForm}" class="btn d-flex btn-outline-primary ">
-							<i class="bi bi-plus-lg"></i>new
+			
+			
+    		<div class="btn-group ms-auto ">
+						<a th:href="@{/productForm}" class="btn d-flex gap-1 btn-outline-secondary ">
+							<i class="bi bi-plus-lg"></i>New product
 						</a>
 						
-						<a class="btn btn-outline-primary d-flex">
-							<i class="bi bi-filetype-csv"></i> import csv
+						<a class="btn btn-outline-secondary d-flex gap-1">
+							<i class="bi bi-filetype-csv"></i> Import csv
+						</a>
+						
+						<a href="api/products/download-csv" class="btn btn-outline-secondary d-flex gap-1">
+							<i class="bi bi-filetype-csv"></i> Export csv
 						</a>
 			</div>
     	</header>
@@ -46,7 +52,7 @@
 	    		<div class="card-body ">
 	    		
 	    			<!-- table header -->
-				<div class="bio-table-head d-flex gap-2 my-3">
+				<div class="bio-table-head d-flex gap-2 my-3 align-items-center">
 					<div class=" w-25 d-flex gap-1  rounded-1 " id="search-parent">
 					
 						<i class="bi bi-search "></i> <input type="search" name="mc" class=" " placeholder="search. . ." th:value="${mc}"
@@ -65,9 +71,18 @@
 					</select>
 					
 					
-					<a class="bio-btn btn-sm bio-btn-blue d-flex rounded-1 " >
-						<i class="bi bi-filter"></i> sort
-					</a>
+					
+					<div class="dropdown ms-auto">
+						<a class=" text-secondary bio-btn bio-dropdown-toggle" data-bio-toggle="dropdown" >
+							<i class="bi bi-filter " style="font-size: 30px;"></i>
+						</a>
+						<ul class="bio-dropdown-menu dropdown-menu end-0">
+							<li><a class="dropdown-item" href="#">Action</a></li>
+							<li><a class="dropdown-item" href="#">Another action</a></li>
+							<li><a class="dropdown-item" href="#">Something else here</a></li>
+						</ul>
+					</div>
+						
 					
 					
 					
@@ -134,7 +149,7 @@
 	    	
 	    	
 	    </section>
-    
+    <script type="text/javascript"  src="js/products/productlist.js"></script>
     </div>
     
 </body>

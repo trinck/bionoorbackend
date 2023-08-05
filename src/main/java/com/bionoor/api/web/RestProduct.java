@@ -1,12 +1,17 @@
 package com.bionoor.api.web;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +26,7 @@ import com.bionoor.api.models.OrderItem;
 import com.bionoor.api.models.Product;
 import com.bionoor.api.models.ProductRange;
 import com.bionoor.api.models.Review;
+import com.bionoor.api.services.CsvGeneratorIn;
 import com.bionoor.api.services.ProductService;
 
 import jakarta.persistence.CascadeType;
@@ -37,17 +43,20 @@ import lombok.NoArgsConstructor;
 
 @RestController
 @CrossOrigin("*")
+@RequestMapping("/api/products")
 public class RestProduct {
 
 	@Autowired
 	private ProductService productService;
-	@GetMapping(value = "/api/products/search")
+	@Autowired
+	private CsvGeneratorIn csvGeneratorIn;
+	@GetMapping(value = "/search")
 	public OutputProductDTO search(@RequestParam @NotEmpty String name) {
 		
 		return  new OutputProductDTO(this.productService.findByName(name));
 	}
 	
-	@GetMapping(value = "/api/products/all")
+	@GetMapping(value = "/all")
 	public List<OutputProductDTO> AllProduct() {
 		
 		
@@ -61,6 +70,26 @@ public class RestProduct {
 		return productDTOs; 
 	}
 	
+	
+	
+	
+	
+	
+	@GetMapping("/download-csv")
+    public ResponseEntity< byte []> downloadCsvFile() throws IOException  {
+        // Generate the CSV file using the CsvGenerator
+        byte [] csvFile = csvGeneratorIn.generateCsvProducts();
+
+        // Set the response headers
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=product.csv");
+       
+        // Return the CSV file as a ResponseEntity
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentType(MediaType.parseMediaType("text/csv; charset=UTF-8"))
+                .body(csvFile);
+    }
 	
 }
 

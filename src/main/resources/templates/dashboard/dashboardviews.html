@@ -10,19 +10,23 @@
     <div id="fragment" style="width: 95%;"	class="container d-flex flex-column gap-4"	layout:fragment="content">
     
     <!-- start hearder commun with all pages -->
-    	<header class=" border-bottom p-1" >
+    	<header class=" border-bottom p-1 d-flex align-items-center" >
 			<nav aria-label="breadcrumb">
 				<ol class="breadcrumb">
 					<li class="breadcrumb-item"><a href="#"> <i class="bi bi-house-fill"></i> </a></li>
 					<li class="breadcrumb-item active" aria-current="page">Dashboard</li>
 				</ol>
 			</nav>
+			
+			
+			<div class="btn-group ms-auto">
+				<button type="button" class="btn  btn-outline-secondary"> <i class="bi bi-file-earmark-pdf-fill"></i> Export</button>
+			</div>
     	</header>
     	
      <!-- end hearder commun with all pages -->
     
-    
-    
+		
     <!-- start content -->
 	    <section class="row gx-0    p-1 pb-3  rounded-1" >
 	    	
@@ -135,16 +139,20 @@
 						
 						<div class="d-flex px-4 pt-4">
 							<span  class="fw-semibold fs-5">Top Sales Products</span>
-							<div class="ms-auto">
+							
+							<div class="dropdown ms-auto" id="dropdown-best-seller">
 								<div class="bio-select position-relative">
-									<button class="bio-select-btn">
-										option1 <i class="bi bi-chevron-down"></i>
+									<button class="bio-btn border rounded-1    bio-dropdown-toggle" id="dropdown-best-seller-action" data-bio-toggle="dropdown">
+										<span>Last month</span> <i class="bi bi-chevron-down"></i>
 									</button>
-									<div class="bio-select-menu">
-										<span class="bio-selct-opt-"> option1</span>
-									</div>
+									<ul class="bio-dropdown-menu dropdown-menu end-0" id="dropdown-best-seller-menu">
+										<li  class="dropdown-item bio-opt " onclick="filter(event, 'top-sales')" value="1"> This month</li>
+										<li  class="dropdown-item bio-opt"  onclick="filter(event, 'top-sales')" value="0"> Last month</li>
+										
+									</ul>
 								</div>
 							</div>
+							
 						</div>
 						
 						<div class="table-responsive">
@@ -153,12 +161,12 @@
 									<tr class="text-center">
 										<th></th>
 										<th class="fw-semibold">Name</th>
-										<th class="fw-semibold">Revenue</th>
+										<th class="fw-semibold">Earned</th>
 										<th class="fw-semibold">Stock status</th>
 										<th class="fw-semibold">Action</th>
 									</tr>
 								</thead>
-								<tbody>
+								<tbody id="best-seller-body">
 									<tr class="text-center">
 										<td > <img src="images/_7cacb172-2bdd-42e8-89da-3f58ece65a8d.jpeg" class="rounded" style="width: 49px;"> </td>
 										<td>Huile d'argan</td>
@@ -253,10 +261,16 @@
 		
 		 
 	     
-	     <!-- the template for creat new discount -->
+	     <!-- the template for creat product best seller-->
 	     
-	     <template id="template">
-	    		<li  class="list-group-item shadow-sm  " > <div  class=" w-100 d-flex gap-2 "> <span class="discount-name text-secondary" ></span> <span  class="ms-auto text-secondary discount-date" ></span>  <input  onchange="toggleDiscountActif(event)" class="form-check-input discount-check" type="checkbox"></input> </div> </li>
+	     <template id="best-seller-template">
+			<tr class="text-center">
+				<td> <img src="images/card3.jpg" class="rounded" style="width: 49px;" id="best-seller-img"> </td>
+				<td id="best-seller-name">Huile d'argan</td>
+				<td id="best-selle-earned">500 MAD</td>
+				<td id="best-selle-stock"> </td>
+				<td> <i class="bi bi-pencil-fill text-success"></i> </td>
+			</tr>
 	     </template>
 		 
      <script type="module" src="webjars/chart.js/4.3.0/dist/chart.umd.js" ></script>

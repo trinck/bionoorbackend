@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import java.util.Date;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,8 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bionoor.api.dto.OutputBestSellerListDTO;
 import com.bionoor.api.dto.OutputOrderDTO;
+import com.bionoor.api.dto.OutputProductBestSeller;
 import com.bionoor.api.dto.OutputProductDTO;
+import com.bionoor.api.exceptions.IllegalOperationException;
 import com.bionoor.api.models.Order;
 import com.bionoor.api.models.Order.OrderStatus;
 import com.bionoor.api.models.OrderItem;
@@ -50,7 +54,7 @@ public class RestDashboard {
 	
 	
 	@GetMapping("/productsOfMonth")
-	public   Map<Integer,OutputProductDTO>  productsOfMonth(@RequestParam(defaultValue = "true") Boolean fulfilled, Integer month){
+	public  OutputBestSellerListDTO  productsOfMonth(@RequestParam(defaultValue = "true") Boolean fulfilled,@RequestParam(required = false) Integer month, @RequestParam(defaultValue = "3") Integer limit){
 		
 		
 		
@@ -64,7 +68,12 @@ public class RestDashboard {
 		List<Order> list = this.orderServiceIn.getAllByFulfilled(fulfilled, year);
 		Map<String, List<Order>> sortedByMonth = sortByMonthOrder(list);
 		
-		 List<Order> currentMonthOrders = sortedByMonth.get(""+month);
+		
+		 List<Order> currentMonthOrders = sortedByMonth.get(String.valueOf(month));
+		 if(currentMonthOrders == null) {
+			 throw new NullPointerException("There is no products sold this month");
+		 }
+		 
 		 Map<Product,Integer> products = new HashMap();
 		 for(Order order: currentMonthOrders) {
 			 
@@ -78,22 +87,40 @@ public class RestDashboard {
 					 products.put(item.getProduct(), products.get(item.getProduct())+item.getQuantity());
 					
 				 }
-				 
-				 
-				 
+								 		 
 			 }
 			 
 		 }
 		 
 		 
 		 
-		 Map<Integer,OutputProductDTO> body = new HashMap();
+		 List<OutputProductBestSeller> body = new ArrayList<>();
 		 products.forEach((p,i)->{
-			 body.put( i, new OutputProductDTO(p));
+			 
+			 OutputProductBestSeller bestSeller = new OutputProductBestSeller(p);
+			 bestSeller.setEarned(i*p.getPrice());
+			 bestSeller.setQuantitySold(i);
+			 body.add(bestSeller );
 			
 		 });
 		 
-		return body ;
+		 body.sort(new Comparator<OutputProductBestSeller>() {
+
+			@Override
+			public int compare(OutputProductBestSeller o1, OutputProductBestSeller o2) {
+				// TODO Auto-generated method stub
+				return o1.getQuantitySold()>= o2.getQuantitySold()?-1 :1 ;
+			}
+		});		 
+		 
+		 OutputBestSellerListDTO bestSellerDTO = OutputBestSellerListDTO
+				 .builder()
+				 .limit(limit)
+				 .products(body.subList(0, limit<= body.size()? limit: body.size()))
+				 .stockAverage(200)
+				 .month(month)
+				 .build();		 
+		return bestSellerDTO ;
 	}
 	
 	

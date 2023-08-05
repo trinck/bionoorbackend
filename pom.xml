@@ -32,8 +32,15 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-graphql</artifactId>
 		</dependency>
-		
-		
+
+
+		<dependency>
+			<groupId>com.opencsv</groupId>
+			<artifactId>opencsv</artifactId>
+			<version>5.5.2</version>
+		</dependency>
+
+
 		<!-- https://mvnrepository.com/artifact/org.webjars.npm/html2canvas -->
 		<dependency>
 		    <groupId>org.webjars.npm</groupId>
@@ -41,19 +48,15 @@
 		    <version>1.4.1</version>
 		</dependency>
 
-		
-				<!-- https://mvnrepository.com/artifact/org.webjars.npm/chart.js -->
+
+		<!-- https://mvnrepository.com/artifact/org.webjars.npm/chart.js -->
 				<dependency>
 				    <groupId>org.webjars.npm</groupId>
 				    <artifactId>chart.js</artifactId>
 				    <version>4.3.0</version>
 				</dependency>
 
-				
-				
 
-		
-		
 		<!-- https://mvnrepository.com/artifact/org.webjars.npm/jspdf -->
 		<dependency>
 		    <groupId>org.webjars.npm</groupId>
@@ -70,8 +73,7 @@
 		</dependency>
 
 
-
-			<!-- https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-springsecurity5 -->
+		<!-- https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-springsecurity5 -->
 			<dependency>
 			    <groupId>org.thymeleaf.extras</groupId>
 			    <artifactId>thymeleaf-extras-springsecurity5</artifactId>

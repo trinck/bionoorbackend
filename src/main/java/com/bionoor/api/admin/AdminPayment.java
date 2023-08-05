@@ -31,4 +31,14 @@ public class AdminPayment {
 		
 		return "payments/paymentlist";
 	}
+	
+	
+	
+	@GetMapping("/paymentForm")
+	public String paymentForm(Model model) {
+		
+		
+		
+		return "payments/paymentform";
+	}
 }
