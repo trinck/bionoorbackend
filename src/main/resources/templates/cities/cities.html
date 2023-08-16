@@ -5,7 +5,7 @@
 <head>
 	<meta charset="UTF-8">
 	<link type="text/css" rel="stylesheet" href="/css/categories/categorylist.css">
-	<title>Countriest</title>
+	<title>Cities</title>
 </head>
 
 <body>
@@ -14,7 +14,12 @@
 		<!-- start hearder commun with all pages -->
 		<header class="d-flex  p-1 gap-2 align-items-center">
 
-
+			<strong th:text="${country.name}+':'">
+				
+			</strong>
+			<span id="country-code" th:text="${country.code}">
+				
+			</span>
 
 			<!-- breadcrumb -->
 
@@ -33,22 +38,17 @@
 
 		<section class="shadow-sm container mb-3 bg-white p-1 p-5 d-flex flex-column gap-5">
 			<div class="d-flex gap-2">
-
-				<div class=" w-25 d-flex search-parent ">
-
-					<i class="bi bi-search search-btn" id="search-btn"></i>
-					<input type="search" name="mc" class="search search-input" placeholder="" th:value="${mc}"
-						id="search-input">
-
+				<div>
+					<a href="/countries"><i class="bi bi-arrow-left text-secondary"></i></a>
 				</div>
 
 
 				<div class=" ms-auto   d-flex gap-2 justify-content-end">
-					<select type="text" class="form-control " placeholder="countries" id="select-country">
+					<select type="text" class="form-control " placeholder="countries" id="select-cities">
 						
 					</select>
 					<button class="bio-btn bio-btn-brown rounded-1 shadow-sm" id="add-country">
-						Add
+						Add city
 					</button>
 				</div>
 
@@ -56,22 +56,20 @@
 
 			<div class="row g-0 row-cols-md-4 g-4 ">
 				
-				<a th:href="@{countryCities(countryId=${c.id})}" class="col" th:each="c:${countries}">
-					<div class="card card-country" >
+				<div class="col" th:each="c:${country.cities}">
+					<div class="card card-city" >
 
-					<img class="card-img-top" src="images/countries.png">
+					<img class="card-img-top" src="images/city.png">
 					<div class="card-body">
-						<div class="d-flex gap-3"><i class="bi bi-buildings "></i> <span
-								th:text="${#lists.size(c.cities)}"></span> 
+						<div class="d-flex gap-3"> <span> </span> <span></span> 
 						</div>
-						<div class="d-flex gap-3"> <span
-								th:text="${c.code}"></span> 
+						<div class="d-flex gap-3"> <span></span> 
 						</div>
 						<span class="card-title" th:text="${c.name}"></span>
 					</div>
 				</div>
 					
-				</a>
+				</div>
 
 
 				
@@ -83,7 +81,7 @@
 			
 
 		</section>
-		<script type="text/javascript" src="js/countries/countries.js"></script>
+		<script type="text/javascript" src="js/cities/cities.js"></script>
 	</div>
 </body>
 
