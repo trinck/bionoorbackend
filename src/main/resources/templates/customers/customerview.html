@@ -50,196 +50,213 @@
 			<section class="tab-pane fade show active container " id="nav-details" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
 				
 				
-				<div class="row row-cols-3 gy-3 gap-3">
-					<div class="card shadow-sm p-0">
+				<div class="row row-cols-3 g-2">
+					
+					<div class="col ">
+						<div class="card shadow-sm p-0">
 						
-						<div class="tab-col-head align-items-center gap-2    d-flex flex-column">
-							<img class="rounded-circle w-50" src="images/_87da749f-59b8-40fb-b1bb-e3a19ff5e2b0.jpeg" >
-							<div class="fw-semibold d-flex flex-column align-items-center">
-								<span th:text="${customer.firstName}">firstName</span>
-								<span th:text="${customer.lastName}">lastName</span>
+							<div class="tab-col-head align-items-center gap-2    d-flex flex-column">
+								<img class="rounded-circle w-50" src="images/_87da749f-59b8-40fb-b1bb-e3a19ff5e2b0.jpeg">
+								<div class="fw-semibold d-flex flex-column align-items-center">
+									<span th:text="${customer.firstName}">firstName</span>
+									<span th:text="${customer.lastName}">lastName</span>
+								</div>
 							</div>
-						</div>
 						
-						<div class="tab-col-body card-body p-0">
-							<div class="tab-col-body-item ">
-								<div class="kew">
-									Email	
+							<div class="tab-col-body card-body p-0">
+								<div class="tab-col-body-item ">
+									<div class="kew">
+										Email
+									</div>
+									<div class="value ms-auto">
+										<div th:text="${customer.email}">value</div>
+										<div class="bio-bl-puce bio-bl-green fw-semibold" th:if="${customer.confirmed}"
+											style="font-size: small;">Verified</div>
+										<div class="bio-bl-puce bio-bl-red fw-semibold" th:unless="${customer.confirmed}">Not Verified</div>
+									</div>
 								</div>
-								<div class="value ms-auto" >	
-									<div th:text="${customer.email}">value</div>
-									<div class="bio-bl-puce bio-bl-green fw-semibold" th:if="${customer.confirmed}" style="font-size: small;">Verified</div>
-									<div  class="bio-bl-puce bio-bl-red fw-semibold" th:unless="${customer.confirmed}">Not Verified</div>
+						
+								<div class="tab-col-body-item ">
+									<div class="kew">
+										Phone
+									</div>
+									<div class="value ms-auto" th:text="${customer.tel}">
+										Value
+									</div>
 								</div>
+						
+								<div class="tab-col-body-item ">
+									<div class="kew">
+										Country
+									</div>
+									<div class="value ms-auto" th:text="${customer.address.city.country.name}">
+										Value
+									</div>
+								</div>
+						
+								<div class="tab-col-body-item ">
+									<div class="kew">
+										State/Region
+									</div>
+									<div class="value ms-auto" th:text="${customer.address.city.name}">
+										Value
+									</div>
+								</div>
+						
+								<div class="tab-col-body-item ">
+									<div class="kew">
+										Street
+									</div>
+									<div class="value ms-auto" th:text="${customer.address.street}">
+										Value
+									</div>
+								</div>
+						
+								<!-- action-->
+								<div class="tab-col-body-item  ">
+									<div class="kew">
+										Code
+									</div>
+									<div class="value ms-auto" th:text="${customer.id}">
+										Value
+									</div>
+								</div>
+						
 							</div>
-							
-							<div class="tab-col-body-item ">
-								<div class="kew">
-									Phone	
-								</div>
-								<div class="value ms-auto" th:text="${customer.tel}">	
-									Value
-								</div>
-							</div>
-							
-							<div class="tab-col-body-item ">
-								<div class="kew">
-									Country	
-								</div>
-								<div class="value ms-auto" th:text="${customer.address.city.country.name}">	
-									Value
-								</div>
-							</div>
-							
-							<div class="tab-col-body-item ">
-								<div class="kew">
-									State/Region	
-								</div>
-								<div class="value ms-auto" th:text="${customer.address.city.name}">	
-									Value
-								</div>
-							</div>
-							
-							<div class="tab-col-body-item ">
-								<div class="kew">
-									Street	
-								</div>
-								<div class="value ms-auto" th:text="${customer.address.street}">	
-									Value
-								</div>
-							</div>
-							
-							<!-- action-->
-							<div class="tab-col-body-item  ">
-								<div class="kew">
-									Code
-								</div>
-								<div class="value ms-auto" th:text="${customer.id}">	
-									Value
-								</div>
-							</div>
-							
 						</div>
 					</div>
 					
-					<!-- card 2-->
-					<div class="card shadow-sm p-0 ">
+					
+					<div class="col">
+						<!-- card 2-->
+						<div class="card shadow-sm p-0 ">
 						
-						<div class="tab-col-head ">
-							<span class="fw-semibold fs-6">
+							<div class="tab-col-head ">
+								<span class="fw-semibold fs-6">
 									Billing
-							</span>
+								</span>
+							</div>
+						
+							<div class="tab-col-body card-body p-0">
+								<div class="tab-col-body-item ">
+									<div class="kew">
+										Paid
+									</div>
+									<div class="value value ms-auto">
+										0
+									</div>
+								</div>
+						
+								<div class="tab-col-body-item ">
+									<div class="kew">
+										Unpaid
+									</div>
+									<div class="value value ms-auto">
+										0
+									</div>
+								</div>
+						
+								<div class="tab-col-body-item ">
+									<div class="kew">
+										Payments
+									</div>
+									<div class="value value ms-auto">
+										0
+									</div>
+								</div>
+							</div>
 						</div>
 						
-						<div class="tab-col-body card-body p-0">
-							<div class="tab-col-body-item ">
-								<div class="kew">
-									Paid	
-								</div>
-								<div class="value value ms-auto">	
-									0
-								</div>
+						<!-- card 5-->
+						<div th:if="${#lists.size(customer.discountDCCs)>0}" class="card shadow-sm  p-0">
+							
+							<div class="tab-col-head ">
+								<span class="fw-semibold fs-6">
+									Discount Codes
+								</span>
 							</div>
 							
-							<div class="tab-col-body-item ">
-								<div class="kew">
-									Unpaid	
+							<div class="tab-col-body card-body  p-0">
+								<div th:each="d:${customer.discountDCCs}" class="tab-col-body-item ">
+									<div class="d-flex flex-column align-items-center bio-coupon justify-content-center shadow w-100">
+										<span class="code" th:text="${d.code}"></span>
+										<span class=" discount" th:text="'-'+ ${ d.type.name == 'AMOUNT'? '$'+d.discount: d.discount+ ' %' }"></span>
+										<span style="font-size: small;">Apply to category hair</span>
+										<span class="" th:inline="text">Until [[${#dates.format(d.endDate,'dd/MM/yyyy')}]]</span>
+										<span class="ruban ruban-image shadow" > ruban</span>
+									</div>
 								</div>
-								<div class="value value ms-auto">	
-									0
+							</div>
+						</div>
+					
+						
+						
+						
+					</div>
+					
+					
+					
+					<div class="col">
+						<!-- card 3 send email-->
+						<div class="card shadow-sm p-0">
+						
+							<div class="tab-col-head ">
+								<span class="fw-semibold fs-6">
+									Send Email
+								</span>
+							</div>
+						
+							<div class="tab-col-body card-body p-0">
+								<div class="tab-col-body-item ">
+									<div class="w-100">
+										<div class="">
+											<select class="form-select" id="emailActionSelect">
+												<option th:if="${#lists.size(customer.orders)>0}"
+													th:value="'api/orders/orderConfirmation?id=' +${customer.orders[#lists.size(customer.orders) >0?#lists.size(customer.orders) - 1: #lists.size(customer.orders) ].id}">
+													Resend last Invoice
+												</option>
+						
+												<option th:value="'api/customers/emailConfirmation?userId=' +${customer.id}">
+													Send Verification Mail
+												</option>
+						
+												<option>
+													Send Reset Password
+												</option>
+											</select>
+										</div>
+						
+										<div class="mt-3">
+											<button onclick="emailAction(event)"
+												class=" rounded-1 d-flex align-items-center gap-1 bio-btn-blue bio-btn " type="button"><i
+													class="bi bi-envelope-fill"></i> Send Email</button>
+										</div>
+						
+									</div>
+						
 								</div>
+							</div>
+						</div>
+						
+						<!-- card 4-->
+						<div class="card shadow-sm p-0">
+							
+							<div class="tab-col-head ">
+								<span class="fw-semibold fs-6">
+									Others Actions
+								</span>
 							</div>
 							
-							<div class="tab-col-body-item ">
-								<div class="kew">
-									Payments	
-								</div>
-								<div class="value value ms-auto">	
-									0
+							<div class="tab-col-body card-body p-0">
+								<div class="tab-col-body-action ">
+									<i class="bi bi-slash-circle "></i>
+									Close Account
 								</div>
 							</div>
 						</div>
+						
 					</div>
 					
-					<!-- card 3 send email-->
-					
-					<div class="card shadow-sm p-0">
-						
-						<div class="tab-col-head ">
-							<span class="fw-semibold fs-6">
-								Send Email
-							</span>
-						</div>
-						
-						<div class="tab-col-body card-body p-0">
-							<div class="tab-col-body-item ">
-								<div class="w-100">
-									<div class="">
-										<select class="form-select" id="emailActionSelect">
-											<option th:if="${#lists.size(customer.orders)>0}" th:value="'api/orders/orderConfirmation?id=' +${customer.orders[#lists.size(customer.orders) >0?#lists.size(customer.orders) - 1: #lists.size(customer.orders) ].id}">
-												Resend last Invoice
-											</option>
-										
-											<option th:value="'api/customers/emailConfirmation?userId=' +${customer.id}" >
-												Send Verification Mail
-											</option>
-										
-											<option>
-												Send Reset Password
-											</option>
-										</select>
-									</div>
-									
-									<div class="mt-3">
-										<button onclick="emailAction(event)" class=" rounded-1 d-flex align-items-center gap-1 bio-btn-blue bio-btn " type="button" ><i class="bi bi-envelope-fill"></i> Send Email</button>
-									</div>
-									
-								</div>
-								
-							</div>
-						</div>
-					</div>
-					
-					<!-- card 4-->
-					<div class="card shadow-sm p-0">
-						
-						<div class="tab-col-head ">
-							<span class="fw-semibold fs-6">
-								Others Actions
-							</span>
-						</div>
-						
-						<div class="tab-col-body card-body p-0">
-							<div class="tab-col-body-action ">
-								<i class="bi bi-slash-circle "></i>
-								Close Account
-							</div>
-						</div>
-					</div>
-					
-					
-					
-					<!-- card 5-->
-					<div th:if="${#lists.size(customer.discountDCCs)>0}" class="card shadow-sm  p-0">
-						
-						<div class="tab-col-head ">
-							<span class="fw-semibold fs-6">
-								Discount Codes
-							</span>
-						</div>
-						
-						<div class="tab-col-body card-body  p-0">
-							<div th:each="d:${customer.discountDCCs}" class="tab-col-body-item ">
-								<div class="d-flex flex-column align-items-center bio-coupon justify-content-center shadow w-100">
-									<span class="code" th:text="${d.code}"></span>
-									<span class=" discount" th:text="'-'+ ${ d.type.name == 'AMOUNT'? '$'+d.discount: d.discount+ ' %' }"></span>
-									<span style="font-size: small;">Apply to category hair</span>
-									<span class="" th:inline="text">Until [[${#dates.format(d.endDate,'dd/MM/yyyy')}]]</span>
-									<span class="ruban ruban-image shadow" > ruban</span>
-								</div>
-							</div>
-						</div>
-					</div>
 					
 					
 				
@@ -285,7 +302,7 @@
 									<td>candice armane</td>
 									<td><span class="badge text-bg-secondary" th:text="${order.status}"></span></td>
 									<td th:text="${order.id}"></td>
-									<td> <span th:class="badge + ${order.invoice.dueToPay>0? ' tex-bg-danger':' text-bg-success'}" th:text="${order.invoice.dueToPay>0? 'Not paid': 'Paid'}"> </span></td>
+									<td> <span th:class=" 'badge text-bg-'+ ${order.invoice.dueToPay>0? 'danger':'success'}" th:text="${order.invoice.dueToPay>0? 'Not paid': 'Paid'}"> </span></td>
 							
 									<td th:text="${#numbers.formatDecimal(order.invoice.totalAmount,1,2)}"></td>
 									<td th:text="${order.invoice.vat}">20</td>

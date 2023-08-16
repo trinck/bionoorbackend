@@ -1,6 +1,8 @@
 package com.bionoor.api.models;
 
 
+import java.io.Serializable;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -19,7 +21,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Document extends GenericBionoorEntity{
+public class Document extends GenericBionoorEntity implements Serializable{
 	
 		@Id
 		@GeneratedValue(strategy = GenerationType.IDENTITY)

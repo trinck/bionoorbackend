@@ -2,6 +2,8 @@ package com.bionoor.api.models;
 
 
 
+import java.io.Serializable;
+
 import com.bionoor.api.utils.BionoorEntityListener;
 
 import jakarta.persistence.Column;
@@ -21,7 +23,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EntityListeners(BionoorEntityListener.class)
 @Builder
-public  class PaymentMethod extends GenericBionoorEntity {
+public  class PaymentMethod extends GenericBionoorEntity implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

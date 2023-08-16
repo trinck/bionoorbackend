@@ -2,10 +2,13 @@ package com.bionoor.api.admin;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,10 +21,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.bionoor.api.models.Category;
+import com.bionoor.api.models.Invoice;
 import com.bionoor.api.models.Product;
+import com.bionoor.api.models.Order.OrderStatus;
 import com.bionoor.api.repositories.CategoryRepository;
 import com.bionoor.api.services.CategoryService;
+import com.bionoor.api.services.CategoryServiceIn;
 import com.bionoor.api.services.ProductService;
+import com.bionoor.api.services.ProductServiceIn;
 
 import jakarta.persistence.Column;
 import jakarta.validation.Valid;
@@ -44,9 +51,9 @@ public class AdminProduct {
 	 private String logo;
 	
 	@Autowired
-	private CategoryService categoryService;
+	private CategoryServiceIn categoryService;
 	@Autowired
-	private ProductService productService;
+	private ProductServiceIn productService;
 	
 	
 	@GetMapping(value = "/product")
@@ -104,18 +111,50 @@ public class AdminProduct {
 	
 	
 	
-	
-	
-	@GetMapping(value = "/products")
-	public String products(Model model) {
+	@GetMapping(value = "/productPages")
+	/* this id is for existing invoice*/
+	public String page(Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size, String mc,@RequestParam(defaultValue = "id:ascending") String sort, @RequestParam(defaultValue = "id") String by ) 
+	{
 		
+		
+		Page<Product> products;
+		
+		if(by.equalsIgnoreCase("id")) {
+			try {
+				products = this.productService.pagesById(page, size,( mc==null || mc.isEmpty())? null:Long.valueOf(mc), sort);
+			}catch(NumberFormatException e){
+				
+				model.addAttribute("error", "The input search must be a number");
+				products  = this.productService.pagesById(page, size,null, sort);
+			}
+			
+		}else if(by.equalsIgnoreCase("code")) {
+			
+			products = this.productService.pagesByCode(page, size, sort, mc);
+		}else {
+			
+			products = this.productService.pagesByName(page, size, sort, mc);
+		}
+		
+		
+		model.addAttribute("logo", logo);
 		model.addAttribute("name", name);
-		List<Product> products = new ArrayList<>();
-		products.addAll(this.productService.allProducts());
-		model.addAttribute("products", products);
-		return "products/products.html";
-		
+		model.addAttribute("by", by);
+		model.addAttribute("totalElements", products.getTotalElements());
+		model.addAttribute("pages", new int[products.getTotalPages()]);
+		model.addAttribute("mc", mc);
+		model.addAttribute("page", page);
+		model.addAttribute("size", size);
+		model.addAttribute("sort", sort);
+		model.addAttribute("totalPages", products.getTotalPages());
+		model.addAttribute("products", products.getContent());	
+		return "products/products";
 	}
+	
+	
+	
+	
+	
 	
 	
 	

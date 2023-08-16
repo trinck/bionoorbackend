@@ -14,7 +14,7 @@
 	   		 <div class=" container g-0 mb-3 d-flex flex-column gap-2 bg-white shadow-sm pt-2 pb-3" >
 		    	<!-- section controls -->
 		    		<div class="section-controls gap-3 d-flex px-3 align-items-center" >
-		    			<a  href="/payments" class="text-black">
+		    			<a  th:href="@{paymentsPages}" class="text-black">
 		    				<i class="bi bi-arrow-left" ></i>
 		    			</a>
 		    			
@@ -26,21 +26,114 @@
 		    		
 		    		<hr>
 		    		
+		    		<!--informations -->	
+					<div class="alert alert-info rounded-0 m-3" role="alert" style="border-left: 3px solid;">
+						<h4 class="alert-heading">Pay As Delivered!</h4>
+						<p>Our company is exclusively focused on providing the 
+							cash-on-delivery payment service to ensure a hassle
+							-free shopping experience for our customers. We 
+							recognize the importance of offering a variety of 
+							payment options to cater to the needs of all our 
+							customers. That's why we plan to introduce additional 
+							payment methods in the near future. We are committed to 
+							expanding our payment options while maintaining our dedication 
+							to service quality and customer satisfaction, which are at the core 
+							of our business approach. Stay tuned for updates on upcoming new payment methods.</p>
+						<hr>
+						<p class="mb-0">To make the payment, you need to provide the invoice ID and enter the amount.</p>
+					</div>
 		    		
+		    		<!--**********************error or info******************************************** -->
+					<div>
+						<div th:if="${error}" class="alert alert-danger alert-dismissible fade show m-3 rounded-0" role="alert" style="border-left: 3px solid;" th:inline="text">
+							<strong>Error!</strong> [[${error}]]
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+						</div>
+					
+					</div>
+					
+					<div>
+						<div th:if="${Success}" class="alert alert-success alert-dismissible fade show m-3 rounded-0" role="alert" style="border-left: 3px solid;" th:inline="text">
+							<strong>Success!</strong> [[${Success}]]
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+						</div>
+					
+					</div>
+					
+					<div>
+						<div th:if="${Error}" class="alert alert-danger alert-dismissible fade show m-3 rounded-0" role="alert" style="border-left: 3px solid;" th:inline="text">
+							<strong>Error!</strong> [[${Error}]]
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+						</div>
+					
+					</div>
+		    		
+		    		
+		    		<!-- ***************************************************************************-->
+		    		<div class="d-flex ps-3 pe-3">
+						<strong>
+							Payment Form
+						</strong>
+						<hr class="" style="width: 10%;">
+					</div>
+		    		
+		    			<form  th:action="@{/savePaymentAsDelivered}" method="post" class="row form-group px-3 gy-3" >
 		    			
-		    			<form  th:action="addCategory" method="post" class="row form-group px-3 gy-3" >
+								<div class="col-6 d-flex flex-column gap-3">
+								
+									<div class="d-flex gap-3">
+										<input required class="form-control rounded-1 w-25" placeholder="Id" th:value="${invoice!=null? invoice.id:''}" type="number" list="list-id" min="0"  name="id" id="id" >
+																											
+										<input required class="form-control rounded-1" placeholder="Amount" type="text" name="amount" id="amount" >
+									
+									</div>
+									
+									<button class="bio-btn bio-btn-blue rounded-1  show-sm"  type="submit">
+										Submit
+									</button>
+								</div>
+								
+								
+								<div class="col-6  d-flex flex-column gap-3">
+									
+									<div class="card  w-100 border-light mb-3" >
+										<div class="card-header">Invoice</div>
+										<div class="card-body">
+											<h5 class="card-title " id="card-invoice-id" th:inline="text">#[[${invoice!=null? invoice.id: ''}]]</h5>
+											<p class="card-text">
+												
+												<ul  class="list-group list-group-flush">
+													<li class="list-group-item d-flex gap-4" > <span >Amount</span>  <span class="ms-auto" id="invoice-amount" th:text="${invoice!=null?invoice.totalAmount:'' }"></span></li>
+													<li class="list-group-item d-flex gap-4" > <span >Due To Pay</span>  <span class="ms-auto" id="invoice-to-pay" th:text="${invoice!=null?invoice.dueToPay:''}"></span></li>
+													<li class="list-group-item d-flex gap-4" > <span >Due Date</span>  <span class="ms-auto" id="invoice-due-date" th:text="${invoice!=null?#dates.format(invoice.dueDate,'dd-MM-yy hh:mm'):''}"></span></li>
+													<li class="list-group-item d-flex gap-4" > <span >Order Identifier</span>  <span class="ms-auto" id="order-id" th:text="${invoice!=null?invoice.order.id:''}"></span></li>
+													
+												</ul>
+												
+											</p>
+										</div>
+									</div>
+									
+								</div>
+								
+								<div class="col-12">
+									
+								</div>
+		    		</form>
 		    			
-			    			
-			    			
-		    			</form>
 		    			
 		    			
-		    			
+		    			<datalist id="list-id">
+							<option th:each="inv:${invoices}" th:value="${inv.id}">
+								
+							</option>
+							
+						</datalist>
 		    		
 		    	
 		    	
 		    </div>
-	    <script type="text/javascript" src="js/payments/paymentedit.js"></script>
+	    <script type="text/javascript" src="js/payments/paymentform.js"></script>
     </div>
     
 </body>

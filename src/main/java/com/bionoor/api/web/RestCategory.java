@@ -1,17 +1,21 @@
 package com.bionoor.api.web;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +25,8 @@ import com.bionoor.api.dto.OutputProductDTO;
 import com.bionoor.api.models.Category;
 import com.bionoor.api.models.Product;
 import com.bionoor.api.services.CategoryService;
-
+import com.bionoor.api.services.CategoryServiceIn;
+import com.bionoor.api.services.CsvGeneratorIn;
 
 import groovyjarjarantlr4.v4.runtime.misc.NotNull;
 
@@ -33,14 +38,18 @@ import lombok.NoArgsConstructor;
 
 @RestController
 @CrossOrigin("*")
+
+@RequestMapping("api/categories")
 public class RestCategory {
 
+	@Autowired
+	private CsvGeneratorIn csvGeneratorIn;
 	
 	@Autowired
-	private CategoryService categoryService;
+	private CategoryServiceIn categoryService;
 	
 	
-	@PostMapping(value = "/api/categories/put/name")
+	@PostMapping(value = "/put/name")
 	public OutputCategoryDTO  putName(@Valid @ModelAttribute CategoryNameDto categoryNameDto) {
 		
 		
@@ -52,7 +61,7 @@ public class RestCategory {
 		return new OutputCategoryDTO(category); 
 	}
 	
-	@GetMapping(value = "/api/categories")
+	@GetMapping(value = "/")
 	public List<OutputCategoryDTO>  categories() {
 		
 		 List<Category> categories = this.categoryService.allCategories(); 
@@ -65,7 +74,7 @@ public class RestCategory {
 	}
 	
 	
-	@GetMapping(value = "/api/categories/{id}")
+	@GetMapping(value = "/{id}")
 	public OutputCategoryDTO  category(@PathVariable(value = "id") Long id) {
 		
 		 Category category = this.categoryService.getById(id);	
@@ -73,10 +82,9 @@ public class RestCategory {
 	}
 	
 	
-	@GetMapping(value = "/api/categories/graphs/{id}")
+	@GetMapping(value = "/graphs/{id}")
 	@ResponseBody
 	public  Map<String, Object>  graphs(@PathVariable(value = "id") Long id) {
-		System.out.println("bien arrivéééééééééééééééééééé");
 		 Map<String, Object> data = this.categoryService.getDataGraphs(id);
 		 
 		 OutputCategoryDTO category =	new OutputCategoryDTO((Category)data.get("category"));
@@ -92,7 +100,7 @@ public class RestCategory {
 	}
 	
 	
-	@GetMapping(value = "/api/categories/delete")
+	@GetMapping(value = "/delete")
 	public OutputCategoryDTO  delete(@RequestParam Long id) {
 		
 		 Category category = this.categoryService.delete(id);	
@@ -100,7 +108,7 @@ public class RestCategory {
 	}
 	
 	
-	@PostMapping(value = "/api/categories/put/image")
+	@PostMapping(value = "/put/image")
 	public ResponseEntity<String>  putImage(@Valid @ModelAttribute CategoryimageDto categoryimageDto) {
 	
 		 Category category = this.categoryService.getById(categoryimageDto.getId());
@@ -112,7 +120,7 @@ public class RestCategory {
 	
 	
 	
-	@PostMapping(value = "/api/discounts/put/parent")
+	@PostMapping(value = "/put/parent")
 	public OutputCategoryDTO  putParent(@Valid @ModelAttribute CategoryParentDto categoryParentDto) {
 		
 		
@@ -131,6 +139,26 @@ public class RestCategory {
 	
 	
 	
+	
+	
+	@GetMapping("/csv/download-csv")
+    public ResponseEntity< byte []> downloadCsvFile() throws IOException  {
+        // Generate the CSV file using the CsvGenerator
+    	List<Category> listCategory = this.categoryService.allCategories();
+    	List<Object> listObject = new ArrayList();
+    	listCategory.forEach(p-> listObject.add(p) );    	
+        byte [] csvFile = csvGeneratorIn.generateCsv( listObject);
+
+        // Set the response headers
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=category.csv");
+       
+        // Return the CSV file as a ResponseEntity
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentType(MediaType.parseMediaType("text/csv; charset=UTF-8"))
+                .body(csvFile);
+    }
 	
 	
 	

@@ -5,6 +5,9 @@
  
  
   //******************************************** */
+  
+  
+  
  function showToast(message, nature=1){
 	
 	const template = document.querySelector('#toast-template');
@@ -100,6 +103,11 @@
 				})
 	 
  }
+ 
+ 
+ 
+ /***************************controll formulaire**************************************** */
+ 
  
  
  

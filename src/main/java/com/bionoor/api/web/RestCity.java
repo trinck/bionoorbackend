@@ -17,6 +17,7 @@ import com.bionoor.api.dto.InputCityDTO;
 import com.bionoor.api.dto.OutputCityDTO;
 import com.bionoor.api.models.City;
 import com.bionoor.api.services.CityService;
+import com.bionoor.api.services.CityServiceIn;
 
 @RestController
 @RequestMapping("api/cities")
@@ -24,7 +25,7 @@ public class RestCity {
 
 	
 	 @Autowired
-	private  CityService cityService;
+	private  CityServiceIn cityService;
 
    
     @PostMapping(value = "/save")

@@ -96,7 +96,7 @@
 		    				<div class="fw-semibold ">Bill to</div>
 		    				<div class="d-flex flex-column lh-1 text-end text-secondary">
 		    					<span id="user-email" th:inline="text">[[${order.customer.email}]]</span>
-		    					<span id="user-address" th:inline="text">[[${order.adrress}]]</span>
+		    					<input id="user-address" class="form-control mt-2" name="orderAddress" type="text" th:value="${order.adrress}">
 		    				</div>
 		    			</div>
 		    			
@@ -200,18 +200,7 @@
 		    			</div>
 		    			
 		    		</div>
-		    		<!-- payment list -->
-		    		<div th:if="${#lists.size(invoice.payments)> 0}" class="row row-cols-4 g-2 gap-2 mt-5 justify-content-center">
-						<div th:each="payment: ${invoice.payments}" class="card text-center payment-card shadow">
-							<div  class="card-body ">
-								<span class="card-text h3 text-secondary" th:text="${payment.amount}">
-									
-								</span>	
-								
-							</div>
-						</div>
-						
-					</div>
+		    		
 		    	
 		    </form>
 		    <datalist id="product-list">

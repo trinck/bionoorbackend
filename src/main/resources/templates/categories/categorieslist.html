@@ -1,145 +1,222 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="light"  xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="index">
+<html lang="en" data-bs-theme="light" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="index">
+
 <head>
-<meta charset="UTF-8">
-<link type="text/css" rel="stylesheet" href="/css/categories/categorylist.css">
-<title>Categories's listist</title>
+	<meta charset="UTF-8">
+	<link type="text/css" rel="stylesheet" href="/css/categories/categorylist.css">
+	<title>Categories's list</title>
 </head>
+
 <body>
-    <div style="width: 95%;"	class="container d-flex flex-column gap-4"	layout:fragment="content">
-    
-    <!-- start hearder commun with all pages -->
-    	<header class="d-flex border-bottom p-1 gap-2 align-items-center" >
-    		
-    		<nav aria-label="breadcrumb">
+	<div style="width: 95%;" class="container d-flex flex-column gap-4" layout:fragment="content">
+
+		<!-- start hearder commun with all pages -->
+		<header class="d-flex border-bottom p-1 gap-2 align-items-center">
+
+			<nav aria-label="breadcrumb">
 				<ol class="breadcrumb">
 					<li class="breadcrumb-item"><a href="#"> <i class="bi bi-house-fill"></i> </a></li>
 					<li class="breadcrumb-item active" aria-current="page">Categories list</li>
 				</ol>
-			</nav> 
-    		
-    		<!-- breadcrumb -->
-			
-			
-			
-			
+			</nav>
+
+			<!-- breadcrumb -->
+
+
+
 			<!-- end breadcrumb -->
-    		
-    		<a th:href="@{/categoryform}" class="bio-btn ms-auto btn-sm d-flex gap-1 align-items-center rounded-1 shadow-sm bio-btn-blue" >
-						<i class="bi bi-plus-lg"></i> Add category
-			</a>
-    	</header>
-    	
-    <!-- end hearder commun with all pages -->
-    
-    
-    <!-- start content -->
-    
-    	
-    
-	    <section class="shadow-sm container mb-3 bg-white p-1 pb-5" >
-	    	
-	    	
-	    	<div class="d-flex flex-column gap-4 ">
-	    	
-	    	
-	    	
-	    	
-	    	<!-- table card start -->
-	    		<div class="card border-0">
-	    	
-	    		<div class="card-body">
-	    		
-	    			<!-- table header -->
-						<div class="bio-table-head d-flex gap-2 my-3">
-							<div class=" w-25 d-flex gap-1  rounded-1 " id="search-parent">
 
-								<i class="bi bi-search "></i> <input type="search" name="mc"
-									class=" " placeholder="search. . ." th:value="${mc}"
-									id="search">
 
+			<div class="btn-group ms-auto ">
+				<a th:href="@{/categoryform}" class="btn d-flex gap-1 btn-outline-secondary ">
+					<i class="bi bi-plus-lg"></i>Add category
+				</a>
+
+
+				<a href="api/categories/csv/download-csv" class="btn btn-outline-secondary d-flex gap-1">
+					<i class="bi bi-filetype-csv"></i> Export csv
+				</a>
+			</div>
+
+		</header>
+
+		<!-- end hearder commun with all pages -->
+
+		<div>
+			<div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert" th:inline="text">
+				<strong>Input Error!</strong> [[${error}]]
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+
+		</div>
+
+		<!-- start content -->
+
+
+
+		<section class="shadow-sm container mb-3 bg-white p-1 pb-5">
+
+
+			<div class="d-flex flex-column gap-4 ">
+
+
+
+
+				<!-- table card start -->
+				<form class="card border-0" method="get" th:action="@{/categories}" id="search-form">
+
+					<div class="card-body">
+
+						<!-- table header -->
+						<div class="bio-table-head ">
+							<div class=" w-25 d-flex search-parent ">
+
+								<i class="bi bi-search search-btn" id="search-btn"></i>
+								<input type="search" name="mc" class="search search-input" placeholder="search"
+									th:value="${mc}" id="search-input">
 
 							</div>
 
+							<select name="by" id="search-by" class="form-select">
+								<option th:selected="${by == 'name'? 'true': 'false'}" value="name">
+									Name
+								</option>
+								<option th:selected="${by == 'id'? 'true': 'false'}" value="id">
+									Id
+								</option>
 
-							<div class="dropdown ">
-								<button class="btn  rounded-1 btn-sm dropdown-toggle"
-									data-bs-toggle="dropdown" type="button"
-									style="background-color: #1976d2; color: white">Sort</button>
+							</select>
 
-								<ul class="dropdown-menu">
-									<li><a class="dropdown-item" href="#">Action</a></li>
-									<li><a class="dropdown-item" href="#">Another action</a></li>
-									<li><a class="dropdown-item" href="#">Something else
-											here</a></li>
+							<!-- input hidden for sort-->
+
+							<input name="sort" th:value="${sort}" hidden id="sort">
+							<!--  **************************** -->
+
+
+							<div class="dropdown ms-auto">
+								<a class=" text-secondary bio-btn bio-dropdown-toggle" data-bio-toggle="dropdown">
+									<i class="bi bi-filter " style="font-size: 30px;"></i>
+								</a>
+								<ul class="bio-dropdown-menu dropdown-menu end-0">
+									<li> <a th:class="dropdown-item + ${sort == 'id:ascending'? ' active': ''}"
+											th:href="@{categories(mc=${mc}, size=${size}, sort='id:ascending' , by=${by})}">
+											<i class="bi bi-sort-up"></i>Id</a> </li>
+									<li> <a th:class="dropdown-item + ${sort == 'id:descending'? ' active': ''}"
+											th:href="@{categories(mc=${mc}, size=${size}, sort='id:descending' , by=${by})}"><i
+												class="bi bi-sort-down"></i>Id</a> </li>
+
 								</ul>
-
 							</div>
 
 
 						</div>
-						
-						
-						<!-- table header end -->
-	    		
-	    			<table class="table table-sm table-hover align-middle">
-	    				<thead>
-	    					<tr>
-	    						<th>Image</th> <th>Category</th> <th>Qt products</th> <th>Active discount</th> <th>Parent</th> <th>Edit</th>
-	    					</tr>
-	    				</thead>
-	    				<tbody class="">
-	    					<tr th:each= "c:${categories}"  th:id="${c.name}" >
-	    						<td><img class="rounded" style="width: 70px;" th:src="${c.image}"></td> <td th:text="${c.name}"></td> <td th:text="${#lists.size(c.products)}">452</td> <td><span class="activediscount">Best-ever</span></td> <td th:text="${c.parentCategory!=null? c.parentCategory.name:'N/A' }">category 4</td> <td><div class="d-flex gap-3"><a href="#"><i class="bi bi-pencil-fill text-secondary"></i></a> <a th:onclick="'deleteCategory('+${c.id}+')'" href="#" ><i class="bi bi-x-lg text-danger"></i> </a> <a th:href="@{/category(id= ${c.id})}"><i class="bi bi-arrow-right text-secondary"></i></a> </div></td>
-	    					</tr>
-	    					
-	    					
-	    				</tbody>
-	    				
-	    				<tfoot>
 
-							
-						</tfoot>
-	    			</table>
-	    			<!-- navigation -->
-	    			<div class="section-nav d-flex gap-3 ">
-				    		
-				    				<nav aria-label="Page navigation">
-											<ul class="pagination pagination-sm">
-												<li class="page-item"><a class="page-link" href="#">Previous</a></li>
-												<li class="page-item"><a class="page-link" href="#">1</a></li>
-												<li class="page-item"><a class="page-link" href="#">2</a></li>
-												<li class="page-item"><a class="page-link" href="#">3</a></li>
-												<li class="page-item"><a class="page-link" href="#">Next</a></li>
-											</ul>
-										</nav>
-				    					<div class="">						
-				    							<select class="form-select border-0  form-select-sm" id="pageNumber">
-				    								<option>5</option>
-				    								<option>10</option>
-				    							</select>
-				    						
-				    					</div>
-				    					
-				    					<div>
-				    						<span class="text-secondary">Total page: 14</span>
-				    					</div>
-				    </div>
-							    		
-	    		</div>
-	    		
-	    		
-	    	
-	    	</div>
-	    	
-	    	<!-- table card end -->
-	    	
-	    	</div>
-	    	
-	    	
-	    </section>
-	    <script type="text/javascript" src="/js/categories/categorylist.js"></script>
-    </div>
+
+						<!-- table header end -->
+
+						<table class="table table-sm table-hover align-middle">
+							<thead>
+								<tr>
+									<th>Image</th>
+									<th>Category</th>
+									<th>Qt products</th>
+									<th>discounts</th>
+									<th>Parent</th>
+									<th>Id</th>
+									<th>Edit</th>
+								</tr>
+							</thead>
+							<tbody class="">
+								<tr th:each="c:${categories}" th:id="${c.name}">
+									<td><img class="rounded" style="width: 70px;" th:src="${c.image}"></td>
+									<td th:text="${c.name}"></td>
+									<td th:text="${#lists.size(c.products)}"></td>
+									<td><span class="activediscount" th:text="${#lists.size(c.discountCodes)}"></span></td>
+									<td th:text="${c.parentCategory!=null? c.parentCategory.name:'N/A' }">category 4
+									</td>
+									<td th:text="${c.id}"></td>
+									<td>
+										<div class="d-flex gap-3"><a
+												th:onclick="'deleteCategory('+${c.id}+')'" href="#"><i
+													class="bi bi-x-lg text-danger"></i> </a> <a
+												th:href="@{/category(id= ${c.id})}"><i
+													class="bi bi-arrow-right text-secondary"></i></a> </div>
+									</td>
+								</tr>
+								<tr class="text-center" th:if="${#lists.size(categories) == 0}">
+									<td colspan="10" class="no-elements">
+										<div class="d-flex flex-column align-items-center">
+
+											<h3> No Available Category</h3>
+											<a class="bio-btn text-secondary" th:href="@{/categories}">
+												<i class="bi bi-box-arrow-left"
+													style="font-size: var(--stat-icon-size);"></i>
+											</a>
+										</div>
+									</td>
+								</tr>
+
+
+							</tbody>
+
+							<tfoot>
+
+
+							</tfoot>
+						</table>
+						<!-- navigation -->
+						<div class="section-nav d-flex gap-3 " th:if="${#lists.size(categories) > 0}">
+
+							<nav aria-label="Page navigation">
+								<ul class="pagination pagination-sm">
+									<li class="page-item"><a th:class="page-link+${page == 0? ' disabled':''} "
+											th:href="@{categories(mc=${mc}, page= ${page -1 }, size = ${size}, sort=${sort}, by=${by}) }">Previous</a>
+									</li>
+									<li th:each="value, status :${pages}"
+										th:class="page-item+ ${page == status.index? ' active':'' }">
+										<a class="page-link"
+											th:href="@{categories(mc=${mc}, page= ${status.index }, size = ${size} , sort=${sort} , by=${by}) }"
+											th:text="${status.index +1}"></a>
+									</li>
+									<li class="page-item"><a
+											th:class="page-link+ ${page+1 == totalPages? ' disabled':''}"
+											th:href="@{categories(mc=${mc}, page= ${page +1 }, size = ${size}, sort=${sort} , by=${by}) }">Next</a>
+									</li>
+								</ul>
+							</nav>
+							<div class="" th:if="${totalElements > 5}">
+								<select class="form-select border-0  form-select-sm pageNumber" id="pageNumber"
+									name="size">
+									<option th:attr="selected = ${size == 5}">5</option>
+									<option th:attr="selected = ${size == 10}">10</option>
+								</select>
+
+							</div>
+
+							<div th:if="${#lists.size(categories) != 0}">
+								<span class="text-secondary" th:inline="text">Total pages: [[${totalPages}]]</span>
+							</div>
+
+							<div th:if="${#lists.size(categories) != 0}">
+								<span class="text-secondary" th:inline="text">Total elemnts: [[${totalElements}]]</span>
+							</div>
+						</div>
+
+					</div>
+
+
+
+				</form>
+
+				<!-- table card end -->
+
+			</div>
+
+
+		</section>
+		<script type="text/javascript" src="/js/categories/categorylist.js"></script>
+	</div>
 </body>
+
 </html>

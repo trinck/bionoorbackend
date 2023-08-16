@@ -2,8 +2,10 @@ package com.bionoor.api.admin;
 
 import java.util.List;
 
+import org.apache.logging.log4j.util.StringBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,11 +21,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.bionoor.api.models.Category;
 import com.bionoor.api.models.DiscountCode;
+import com.bionoor.api.models.Order;
 import com.bionoor.api.repositories.MediaRepository;
 import com.bionoor.api.repositories.ProductRepository;
 import com.bionoor.api.services.CategoryService;
+import com.bionoor.api.services.CategoryServiceIn;
 import com.bionoor.api.services.DiscountCodeService;
 import com.bionoor.api.services.ProductService;
+import com.bionoor.api.services.ProductServiceIn;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.FetchType;
@@ -40,13 +45,11 @@ import lombok.NoArgsConstructor;
 public class AdminCategory {
 
 	@Autowired
-	CategoryService categoryService;
+	CategoryServiceIn categoryService;
 	@Autowired
 	DiscountCodeService discountCodeService;
-	@Autowired
-	private ProductService productService;
-	@Autowired
-	private ProductRepository productRepository;
+	
+	
 	
 	
 	
@@ -61,18 +64,49 @@ public class AdminCategory {
 	
 	
 
-	@GetMapping(value = "/categories")
-	public String categories(Model model) {
-		 List<Category> categories = this.categoryService.allCategories();
-		model.addAttribute("name", name);
-		model.addAttribute("categories", categories);
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		@GetMapping(value = "/categories")
+		public String categories(Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size, String mc,@RequestParam(defaultValue = "id:ascending") String sort, @RequestParam(defaultValue = "id") String by) {
+
 		
-		model.addAttribute("authentication", authentication);
-		//System.out.println(this.productRepository.findAll());
-		//System.out.println(categories);
-		return "categories/categorieslist.html";
-	}
+
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+			model.addAttribute("authentication", authentication);
+
+			Page<Category> categories;
+
+			if (by.equalsIgnoreCase("id")) {
+				try {
+					categories = this.categoryService.findById(page, size,(mc == null || mc.isEmpty()) ? null : Long.valueOf(mc), sort);
+				} catch (NumberFormatException e) {
+
+					model.addAttribute("error", "The input search must be a number");
+					categories = this.categoryService.findById(page, size, null, sort);
+				}
+
+			} else {
+
+				categories = this.categoryService.findByName(page, size, sort, mc);
+			} 
+
+			model.addAttribute("logo", logo);
+			model.addAttribute("name", name);
+			model.addAttribute("by", by);
+			model.addAttribute("totalElements", categories.getTotalElements());
+			model.addAttribute("pages", new int[categories.getTotalPages()]);
+			model.addAttribute("mc", mc);
+			model.addAttribute("page", page);
+			model.addAttribute("size", size);
+			model.addAttribute("sort", sort);
+			model.addAttribute("totalPages", categories.getTotalPages());
+			model.addAttribute("categories", categories.getContent());
+
+			return "categories/categorieslist.html";
+		}
+	
+	
+	
+	
 	
 	@GetMapping(value = "/categoryform")
 	public String categoryForm(Model model) {
@@ -105,13 +139,14 @@ public class AdminCategory {
 	
 	
 	@GetMapping(value = "/deleteCategory")
-	public String deleteCategory(Model model,@RequestParam Long id) {
+	public String deleteCategory(Model model,@RequestParam Long id,  @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size, String mc,@RequestParam(defaultValue = "id:ascending") String sort, @RequestParam(defaultValue = "id") String by) {
 		
 		
 		
+		String redirect = String.format("page=%d&size=%d&mc=%s&sort=%s&by=%s", page,size,mc,sort,by);
 		
 		 this.categoryService.delete(id);	
-	    return categories(model); 
+	    return "redirect:/categories?"+redirect; 
 		
 	}
 	

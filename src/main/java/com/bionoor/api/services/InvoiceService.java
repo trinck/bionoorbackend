@@ -127,26 +127,81 @@ public class InvoiceService implements InvoiceServiceIn{
 	}
 	
 	
+	public List<Invoice> invoicesNotPaid( ) {
+		
+		
+		 return	this.invoiceRepository.findByDueToPayGreaterThan(0);
+		     
+	}
+	
+	
 	public Page<Invoice> pages( int page, int size, Long id , String sort) {
 		
-		String[] sortTarget = sort.split(":");
+		
+		 String [] sorts = sort.split(":");
 		Page<Invoice> pages;
 		if(id != null) {
-			if(sortTarget[1].equalsIgnoreCase("ascending")) {
-				pages = this.invoiceRepository.findById(id, PageRequest.of(page, size, Sort.by(sortTarget[0]).ascending()));
+			if(sorts[1].equalsIgnoreCase("ascending")) {
+				pages = this.invoiceRepository.findById(id, PageRequest.of(page, size, Sort.by(sorts[0]).ascending()));
 
 			}else {
 				
-				pages = this.invoiceRepository.findById(id, PageRequest.of(page, size, Sort.by(sortTarget[0]).descending()));
+				pages = this.invoiceRepository.findById(id, PageRequest.of(page, size, Sort.by(sorts[0]).descending()));
 
 			}
 		}else {
 			
-			pages = this.invoiceRepository.findAll( PageRequest.of(page, size, Sort.by(sortTarget[0]).ascending()));
+			
+			if(sorts[1].equalsIgnoreCase("ascending")) {
+				pages = this.invoiceRepository.findAll( PageRequest.of(page, size, Sort.by(sorts[0]).ascending()));
+			}else {
+				
+				pages = this.invoiceRepository.findAll( PageRequest.of(page, size, Sort.by(sorts[0]).descending()));
+
+			}
+			
 
 		}
 		
 		
+		
+		 return	pages;
+		     
+	}
+
+	
+	
+	
+public Page<Invoice> pagesByUsername( int page, int size, String sort, String username) {
+		
+		
+	   String [] sorts = sort.split(":");
+		Page<Invoice> pages;
+		if(username != null && !username.isEmpty()) {
+			if(sorts[1].equalsIgnoreCase("ascending")) {
+				
+				
+					pages = this.invoiceRepository.findByOrderCustomerUsername(username, PageRequest.of(page, size, Sort.by(sorts[0]).ascending()));
+				
+			}else  {
+				
+				pages = this.invoiceRepository.findByOrderCustomerUsername(username, PageRequest.of(page, size, Sort.by(sorts[0]).descending()));
+
+			}
+			
+			
+		}else {
+			
+			
+			if(sorts[1].equalsIgnoreCase("ascending")) {
+				pages = this.invoiceRepository.findAll( PageRequest.of(page, size, Sort.by(sorts[0]).ascending()));
+			}else {
+				
+				pages = this.invoiceRepository.findAll( PageRequest.of(page, size, Sort.by(sorts[0]).descending()));
+
+			}
+			
+		}
 		
 		 return	pages;
 		     

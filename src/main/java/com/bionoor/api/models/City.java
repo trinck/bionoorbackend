@@ -1,5 +1,7 @@
 package com.bionoor.api.models;
 
+import java.io.Serializable;
+
 import com.bionoor.api.dto.InputCityDTO;
 
 import jakarta.persistence.CascadeType;
@@ -19,7 +21,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "cities")
 @Data
 @NoArgsConstructor
-public class City extends GenericBionoorEntity{
+public class City extends GenericBionoorEntity implements Serializable{
 
 	
 	

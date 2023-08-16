@@ -12,7 +12,7 @@
     <!-- start hearder commun with all pages -->
     	<header class=" border-bottom p-1 d-flex align-items-center" >
 			<nav aria-label="breadcrumb">
-				<ol class="breadcrumb">
+				<ol class="breadcrumb ">
 					<li class="breadcrumb-item"><a href="#"> <i class="bi bi-house-fill"></i> </a></li>
 					<li class="breadcrumb-item active" aria-current="page">Dashboard</li>
 				</ol>
@@ -20,7 +20,9 @@
 			
 			
 			<div class="btn-group ms-auto">
-				<button type="button" class="btn  btn-outline-secondary"> <i class="bi bi-file-earmark-pdf-fill"></i> Export</button>
+				<button type="button" class="btn d-flex align-items-center gap-1 btn-outline-secondary" id="printerAllGraphsPdf"> <i class="bi bi-file-earmark-pdf-fill"></i> Export pdf</button>
+				<button type="button" class="btn d-flex   align-items-center gap-1 btn-outline-secondary" id="printerAllGraphsImg"> <i class="bi bi-image"></i> Export image</button>
+
 			</div>
     	</header>
     	
@@ -28,7 +30,7 @@
     
 		
     <!-- start content -->
-	    <section class="row gx-0    p-1 pb-3  rounded-1" >
+	    <section class="row gx-0    p-1 pb-3  rounded-1" id="allGraphs">
 	    	
 	    	<div class="col-12">
 				
@@ -101,12 +103,55 @@
 				<div class="d-block d-sm-flex gap-2 mb-3">
 					<!-- graph-start-->
 					<div class="card-body shadow-sm bg-white p-2">
-						<canvas width="100%" id="graph-orders-fulfilled"></canvas>
+						
+						<!--  header of card-->
+						<div  class="d-flex px-4 pt-4 gap-3" >
+							<span  class="fw-semibold fs-5">fulfilled/received</span>
+							
+							<div class="dropdown ms-auto" id="dropdown-sales">
+								<div class="bio-select position-relative">
+									<button class="bio-btn border rounded-1    bio-dropdown-toggle" id="dropdown-fulfilled-action" data-bio-toggle="dropdown">
+										<span>Last year</span> <i class="bi bi-chevron-down"></i>
+									</button>
+									<ul class="bio-dropdown-menu dropdown-menu end-0" id="dropdown-fulfilled-menu">
+										<li  class="dropdown-item bio-opt " onclick="filter(event, 'fulfilled')" value="1"> This year</li>
+										<li  class="dropdown-item bio-opt"  onclick="filter(event, 'fulfilled')" value="0"> Last year</li>
+										
+									</ul>
+								</div>
+							</div>
+							
+							<!-- graph download btn-->
+							<i class="bi bi-download bio-btn download-graph-btn"></i>
+							
+							
+						</div>
+						
+						<!-- end header of card-->
+						<div id="fulfilled-received" class="graph">
+							<canvas width="100%" id="graph-orders-fulfilled"></canvas>
+						</div>
 					</div>
 					
 					<!-- graph-start-->
-					<div class="card-body shadow-sm bg-white p-2" style="width: 35%;">
-						<canvas width="100%" id="graph-orders-status"></canvas>
+					<div class="card-body shadow-sm bg-white p-2" style="width: 28%;" >
+						
+						<!--  header of card-->
+						<div class="d-flex px-4 pt-4 gap-3" >
+							<span  class="fw-semibold fs-5">Orders by status</span>
+							
+							
+							<!-- graph download btn-->
+							<i class="bi bi-download bio-btn download-graph-btn ms-auto"></i>
+							
+						</div>
+						
+						<!-- end header of card-->
+						
+						<div id="orders-by-status" class="graph">
+							<canvas width="100%" id="graph-orders-status"></canvas>
+						</div>
+						
 					</div>
 				</div>
 				
@@ -119,25 +164,36 @@
 			<div class="col-12 ">
 				
 				<div class="d-block d-sm-flex gap-2 mb-3">
+										
 					<!-- graph-start-->
-					<div class="card-body d-flex  shadow-sm bg-white p-2 gap-4"  style="width: 40%;">
+					<div class="card-body   shadow-sm bg-white p-2 "  style="width: 8%;">
+						<!--  header of card-->
+						<div class="d-flex px-4 pt-4 gap-3">
+							<span class="fw-semibold fs-5">Stock</span>
 						
-						<div class="d-flex flex-column  justify-content-center gap-5 fw-semibold" style="width: 40%;">
-							<div class="d-flex text-danger gap-3"> <span class="bg-danger   badge  align-self-center" ><span  class=""></span></span>  <span>Stockout Items</span> <span class="ms-auto">230</span> </div>
-							<div class="d-flex gap-3 "> <span class="bg-warning   badge  align-self-center" ><span  class=""></span> </span>  <span>Low Stock Items</span> <span class="ms-auto">500</span></div>
-							<div class="d-flex gap-3"> <span class="bio-bg-blue   badge  align-self-center" > <span  class=""></span> </span> <span>Available Items</span> <span class="ms-auto">1000</span></div>
+						
+							<!-- graph download btn-->
+							<i class="bi bi-download bio-btn download-graph-btn ms-auto"></i>
+						
 						</div>
 						
-						<div class="d-flex align-items-center">
+						<!-- end header of card-->
+						<div class="d-flex gap-4 graph" id="stock"  >
 							
-							<canvas   id="graph-stock"></canvas>
+							<div class="w-100 graph"  >
+							
+								<canvas id="graph-stock"></canvas>
+							</div>
+							
 						</div>
+						
+						
 					</div>
 					
 					<!-- graph-start-->
 					<div class="card-body shadow-sm  bg-white " >
 						
-						<div class="d-flex px-4 pt-4">
+						<div class="d-flex px-4 pt-4 gap-3">
 							<span  class="fw-semibold fs-5">Top Sales Products</span>
 							
 							<div class="dropdown ms-auto" id="dropdown-best-seller">
@@ -153,9 +209,12 @@
 								</div>
 							</div>
 							
+							<!-- graph download btn-->
+							<i class="bi bi-download bio-btn download-graph-btn"></i>
+							
 						</div>
 						
-						<div class="table-responsive">
+						<div class="table-responsive graph" id="best-seller">
 							<table class="table ">
 								<thead class="fw-semibold">
 									<tr class="text-center">
@@ -201,16 +260,40 @@
 			</div>
 	    	
 	    	
-	    	<!-- encdcol-->	
+	    	<!-- end col-->	
 			
 			<div class="col-12 ">
 				<div class="d-block d-sm-flex gap-2 mb-3">
 					<div class="card-body shadow-sm bg-white p-2 w-50">
-						<div width="" id="graph-geo"></div>
+						
+						<!--  header of card-->
+						<div class="d-flex px-4 pt-4 gap-3">
+							<span  class="fw-semibold fs-5">Orders by region</span>
+							
+							<div class="dropdown ms-auto" id="dropdown-sales">
+								<div class="bio-select position-relative">
+									<button class="bio-btn border rounded-1    bio-dropdown-toggle" id="dropdown-region-action" data-bio-toggle="dropdown">
+										<span>Last year</span> <i class="bi bi-chevron-down"></i>
+									</button>
+									<ul class="bio-dropdown-menu dropdown-menu end-0" id="dropdown-sales-menu">
+										<li  class="dropdown-item bio-opt " onclick="filter(event, 'orders-region')" value="1"> This year</li>
+										<li  class="dropdown-item bio-opt"  onclick="filter(event, 'orders-region')" value="0"> Last year</li>
+										
+									</ul>
+								</div>
+							</div>
+							
+							<!-- graph download btn-->
+							<i class="bi bi-download bio-btn download-graph-btn"></i>
+							
+						</div>
+					
+						<!-- graoh with google -->
+						<div class="graph" id="graph-geo"></div>
 					</div>
 					
 					<!--  end graph-->
-					<div class="row g-0  row-cols-2 mb-3 w-50 gy-1"> 
+					<div class="row g-0 d-none  row-cols-2 mb-3 w-50 gy-1"> 
 						
 							<div class="card-body shadow-sm bg-white p-2 ">
 								<canvas width="" id="graph-"></canvas>
@@ -240,7 +323,34 @@
 			<div class="col-12 ">
 				<div class="d-block d-sm-flex gap-2 mb-3">
 					<div class="card-body shadow-sm bg-white p-2 ">
-						<canvas width="" id="graph-sales"></canvas>
+						<!--  header of card-->
+						<div class="d-flex px-4 pt-4 gap-3">
+							<span  class="fw-semibold fs-5">Sales</span>
+							
+							<div class="dropdown ms-auto" id="dropdown-sales">
+								<div class="bio-select position-relative">
+									<button class="bio-btn border rounded-1    bio-dropdown-toggle" id="dropdown-sales-action" data-bio-toggle="dropdown">
+										<span>Last year</span> <i class="bi bi-chevron-down"></i>
+									</button>
+									<ul class="bio-dropdown-menu dropdown-menu end-0" id="dropdown-sales-menu">
+										<li  class="dropdown-item bio-opt " onclick="filter(event, 'sales')" value="1"> This year</li>
+										<li  class="dropdown-item bio-opt"  onclick="filter(event, 'sales')" value="0"> Last year</li>
+										
+									</ul>
+								</div>
+							</div>
+							
+							<!-- graph download btn-->
+							<i class="bi bi-download bio-btn download-graph-btn"></i>
+							
+						</div>
+						
+						<!-- end header of card-->
+							
+						<div id="sales" class="graph">
+							<canvas width="" id="graph-sales"></canvas>
+						</div>
+						
 					</div>
 					
 					
@@ -269,7 +379,7 @@
 				<td id="best-seller-name">Huile d'argan</td>
 				<td id="best-selle-earned">500 MAD</td>
 				<td id="best-selle-stock"> </td>
-				<td> <i class="bi bi-pencil-fill text-success"></i> </td>
+				<td> <a class="bio-btn best-seller-action"> <i class="bi bi-pencil-fill text-success"></i></a> </td>
 			</tr>
 	     </template>
 		 

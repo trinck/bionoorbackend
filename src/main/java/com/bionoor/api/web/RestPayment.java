@@ -13,6 +13,7 @@ import com.bionoor.api.models.Invoice;
 import com.bionoor.api.models.Payment;
 import com.bionoor.api.models.PaymentAsDelivered;
 import com.bionoor.api.services.InvoiceService;
+import com.bionoor.api.services.InvoiceServiceIn;
 import com.bionoor.api.services.PaymentServiceImpl;
 
 @RestController
@@ -22,12 +23,11 @@ public class RestPayment {
 	@Autowired
 	private PaymentServiceImpl paymentServiceImpl;
 	@Autowired
-	private InvoiceService invoiceService;
+	private InvoiceServiceIn invoiceService;
 	
 	@PostMapping("/save/pay_as_delivered")
 	public Payment addPayment(@RequestParam Long invoiceId, @RequestParam Double amount) {
 		
-		System.out.println("dans le payment********");
 		Invoice invoice = this.invoiceService.getById(invoiceId);
 		
 		PaymentAsDelivered asDelivered = new  PaymentAsDelivered();

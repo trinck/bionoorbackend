@@ -121,5 +121,11 @@
 	
 	border: none;
 	height: fit-content;
-	width: 32%;
+	width: 100%;
+}
+
+.col{
+	display: flex;
+	flex-direction: column;
+	gap: 30px;
 }

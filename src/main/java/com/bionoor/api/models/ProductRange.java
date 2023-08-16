@@ -1,5 +1,6 @@
 package com.bionoor.api.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @NoArgsConstructor
-public class ProductRange {
+public class ProductRange implements Serializable{
    
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

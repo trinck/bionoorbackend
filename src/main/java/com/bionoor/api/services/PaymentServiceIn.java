@@ -2,6 +2,8 @@ package com.bionoor.api.services;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
 import com.bionoor.api.exceptions.EntityAlreadyExists;
 import com.bionoor.api.exceptions.IllegalOperationException;
 import com.bionoor.api.models.Invoice;
@@ -33,5 +35,13 @@ public Payment addPayment(Payment payment) ;
 	
 	public List<PaymentMethod> getPaymentMethods() ;
 	public List<Payment> getPayments();
+	
+	public Page<Payment> pagesById(int page, int size, Long mc, String sort);
+	public Page<Payment> pagesByUsername( int page, int size, String sort,String username) ;
+
+
+
+
+	
 	
 }

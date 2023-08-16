@@ -1,7 +1,9 @@
 package com.bionoor.api.admin;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,7 +25,9 @@ import com.bionoor.api.models.Order;
 import com.bionoor.api.models.Payment;
 import com.bionoor.api.models.Product;
 import com.bionoor.api.models.User;
+import com.bionoor.api.models.Order.OrderStatus;
 import com.bionoor.api.services.InvoiceService;
+import com.bionoor.api.services.InvoiceServiceIn;
 import com.bionoor.api.services.OrderService;
 import com.bionoor.api.services.ProductService;
 import com.bionoor.api.utils.InvoiceProcessingIn;
@@ -38,6 +42,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -53,7 +59,7 @@ public class AdminInvoice {
 	 private String logo;
 	
 	@Autowired
-	private InvoiceService invoiceService;
+	private InvoiceServiceIn invoiceService;
 	
 	
 	
@@ -80,17 +86,50 @@ public class AdminInvoice {
 	
 	@GetMapping(value = "/invoicesPages")
 	/* this id is for existing invoice*/
-	public String page(Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size,@RequestParam(required = false) Long mc,@RequestParam(defaultValue = "id:ascending") String sort) 
+	public String page(Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size, String mc,@RequestParam(defaultValue = "id:ascending") String sort, @RequestParam(defaultValue = "id") String by ) 
 	{
-		Page<Invoice> invoices = this.invoiceService.pages(page, size, mc, sort);
-		model.addAttribute("invoices", invoices);
+		
+		Map<String, String> dateStatus = Map.of("after", "text-bg-success", "before", "text-bg-danger");
+		
+		Page<Invoice> invoices;
+		
+		if(by.equalsIgnoreCase("id")) {
+			try {
+				invoices = this.invoiceService.pages(page, size,( mc==null || mc.isEmpty())? null:Long.valueOf(mc), sort);
+			}catch(NumberFormatException e){
+				
+				model.addAttribute("error", "The input search must be a number");
+				invoices  = this.invoiceService.pages(page, size,null, sort);
+			}
+			
+		}else {
+			
+			invoices = this.invoiceService.pagesByUsername(page, size, sort, mc);
+		}
+		
+		
+		Map<String, String> mapStatusBG = new HashMap<>();
+		mapStatusBG.put(OrderStatus.PENDING.name(), "text-bg-warning");
+		mapStatusBG.put(OrderStatus.PROCESSING.name(), "text-bg-secondary");
+		mapStatusBG.put(OrderStatus.READY.name(), "text-bg-primary");
+		mapStatusBG.put(OrderStatus.DELIVERED.name(), "text-bg-success");
+		mapStatusBG.put(OrderStatus.RETURNED.name(), "text-bg-danger");
+		
+		
+		
+		
 		model.addAttribute("logo", logo);
+		model.addAttribute("mapStatusBG", mapStatusBG);
 		model.addAttribute("name", name);
+		model.addAttribute("by", by);
+		model.addAttribute("now", new Date());
+		model.addAttribute("dateStatus", dateStatus);
 		model.addAttribute("totalElements", invoices.getTotalElements());
 		model.addAttribute("pages", new int[invoices.getTotalPages()]);
 		model.addAttribute("mc", mc);
 		model.addAttribute("page", page);
 		model.addAttribute("size", size);
+		model.addAttribute("sort", sort);
 		model.addAttribute("totalPages", invoices.getTotalPages());
 		model.addAttribute("invoices", invoices.getContent());	
 		return "invoices/invoices";
@@ -150,7 +189,7 @@ public class AdminInvoice {
 	
 	
 	
-	@RequestMapping(value = "/invoice", method = RequestMethod.GET)
+	@GetMapping(value = "/invoice")
 	/* this id is for invoice*/
 	public String formInvoice(Model model, @RequestParam(name = "id") Long id) 
 	{
@@ -168,7 +207,7 @@ public class AdminInvoice {
 	
 	
 	
-	@RequestMapping(value = "/createInvoice", method = RequestMethod.GET)
+	@GetMapping(value = "/createInvoice")
 	/* this id is for order so we want to invoice*/
 	public String createInvoice(Model model, @RequestParam(name = "id") Long id) 
 	{

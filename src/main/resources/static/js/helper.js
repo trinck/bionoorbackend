@@ -35,12 +35,51 @@ document.addEventListener("DOMContentLoaded", event=>{
 	})
 	
 	//bioDropdownToggle.
+	
+	
+	
+	
+	//******************************controll formulair */
+	
+	 
+	 var sortInputs = document.querySelectorAll(".pageNumber")
+	 
+	  var searchBtns = document.querySelectorAll(".search-btn")
+	  
+	
+	  
+	  searchBtns.forEach(btn =>{
+		  
+				  btn.addEventListener("click", event2 =>{
+				 
+					 var form = btn.closest("form")
+					 form.submit()
+					 
+				 })
+		  
+	  })
+	  
+	 
+	  sortInputs.forEach(sortItem =>{
+		  
+			  sortItem.addEventListener("change", event3 =>{
+			 
+				 var form = sortItem.closest("form")
+				 form.submit()
+				 
+			 })
+	  })
+	  
+//************************************************************************************************** */	
+	 
+	
+	
 })
 
 
 
 
-//*****************************spinner grow */
+//*****************************spinner grow ***********************/
 
 function addSpinnerTable(type="border", color= "success"){
 	
@@ -66,5 +105,62 @@ function addSpinnerTable(type="border", color= "success"){
 	
 	
 }
+
+
+//************************Printer********************************** */
+
+ async function print(event, id, nature="pdf",name="facture"){
+
+			  var doc = new jspdf.jsPDF;
+			 // doc.setMargins(20, 20, 20, 20);
+			  
+            // Options de configuration pour l'impression
+            var options = {
+                background: 'white', // Couleur d'arrière-plan
+                scale: 3 // Échelle de l'impression (plus la valeur est élevée, plus l'image sera grande)
+            };
+
+            // Sélection de la partie de la page à imprimer en PDF
+            var content = document.getElementById(id);
+
+	 // Génération du PDF
+		 html2canvas(content).then((canvas) => {
+			 // Obtenez l'image du canvas en tant que données de l'image au format PNG
+			 const imageData = canvas.toDataURL('image/png');
+	
+	        if(nature == "pdf"){
+				 // Ajoutez l'image au document PDF
+			 doc.addImage(imageData, 'PNG', 10, 10, 190, 0);
+	
+			 // Sauvegardez le document PDF
+			 doc.save(`${name}.pdf`);
+			 
+			 return
+			}
+			
+			//print image instead
+			 const downloadLink = document.createElement('a');
+			 downloadLink.href = imageData;
+			 downloadLink.download = `${name}.png`;
+			 downloadLink.click();
+			
+			
+		 });
+		 
+		
+		 
+ }
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+//*****************************controll form search********************************************* */
+
+
 
 

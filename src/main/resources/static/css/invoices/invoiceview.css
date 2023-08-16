@@ -13,3 +13,14 @@ tr{
 	height: fit-content;
 	text-align: center;
 }
+
+
+
+.invoice-stamp{
+	
+	width: 30%;
+	
+	top: 0px;
+	left: 35%;
+	
+}

@@ -6,6 +6,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.bionoor.api.dto.InputOrderDTO;
 import com.bionoor.api.dto.InputOrderInvoiceDTO;
 import com.bionoor.api.dto.InputOrderItemDTO;
@@ -73,5 +76,9 @@ public Order addOrderInvoice(InputOrderInvoiceDTO inputOrderInvoiceDTO );
 	public Order getById(Long id) ;
 	
 	public List<Order> getAllByFulfilled(boolean fulfilled, int annee);
+	
+	public Page<Order> findById(int page, int size, Long id, String sort);
+ 	public Page<Order> findByCustomerUsername( int page, int size, String sort,String username);
+ 	public Page<Order> findAllByStatus( int page, int size, String sort,String orderStatus);
     
 }

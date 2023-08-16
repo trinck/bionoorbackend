@@ -26,7 +26,7 @@
 		    				Create invoice
 		    			</a>
 		    			
-		    			<button id="print" onclick="printInvoice(event)" class="bio-btn shadow rounded-1 bio-btn-brown">
+		    			<button id="print"  class="bio-btn shadow rounded-1 bio-btn-brown">
 		    				Print invoice
 		    			</button>
 		    		</div>
@@ -35,30 +35,34 @@
 		    	<!-- section Order -->
 		    		<div class="fw-semibold">Order info</div>
 		    	
-		    		<div class=" gap-3 d-flex border-1 border-bottom" >
-		    			
-		    			
-		    			<div class="order-info">
-		    				
-		    				<div class="" th:inline="text">Order Number: #[[${order.id}]]</div>
-		    			</div>
-		    			
-		    			<div class="ms-auto">
-		    				<div>
-		    					 <span  class="fw-semibold" >Order status: </span> <spanth:inline="text">[[${order.status}]]</span> 
-		    				</div>
-		    				<div>
-		    					<span class="fw-semibold" >Order date:</span> <span th:inline="text"> [[${#dates.format(order.createdAt, 'dd/MM/yyyy hh:mm')}]]</span>
-		    				</div>
-		    			
-		    			</div>
-		    			
-		    		</div>
+					<div class=" gap-3 d-flex border-1 border-bottom position-relative">
+					
+					
+						<div class="order-info">
+					
+							<div class="" th:inline="text">Order Number: #[[${order.id}]]</div>
+						</div>
+					
+						<div class="ms-auto">
+							<div>
+								<span class="fw-semibold">Order status: </span>
+								<spanth:inline="text">[[${order.status}]]</span>
+							</div>
+							<div>
+								<span class="fw-semibold">Order date:</span> <span th:inline="text"> [[${#dates.format(order.createdAt,
+									'dd/MM/yyyy hh:mm')}]]</span>
+							</div>
+					
+						</div>
+						
+						<img th:if="${order.invoice!=null && order.invoice.dueToPay==0}" src="images/paid.png" class="position-absolute invoice-stamp">
+					
+					</div>
 		    		<!--end section Order -->
 		    		
 		    		
 		    		<!-- section Bill -->
-		    		<div id="invoice" class="">
+		    		<div id="invoice" class="p-1">
 						
 			    		<div class="bill-info gap-3 d-flex" >
 			    			
@@ -188,8 +192,7 @@
 					<!--end of invoice content -->
 		    </div>
 	    
-	    <script src="webjars/html2canvas/1.4.1/dist/html2canvas.js" type="text/javascript"></script>
-	     <script src="webjars/jspdf/2.5.1/dist/jspdf.umd.js" type="text/javascript"></script>
+	   
 	     <script src="js/invoices/invoiceview.js" type="text/javascript"></script>
 	    
     </div>

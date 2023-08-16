@@ -13,7 +13,7 @@ import com.bionoor.api.repositories.CountryRepository;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
-public class CountryService {
+public class CountryService implements CountryServiceIn{
 
 	
 	  @Autowired

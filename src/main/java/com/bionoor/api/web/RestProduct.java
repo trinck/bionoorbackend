@@ -28,6 +28,7 @@ import com.bionoor.api.models.ProductRange;
 import com.bionoor.api.models.Review;
 import com.bionoor.api.services.CsvGeneratorIn;
 import com.bionoor.api.services.ProductService;
+import com.bionoor.api.services.ProductServiceIn;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -38,6 +39,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -47,16 +49,27 @@ import lombok.NoArgsConstructor;
 public class RestProduct {
 
 	@Autowired
-	private ProductService productService;
+	private ProductServiceIn productService;
 	@Autowired
 	private CsvGeneratorIn csvGeneratorIn;
+	
 	@GetMapping(value = "/search")
 	public OutputProductDTO search(@RequestParam @NotEmpty String name) {
 		
 		return  new OutputProductDTO(this.productService.findByName(name));
 	}
 	
-	@GetMapping(value = "/all")
+	
+	@GetMapping(value = "/{id}")
+	public OutputProductDTO search(@RequestParam @NotNull Long id) {
+		
+		return  new OutputProductDTO(this.productService.getById(id));
+	}
+	
+	
+	
+	
+	@GetMapping
 	public List<OutputProductDTO> AllProduct() {
 		
 		
@@ -72,13 +85,13 @@ public class RestProduct {
 	
 	
 	
-	
-	
-	
 	@GetMapping("/download-csv")
     public ResponseEntity< byte []> downloadCsvFile() throws IOException  {
         // Generate the CSV file using the CsvGenerator
-        byte [] csvFile = csvGeneratorIn.generateCsvProducts();
+    	List<Product> listProduct = this.productService.allProducts();
+    	List<Object> listObject = new ArrayList();
+    	listProduct.forEach(p-> listObject.add(p) );    	
+        byte [] csvFile = csvGeneratorIn.generateCsv( listObject);
 
         // Set the response headers
         HttpHeaders headers = new HttpHeaders();

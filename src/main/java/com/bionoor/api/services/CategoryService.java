@@ -8,11 +8,15 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.bionoor.api.admin.AdminCategory.InputCategory;
 import com.bionoor.api.models.Category;
 import com.bionoor.api.models.Media;
+import com.bionoor.api.models.Order;
 import com.bionoor.api.models.Product;
 import com.bionoor.api.repositories.CategoryRepository;
 import com.bionoor.api.repositories.ProductRepository;
@@ -129,6 +133,70 @@ public class CategoryService implements CategoryServiceIn{
 		Map<String, Object> data = Map.of("products", products, "category", category);
 		
 		return data;
+	}
+
+
+	@Override
+	public Page<Category> findById(int page, int size, Long id, String sort) {
+		String [] sorts = sort.split(":");
+		Page<Category> pages;
+		if(id != null) {
+			if(sorts[1].equalsIgnoreCase("ascending")) {
+				pages = this.categoryRepository.findById(id, PageRequest.of(page, size, Sort.by(sorts[0]).ascending()));
+
+			}else {
+				
+				pages = this.categoryRepository.findById(id, PageRequest.of(page, size, Sort.by(sorts[0]).descending()));
+
+			}
+		}else {
+			
+			
+			if(sorts[1].equalsIgnoreCase("ascending")) {
+				pages = this.categoryRepository.findAll( PageRequest.of(page, size, Sort.by(sorts[0]).ascending()));
+			}else {
+				
+				pages = this.categoryRepository.findAll( PageRequest.of(page, size, Sort.by(sorts[0]).descending()));
+
+			}
+			
+
+		}
+		
+				
+		 return	pages;
+	}
+
+
+	@Override
+	public Page<Category> findByName(int page, int size, String sort, String name) {
+		String [] sorts = sort.split(":");
+		Page<Category> pages;
+		if(name != null) {
+			if(sorts[1].equalsIgnoreCase("ascending")) {
+				pages = this.categoryRepository.findByNameContains(name, PageRequest.of(page, size, Sort.by(sorts[0]).ascending()));
+
+			}else {
+				
+				pages = this.categoryRepository.findByNameContains(name, PageRequest.of(page, size, Sort.by(sorts[0]).descending()));
+
+			}
+		}else {
+			
+			
+			if(sorts[1].equalsIgnoreCase("ascending")) {
+				pages = this.categoryRepository.findAll( PageRequest.of(page, size, Sort.by(sorts[0]).ascending()));
+			}else {
+				
+				pages = this.categoryRepository.findAll( PageRequest.of(page, size, Sort.by(sorts[0]).descending()));
+
+			}
+			
+
+		}
+		
+				
+		 return	pages;
 	} 
 }
 

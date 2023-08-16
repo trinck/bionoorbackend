@@ -1,5 +1,7 @@
 package com.bionoor.api.models;
 
+import java.io.Serializable;
+
 import com.bionoor.api.dto.InputAddressDTO;
 
 import jakarta.persistence.Column;
@@ -14,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @NoArgsConstructor
-public class Address extends GenericBionoorEntity{
+public class Address extends GenericBionoorEntity implements Serializable{
 
 	
 	@Id

@@ -3,6 +3,9 @@ package com.bionoor.api.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.bionoor.api.exceptions.EntityAlreadyExists;
@@ -123,5 +126,85 @@ public class PaymentServiceImpl implements PaymentServiceIn{
 		
 		return  this.paymentRepository.findAll();
 	}
+	
+	
+	
+	
+	
+	@Override
+public Page<Payment> pagesByUsername( int page, int size, String sort, String username) {
+		
+		
+	   String [] sorts = sort.split(":");
+		Page<Payment> pages;
+		if(username != null) {
+			if(sorts[1].equalsIgnoreCase("ascending")) {
+				
+				
+					pages = this.paymentRepository.findByInvoiceOrderCustomerUsername(username, PageRequest.of(page, size, Sort.by(sorts[0]).ascending()));
+				
+			}else  {
+				
+				pages = this.paymentRepository.findByInvoiceOrderCustomerUsername(username, PageRequest.of(page, size, Sort.by(sorts[0]).descending()));
+
+			}
+			
+			
+		}else {
+			
+			
+			if(sorts[1].equalsIgnoreCase("ascending")) {
+				pages = this.paymentRepository.findAll( PageRequest.of(page, size, Sort.by(sorts[0]).ascending()));
+			}else {
+				
+				pages = this.paymentRepository.findAll( PageRequest.of(page, size, Sort.by(sorts[0]).descending()));
+
+			}
+			
+		}
+		
+		 return	pages;
+		     
+	}
+
+	
+	
+	@Override
+  public Page<Payment> pagesById( int page, int size, Long id , String sort) {
+	
+	 String [] sorts = sort.split(":");
+	Page<Payment> pages;
+	if(id != null) {
+		if(sorts[1].equalsIgnoreCase("ascending")) {
+			pages = this.paymentRepository.findById(id, PageRequest.of(page, size, Sort.by(sorts[0]).ascending()));
+
+		}else {
+			
+			pages = this.paymentRepository.findById(id, PageRequest.of(page, size, Sort.by(sorts[0]).descending()));
+
+		}
+	}else {
+		
+		
+		if(sorts[1].equalsIgnoreCase("ascending")) {
+			pages = this.paymentRepository.findAll( PageRequest.of(page, size, Sort.by(sorts[0]).ascending()));
+		}else {
+			
+			pages = this.paymentRepository.findAll( PageRequest.of(page, size, Sort.by(sorts[0]).descending()));
+
+		}
+		
+
+	}
+	
+	
+	
+	 return	pages;
+	     
+}
+
+
+
+	
 	
 }

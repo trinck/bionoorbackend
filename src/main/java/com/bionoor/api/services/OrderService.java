@@ -9,6 +9,9 @@ import java.util.UUID;
 
 import org.hibernate.query.IllegalQueryOperationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.bionoor.api.dto.InputOrderDTO;
@@ -342,7 +345,8 @@ public Order addOrderInvoice(InputOrderInvoiceDTO inputOrderInvoiceDTO ) {
 		Order order = new Order();
 	
 		
-		Customer customer = this.customerRepository.findById(UUID.fromString("7885f16f-59a7-4d39-b938-d4f2a2cecc7b")).orElse(null);
+		Customer customer = this.customerRepository.findById(UUID.fromString("3163a3a8-a0cf-4b23-b419-b1784865951a")).orElse(null);
+		
 		//set customer
 		order.setCustomer(customer);
 		order.setAdrress(customer.getAddress().getCity().getName() + ","+ customer.getAddress().getStreet());		//*****put the method of payment for this order***/
@@ -364,7 +368,13 @@ public Order addOrderInvoice(InputOrderInvoiceDTO inputOrderInvoiceDTO ) {
 
 			
 			Product product = this.productService.findByName(item.getProductName());
-			 orderItem.setProduct(product);
+			if(item.getQuantity()>product.getQuantity()) {
+				
+				throw new IllegalArgumentException(String.format("The product %s is not anougth", item.getProductName()));
+			}
+			
+			  product.setQuantity(product.getQuantity()- item.getQuantity());
+			  orderItem.setProduct(product);
 			  orderItem.setOrder(order);
 			 //add item to list orderItems
 			 orderItems.add(orderItem);
@@ -442,6 +452,117 @@ public Order addOrderInvoice(InputOrderInvoiceDTO inputOrderInvoiceDTO ) {
 	public List<Order> getAllByYear( int year) {
 		// TODO Auto-generated method stub
 		return this.orderRepository.findByYear(year );
+	}
+
+
+
+
+
+
+
+	@Override
+	public Page<Order> findById(int page, int size, Long id, String sort) {
+		String [] sorts = sort.split(":");
+		Page<Order> pages;
+		if(id != null) {
+			if(sorts[1].equalsIgnoreCase("ascending")) {
+				pages = this.orderRepository.findById(id, PageRequest.of(page, size, Sort.by(sorts[0]).ascending()));
+
+			}else {
+				
+				pages = this.orderRepository.findById(id, PageRequest.of(page, size, Sort.by(sorts[0]).descending()));
+
+			}
+		}else {
+			
+			
+			if(sorts[1].equalsIgnoreCase("ascending")) {
+				pages = this.orderRepository.findAll( PageRequest.of(page, size, Sort.by(sorts[0]).ascending()));
+			}else {
+				
+				pages = this.orderRepository.findAll( PageRequest.of(page, size, Sort.by(sorts[0]).descending()));
+
+			}
+			
+
+		}
+		
+				
+		 return	pages;
+	}
+
+
+
+
+
+
+
+	@Override
+	public Page<Order> findByCustomerUsername(int page, int size, String sort, String username) {
+		String [] sorts = sort.split(":");
+		Page<Order> pages;
+		if(username != null) {
+			if(sorts[1].equalsIgnoreCase("ascending")) {
+				pages = this.orderRepository.findByCustomerUsername(username, PageRequest.of(page, size, Sort.by(sorts[0]).ascending()));
+
+			}else {
+				
+				pages = this.orderRepository.findByCustomerUsername(username, PageRequest.of(page, size, Sort.by(sorts[0]).descending()));
+
+			}
+		}else {
+			
+			
+			if(sorts[1].equalsIgnoreCase("ascending")) {
+				pages = this.orderRepository.findAll( PageRequest.of(page, size, Sort.by(sorts[0]).ascending()));
+			}else {
+				
+				pages = this.orderRepository.findAll( PageRequest.of(page, size, Sort.by(sorts[0]).descending()));
+
+			}
+			
+
+		}
+		
+				
+		 return	pages;
+	}
+
+
+
+
+
+
+
+	@Override
+	public Page<Order> findAllByStatus(int page, int size, String sort, String orderStatus) {
+		String [] sorts = sort.split(":");
+		Page<Order> pages;
+		if(orderStatus != null) {
+			if(sorts[1].equalsIgnoreCase("ascending")) {
+				pages = this.orderRepository.findAllByStatus(OrderStatus.valueOf(orderStatus.toUpperCase()), PageRequest.of(page, size, Sort.by(sorts[0]).ascending()));
+
+			}else {
+				
+				pages = this.orderRepository.findAllByStatus(OrderStatus.valueOf(orderStatus.toUpperCase()), PageRequest.of(page, size, Sort.by(sorts[0]).descending()));
+
+			}
+		}else {
+			
+			
+			if(sorts[1].equalsIgnoreCase("ascending")) {
+				pages = this.orderRepository.findAll( PageRequest.of(page, size, Sort.by(sorts[0]).ascending()));
+			}else {
+				
+				pages = this.orderRepository.findAll( PageRequest.of(page, size, Sort.by(sorts[0]).descending()));
+
+			}
+			
+
+		}
+		
+				
+		 return	pages;
 	}
     
   

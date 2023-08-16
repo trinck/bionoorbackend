@@ -38,6 +38,7 @@ import com.bionoor.api.models.OrderItem;
 import com.bionoor.api.models.Payment;
 import com.bionoor.api.models.Product;
 import com.bionoor.api.services.OrderService;
+import com.bionoor.api.services.OrderServiceIn;
 import com.bionoor.api.services.PaymentServiceImpl;
 
 import io.micrometer.common.lang.NonNull;
@@ -50,7 +51,7 @@ import lombok.NoArgsConstructor;
 public class RestOrder {
 
 	@Autowired
-	private OrderService orderService;
+	private OrderServiceIn orderService;
 	
 	@PostMapping(value = "/save")
 	public OutputOrderDTO addOrder(@RequestBody @Valid InputOrderDTO inputOrderDTO) {

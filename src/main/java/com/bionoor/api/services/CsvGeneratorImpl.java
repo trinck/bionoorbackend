@@ -7,8 +7,15 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -19,38 +26,114 @@ import com.bionoor.api.models.Product;
 import com.opencsv.CSVWriter;
 @Service
 public class CsvGeneratorImpl  implements CsvGeneratorIn{
-
-	@Autowired
-	private ProductServiceIn productServiceIn;
-	
-	 public byte[] generateCsvProducts()  {
-	        List<Product> products = productServiceIn.allProducts();
-
-	        // Create a temporary file to store the CSV data
+	 
+	 public byte[] generateCsv(List<Object> entities)  {
 	       
-
 	        try  {
 	        	
 	        	ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 	             OutputStreamWriter writer = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8);
 	             CSVWriter csvWriter = new CSVWriter(writer);
+	             
 	        	
-	        	//File tempFile = File.createTempFile("products", ".csv");
-	        	//CSVWriter writer = new CSVWriter(new FileWriter(tempFile));
 	            // Write header
-	            String[] header = {"ID", "Name", "Code","Steps", "CreatedAt", "Description", "Price", "Quantity", "Promotion price","Category_id", "IsOnSale"};
-	            csvWriter.writeNext(header);
-
-	            // Write data
-	            for (Product product : products) {
-	                String[] data = {String.valueOf(product.getId()), product.getName(), product.getCode(), product.getSteps(),product.getCreateAt().toString(),product.getDescription(),String.valueOf(product.getPrice()), String.valueOf(product.getQuantity()),String.valueOf(product.getPromotion()),String.valueOf( product.getCategory().getId()),String.valueOf(product.isOnSale())};
-	                csvWriter.writeNext(data);
+	            Class cls = entities.get(0).getClass();
+	            List<Class> classes = new ArrayList();
+	            List<Field> allFields = new ArrayList();
+	            Class tempClass = cls;
+	            
+	           	            
+	            while(tempClass.getSuperclass()!= null) {
+	            	
+	            	tempClass = tempClass.getSuperclass();
+	            	classes.add(tempClass);
+	            	allFields.addAll(List.of(tempClass.getDeclaredFields()));
 	            }
 	            
+	           
+	            classes.add(cls);
+	            allFields.addAll(List.of(cls.getDeclaredFields()));
+	           // Class parentClasse =  cls.getSuperclass();
+	           
+	        	            
+	            List<String> allowedTypes = List.of("String","Double", "Long","Boolean","Integer","Date","int","boolean");
+	         
 	            
+	            Map<String,Method> methods = new HashMap<>();
+	            
+	            
+	            for(Class classe: classes) {
+	            	
+	            	 for(Method method: classe.getMethods()) {
+	 	            	
+	 	            	if(method.getName().startsWith("get") && allowedTypes.contains(method.getReturnType().getSimpleName())) {
+	 	            		
+	 	            		
+	 	            		String methodName = method.getName().substring(3);
+	 	            		
+	 	            		String firstChar = methodName.substring(0, 1);
+	 	            		methodName = methodName.replaceFirst(firstChar, firstChar.toLowerCase());
+	 	            		methods.put(methodName, method);
+	 	            	}else if(method.getName().startsWith("is") && allowedTypes.contains(method.getReturnType().getSimpleName())) {
+	 	            		
+							/*
+							 * String methodName = method.getName().substring(2);
+							 * 
+							 * String firstChar = methodName.substring(0, 1); methodName =
+							 * methodName.replaceFirst(firstChar, firstChar.toLowerCase());
+							 * parentMethod.put(methodName, method);
+							 */
+	 	            		methods.put(method.getName(), method);
+	 	            	}
+	 	            	
+	 	            }
+	            	
+	            }
+	            
+	           
+	            
+	            List<String> headerList = new ArrayList<String>();
+	            
+	            for(Field field: allFields) {
+	            	if(allowedTypes.contains(field.getType().getSimpleName())) {
+	            		headerList.add(field.getName());
+	            	}
+	            }
+	            
+	            //write header
+	            csvWriter.writeNext(headerList.toArray(new String[0]));
+	            
+	            
+	           
+	            //write data
+	            for(Object p: entities) {
+	            	
+	            	 List<String> data = new ArrayList();
+	            	for(Field field: allFields) {
+		            	if(allowedTypes.contains(field.getType().getSimpleName())) {
+		            		headerList.add(field.getName());
+		            		try {
+								data.add(String.valueOf(methods.get(field.getName()).invoke(p, null)).replaceAll(";", "-").replaceAll("[\\r\\n]+", " "));
+							} catch (IllegalAccessException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (InvocationTargetException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+		            	}
+		            }
+	            	
+	            	
+	            	 csvWriter.writeNext(data.toArray(new String[0]));
+	            }
+	            
+	            	           	            
 	            // Flush the writer to ensure all data is written
 	            csvWriter.flush();
 	            
+		        // Return the CSV file as a resource
+		       
 	            return outputStream.toByteArray();
 	        } catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -63,8 +146,6 @@ public class CsvGeneratorImpl  implements CsvGeneratorIn{
 	        
 	       
 	        return null;
-	        
-	        // Return the CSV file as a resource
 	       
 	    }
 	

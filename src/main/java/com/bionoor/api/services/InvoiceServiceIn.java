@@ -40,8 +40,12 @@ public Invoice add(Invoice invoice ) ;
 	
 	public List<Invoice> allInvoices( ) ;
 	
-	public Page<Invoice> pages( int page, int size, Long id , String sort) ;
-
+	
+	public List<Invoice> invoicesNotPaid( );
 	
 	public Invoice getById(Long id) ;
+
+
+	public Page<Invoice> pages(int page, int size, Long mc, String sort);
+	public Page<Invoice> pagesByUsername( int page, int size, String sort,String username) ;
 }

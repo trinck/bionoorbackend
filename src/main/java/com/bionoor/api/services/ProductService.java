@@ -5,11 +5,15 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.bionoor.api.admin.AdminProduct.InputProductDto;
 import com.bionoor.api.models.Category;
 import com.bionoor.api.models.Order;
+import com.bionoor.api.models.Payment;
 import com.bionoor.api.models.Product;
 import com.bionoor.api.repositories.ProductRepository;
 import com.bionoor.api.utils.*;
@@ -110,6 +114,109 @@ public class ProductService implements  ProductServiceIn{
 		}
 		
 		throw new EntityNotFoundException("product with name = "+productName+" doesn't exist");
+	}
+
+
+	@Override
+	public Product findByCode(String code) {
+		// TODO Auto-generated method stub
+		return this.productRepository.findByCode(code);
+	}
+
+
+	@Override
+	public Page<Product> pagesById(int page, int size, Long id, String sort) {
+		String [] sorts = sort.split(":");
+		Page<Product> pages;
+		if(id != null) {
+			if(sorts[1].equalsIgnoreCase("ascending")) {
+				pages = this.productRepository.findById(id, PageRequest.of(page, size, Sort.by(sorts[0]).ascending()));
+
+			}else {
+				
+				pages = this.productRepository.findById(id, PageRequest.of(page, size, Sort.by(sorts[0]).descending()));
+
+			}
+		}else {
+			
+			
+			if(sorts[1].equalsIgnoreCase("ascending")) {
+				pages = this.productRepository.findAll( PageRequest.of(page, size, Sort.by(sorts[0]).ascending()));
+			}else {
+				
+				pages = this.productRepository.findAll( PageRequest.of(page, size, Sort.by(sorts[0]).descending()));
+
+			}
+			
+
+		}
+		
+				
+		 return	pages;
+	}
+
+
+	@Override
+	public Page<Product> pagesByCode(int page, int size, String sort, String code) {
+		String [] sorts = sort.split(":");
+		Page<Product> pages;
+		if(code != null) {
+			if(sorts[1].equalsIgnoreCase("ascending")) {
+				pages = this.productRepository.findByCodeContains(code, PageRequest.of(page, size, Sort.by(sorts[0]).ascending()));
+
+			}else {
+				
+				pages = this.productRepository.findByCodeContains(code, PageRequest.of(page, size, Sort.by(sorts[0]).descending()));
+
+			}
+		}else {
+			
+			
+			if(sorts[1].equalsIgnoreCase("ascending")) {
+				pages = this.productRepository.findAll( PageRequest.of(page, size, Sort.by(sorts[0]).ascending()));
+			}else {
+				
+				pages = this.productRepository.findAll( PageRequest.of(page, size, Sort.by(sorts[0]).descending()));
+
+			}
+			
+
+		}
+		
+				
+		 return	pages;
+	}
+
+
+	@Override
+	public Page<Product> pagesByName(int page, int size, String sort, String name) {
+		String [] sorts = sort.split(":");
+		Page<Product> pages;
+		if(name != null) {
+			if(sorts[1].equalsIgnoreCase("ascending")) {
+				pages = this.productRepository.findByNameContains(name, PageRequest.of(page, size, Sort.by(sorts[0]).ascending()));
+
+			}else {
+				
+				pages = this.productRepository.findByNameContains(name, PageRequest.of(page, size, Sort.by(sorts[0]).descending()));
+
+			}
+		}else {
+			
+			
+			if(sorts[1].equalsIgnoreCase("ascending")) {
+				pages = this.productRepository.findAll( PageRequest.of(page, size, Sort.by(sorts[0]).ascending()));
+			}else {
+				
+				pages = this.productRepository.findAll( PageRequest.of(page, size, Sort.by(sorts[0]).descending()));
+
+			}
+			
+
+		}
+		
+				
+		 return	pages;
 	}
 	
 	

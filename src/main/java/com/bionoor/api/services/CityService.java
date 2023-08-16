@@ -13,13 +13,13 @@ import com.bionoor.api.repositories.CityRepository;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
-public class CityService {
+public class CityService implements CityServiceIn{
 
 	@Autowired
     private  CityRepository cityRepository;
 	
 	@Autowired
-	private CountryService countryService;
+	private CountryServiceIn countryService;
     
    
 

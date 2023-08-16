@@ -17,6 +17,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @DiscriminatorValue(value = "Pay as delivered")
-public class PaymentAsDelivered extends Payment implements Serializable{
+public class PaymentAsDelivered extends Payment {
 
 }
