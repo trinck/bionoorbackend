@@ -80,5 +80,5 @@ public Order addOrderInvoice(InputOrderInvoiceDTO inputOrderInvoiceDTO );
 	public Page<Order> findById(int page, int size, Long id, String sort);
  	public Page<Order> findByCustomerUsername( int page, int size, String sort,String username);
  	public Page<Order> findAllByStatus( int page, int size, String sort,String orderStatus);
-    
+ 	public Order cancelOrder(Order order);
 }

@@ -1,19 +1,14 @@
 package com.bionoor.api.web;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import java.util.Date;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.function.Predicate;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,10 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bionoor.api.dto.OutputBestSellerListDTO;
 import com.bionoor.api.dto.OutputOrderDTO;
 import com.bionoor.api.dto.OutputProductBestSeller;
-import com.bionoor.api.dto.OutputProductDTO;
-import com.bionoor.api.exceptions.IllegalOperationException;
 import com.bionoor.api.models.Address;
-import com.bionoor.api.models.Customer;
 import com.bionoor.api.models.Order;
 import com.bionoor.api.models.Order.OrderStatus;
 import com.bionoor.api.models.OrderItem;
@@ -251,6 +243,7 @@ public class RestDashboard {
 		List<OutputOrderDTO> processing = toOutputDTO( this.orderServiceIn.findByStatus(OrderStatus.PROCESSING));
 		List<OutputOrderDTO> returned = toOutputDTO( this.orderServiceIn.findByStatus(OrderStatus.RETURNED));
 		List<OutputOrderDTO> delivered = toOutputDTO( this.orderServiceIn.findByStatus(OrderStatus.DELIVERED));
+		List<OutputOrderDTO> canceled = toOutputDTO( this.orderServiceIn.findByStatus(OrderStatus.CANCELED));
 		
 		Map<OrderStatus, List<OutputOrderDTO> > body = new HashMap<>();
 		
@@ -259,6 +252,7 @@ public class RestDashboard {
 		body.put(OrderStatus.PROCESSING, processing);
 		body.put(OrderStatus.RETURNED, returned);
 		body.put(OrderStatus.DELIVERED, delivered);
+		body.put(OrderStatus.CANCELED, canceled);
 		
 		return body;
 	} 

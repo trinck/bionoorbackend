@@ -20,7 +20,7 @@ public class OrderItemService implements OrderItemServiceIn{
 	OrderItemRepository orderItemRepository;
 	
 	@Autowired
-	ProductService productService;
+	ProductServiceIn productService;
 	
 
 	

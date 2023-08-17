@@ -37,6 +37,7 @@ import com.bionoor.api.models.Order;
 import com.bionoor.api.models.OrderItem;
 import com.bionoor.api.models.Payment;
 import com.bionoor.api.models.Product;
+import com.bionoor.api.models.Order.OrderStatus;
 import com.bionoor.api.services.OrderService;
 import com.bionoor.api.services.OrderServiceIn;
 import com.bionoor.api.services.PaymentServiceImpl;
@@ -63,6 +64,18 @@ public class RestOrder {
 	
 	
 	
+	@PostMapping(value = "/cancel")
+	public OutputOrderDTO cancel(@RequestParam Long id) {
+		
+		
+		
+		 Order order = this.orderService.putStatus(OrderStatus.CANCELED.name(),id);
+		
+	   return	 new OutputOrderDTO(order);
+	}
+	
+	
+	
 	//send a confirmation order
 	@GetMapping(value = "/orderConfirmation")
 	public Map<String,String> orderConfirmation(@RequestParam Long id) {
@@ -77,7 +90,7 @@ public class RestOrder {
 	
 	
 	
-	@GetMapping
+	@GetMapping("/")
 	public List<OutputOrderDTO>  allOrders() {
 		
 		List<Order> list = this.orderService.allOrders();
@@ -107,8 +120,7 @@ public class RestOrder {
 	
 	@PostMapping(value = "/orderItems/delete")
 	public OutputOrderDTO deleteOrderItem(@RequestParam Long orderItemId, @RequestParam Long id) {
-		
-		
+				
 		 OutputOrderDTO orderItemDTO = new OutputOrderDTO(this.orderService.deleteOrderItem(orderItemId, id));
 	   return	orderItemDTO;
 	}
@@ -204,11 +216,6 @@ public class RestOrder {
 		
 		
 	}
-	
-	
-	
-	
-	
 	
 	
 	

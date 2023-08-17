@@ -57,6 +57,7 @@ public class AdminOrder {
 		mapStatusBG.put(OrderStatus.READY.name(), "text-bg-primary");
 		mapStatusBG.put(OrderStatus.DELIVERED.name(), "text-bg-success");
 		mapStatusBG.put(OrderStatus.RETURNED.name(), "text-bg-danger");
+		mapStatusBG.put(OrderStatus.CANCELED.name(), "text-bg-info");
 		
 		
 		model.addAttribute("mapStatusBG", mapStatusBG);

@@ -33,11 +33,8 @@ import com.bionoor.api.repositories.CustomerRepository;
 import com.bionoor.api.repositories.OrderItemRepository;
 import com.bionoor.api.repositories.OrderRepository;
 import com.bionoor.api.utils.InvoiceProcessingIn;
-import com.bionoor.api.utils.Utils;
 
-import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 
 @Service
 public class OrderService implements OrderServiceIn {
@@ -63,7 +60,7 @@ public class OrderService implements OrderServiceIn {
 	private OrderItemRepository orderItemRepository;
 
 	@Autowired
-	private OrderItemService orderItemService;
+	private OrderItemServiceIn orderItemService;
 
 	@Autowired
 	private CustomerRepository customerRepository;
@@ -93,22 +90,31 @@ public class OrderService implements OrderServiceIn {
 	public Order putStatus(String status, Long id) {
 
 		Order order = this.getById(id);
+		
+		if(order.getStatus()==OrderStatus.CANCELED) {return order;}
 
-		switch (status) {
-		case "RETURNED":
-			   order.setStatus(OrderStatus.RETURNED);
+		switch (status.toUpperCase()) {
+		case "RETURNED": if(order.getStatus()==OrderStatus.READY || order.getStatus()==OrderStatus.DELIVERED) {
+							order.setStatus(OrderStatus.RETURNED);}
 			break;
-		case "PENDING": if(order.getStatus()!= OrderStatus.RETURNED)
-			   order.setStatus(OrderStatus.PENDING):;
+		case "PENDING": if(order.getStatus()== OrderStatus.PROCESSING  )
+			   order.setStatus(OrderStatus.PENDING);
 			break;
-		case "READY":
-			(order.getInvoice()!=null)? order.setStatus(OrderStatus.READY):order.setStatus(null); ;
+		case "READY": if(order.getStatus()==OrderStatus.PROCESSING  && order.getInvoice()!=null)
+								order.setStatus(OrderStatus.READY); 
 			break;
-		case "DELIVERED":
-			order.setStatus(OrderStatus.DELIVERED);
+		case "DELIVERED": if(order.getStatus()==OrderStatus.READY)
+						order.setStatus(OrderStatus.DELIVERED);
 			break;
-		case "PROCESSING":
-			order.setStatus(OrderStatus.PROCESSING);
+		case "PROCESSING": if(order.getStatus()==OrderStatus.PENDING )
+								order.setStatus(OrderStatus.PROCESSING);
+			break;
+			
+		case "CANCELED": if(order.getStatus()==OrderStatus.PENDING || order.getStatus()==OrderStatus.PROCESSING) {
+						order.setStatus(OrderStatus.CANCELED);
+						return cancelOrder(order);
+					}
+						
 			break;
 		default:
 			break;
@@ -136,9 +142,9 @@ public class OrderService implements OrderServiceIn {
 		return this.add(order);
 	}
 
-	/*************
-	 * put discountcode*********************************************
-	 ***************************************************************************/
+	/*******************************************************************************************
+	 * put discountcode*************************************************************************
+	 *******************************************************************************************/
 	public Order addDiscountCode(String code, Long id) {
 
 		Order order = this.getById(id);
@@ -202,8 +208,8 @@ public class OrderService implements OrderServiceIn {
 		return code;
 	}
 
-	/*************
-	 * put orderitem*********************************************
+	/*************************************************************************
+	 * put orderitem**********************************************************
 	 ***************************************************************************/
 	public Order putOrderItem(InputOrderItemDTO orderItemDTO, Long id) {
 
@@ -261,6 +267,8 @@ public class OrderService implements OrderServiceIn {
 
 		return this.add(order);
 	}
+	
+	
 
 	/* put the item quantity */
 	public Order putOrderItemQuantity(Long id, int quantity, Long orderItemId) {
@@ -285,6 +293,7 @@ public class OrderService implements OrderServiceIn {
 		return this.add(order);
 	}
 
+	
 //add invoice to order***********************************
 	public Order addOrderInvoice(InputOrderInvoiceDTO inputOrderInvoiceDTO) {
 
@@ -300,8 +309,8 @@ public class OrderService implements OrderServiceIn {
 		return this.add(order);
 	}
 
-	/*************
-	 * put Payment method*********************************************
+	/*************************************************************************
+	 * put Payment method***************************************************
 	 ***************************************************************************/
 
 	public Order updatPaymentMethod(Long method, Long id) {
@@ -313,8 +322,8 @@ public class OrderService implements OrderServiceIn {
 		return this.add(order);
 	}
 
-	/*************
-	 * add order*********************************************
+	/***************************************************************************
+	 * add order***************************************************************
 	 ***************************************************************************/
 
 	public Order add(InputOrderDTO inputOrderDTO) {
@@ -331,20 +340,11 @@ public class OrderService implements OrderServiceIn {
 
 		// set customer
 		order.setCustomer(customer);
-		order.setAdrress(customer.getAddress().getCity().getName() + "," + customer.getAddress().getStreet()); // *****put
-																												// the
-																												// method
-																												// of
-																												// payment
-																												// for
-																												// this
-																												// order***/
+		order.setAdrress(customer.getAddress().getCity().getName() + "," + customer.getAddress().getStreet()); 
 		PaymentMethod paymentMethod = this.paymentServiceImpl.getPaymentMethodById(inputOrderDTO.getPaymentMethod());
 
 		order.setPaymentMethod(paymentMethod);
-		// order = this.add(order);
-		// order = this.getById(order.getId());
-
+		
 		// add all items in new order
 		List<OrderItem> orderItems = new ArrayList<>();
 

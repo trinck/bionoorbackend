@@ -39,7 +39,7 @@ public class Order implements Serializable{
 
 	public enum OrderStatus{
 		
-		PENDING, DELIVERED,PROCESSING, READY, RETURNED;
+		PENDING, DELIVERED,PROCESSING, READY, RETURNED,CANCELED;
 	}
 	
 	

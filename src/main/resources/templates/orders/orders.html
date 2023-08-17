@@ -125,10 +125,11 @@
 									<td th:text="${order.paymentMethod!=null ?order.paymentMethod.name:'N/A' }"></td>
 									<td>
 										<div class="d-flex gap-3"><a href="#"><i
-													class="bi bi-check-lg text-success"></i></a> <a href="#"><i
-													class="bi bi-x-lg text-danger"></i> </a> <a
+													class="bi bi-check-lg text-success"></i></a> <a href="#">
+														<i class="bi bi-x-lg text-danger cancel" th:id="${order.id}"></i> </a> <a
 												th:href="@{/orederView(id = ${order.id})}"><i
-													class="bi bi-arrow-right text-secondary"></i></a></div>
+													class="bi bi-arrow-right text-secondary"></i></a>
+										</div>
 									</td>
 								</tr>
 								<tr class="text-center" th:if="${#lists.size(orders) == 0}">
@@ -205,7 +206,7 @@
 
 
 		</section>
-
+ <script type="text/javascript" src="js/orders/orders.js"></script>
 	</div>
 
 </body>
