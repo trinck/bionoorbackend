@@ -30,7 +30,7 @@ public class CustomerService implements CustomerServiceIn {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	@Autowired
-	private CityService cityService;
+	private CityServiceIn cityService;
 	
 	
 	@Autowired

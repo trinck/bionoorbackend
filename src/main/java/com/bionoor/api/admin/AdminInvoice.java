@@ -53,11 +53,6 @@ public class AdminInvoice {
 
 	
 	
-	@Value("${app.name}")
-	private String name;
-	@Value("${app.logo}")
-	 private String logo;
-	
 	@Autowired
 	private InvoiceServiceIn invoiceService;
 	
@@ -75,8 +70,7 @@ public class AdminInvoice {
 	{
 		List<Invoice> invoices = this.invoiceService.allInvoices();
 		model.addAttribute("invoices", invoices);
-		model.addAttribute("logo", logo);
-		model.addAttribute("name", name);
+	
 		
 		return "invoices/invoices";
 	}
@@ -118,9 +112,9 @@ public class AdminInvoice {
 		
 		
 		
-		model.addAttribute("logo", logo);
+		
 		model.addAttribute("mapStatusBG", mapStatusBG);
-		model.addAttribute("name", name);
+		
 		model.addAttribute("by", by);
 		model.addAttribute("now", new Date());
 		model.addAttribute("dateStatus", dateStatus);
@@ -146,8 +140,6 @@ public class AdminInvoice {
 		Invoice invoice = this.invoiceService.getById(id);
 		model.addAttribute("invoice", invoice);
 		model.addAttribute("order", invoice.getOrder());
-		model.addAttribute("logo", logo);
-		model.addAttribute("name", name);
 		List<Product> products = this.productService.allProducts();
 		model.addAttribute("productList", products);
 		
@@ -164,8 +156,7 @@ public class AdminInvoice {
 		Invoice invoice = this.invoiceService.add(inputInvoice);
 		model.addAttribute("invoice", invoice);
 		model.addAttribute("order", invoice.getOrder());
-		model.addAttribute("logo", logo);
-		model.addAttribute("name", name);
+		
 		
 		return "invoices/invoiceview.html";
 	}
@@ -181,8 +172,7 @@ public class AdminInvoice {
 		Invoice invoice = this.invoiceService.add(inputInvoice);
 		model.addAttribute("invoice", invoice);
 		model.addAttribute("order", invoice.getOrder());
-		model.addAttribute("logo", logo);
-		model.addAttribute("name", name);
+		
 		
 		return "invoices/invoiceview.html";
 	}
@@ -196,8 +186,7 @@ public class AdminInvoice {
 		Invoice invoice = this.invoiceService.getById(id);
 		model.addAttribute("invoice", invoice);
 		model.addAttribute("order", invoice.getOrder());
-		model.addAttribute("logo", logo);
-		model.addAttribute("name", name);
+	
 		
 		return "invoices/invoiceview.html";
 	}
@@ -222,8 +211,7 @@ public class AdminInvoice {
 		model.addAttribute("index", index);
 		model.addAttribute("order",order);
 		
-		model.addAttribute("logo", logo);
-		model.addAttribute("name", name);
+		
 		
 		List<Product> products = this.productService.allProducts();
 		model.addAttribute("productList", products);

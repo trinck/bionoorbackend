@@ -31,6 +31,7 @@ public interface CategoryServiceIn {
 	
 	public Page<Category> findById(int page, int size, Long id, String sort);
  	public Page<Category> findByName( int page, int size, String sort,String name);
+	public List<Category> findByNames(List<String> categories);
  	
     
 

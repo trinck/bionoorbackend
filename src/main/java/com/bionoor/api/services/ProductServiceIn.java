@@ -26,5 +26,6 @@ public Product getById(Long id);
 public Page<Product> pagesById(int page, int size, Long id, String sort);
 public Page<Product> pagesByCode( int page, int size, String sort,String code) ;
 public Page<Product> pagesByName( int page, int size, String sort,String name) ;
+public List<Product> findByNames(List<String> products);
 
 }

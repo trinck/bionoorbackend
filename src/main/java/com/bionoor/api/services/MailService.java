@@ -48,8 +48,8 @@ public class MailService implements MailServiceIn{
 				MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 				
 				helper.setFrom("trinckmouloungui@gmail.com");
-				helper.setTo("g.mouloungui_ibiatsi@mundiapolis.ma");
-				helper.setSubject("Confirmation de commande");
+				helper.setTo(order.getCustomer().getEmail());
+				helper.setSubject("Order Confirmation");
 			helper.setText(htmlBody, true);
 				helper.addInline("attachment.png", resourceFile);
 			} catch (MessagingException e) {
@@ -78,7 +78,7 @@ public class MailService implements MailServiceIn{
 					MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 					
 					helper.setFrom("trinckmouloungui@gmail.com");
-					helper.setTo("g.mouloungui_ibiatsi@mundiapolis.ma");
+					helper.setTo(customer.getEmail());
 					helper.setSubject("Email verification");
 				helper.setText(htmlBody, true);
 					helper.addInline("attachment.png", resourceFile);

@@ -218,6 +218,13 @@ public class ProductService implements  ProductServiceIn{
 				
 		 return	pages;
 	}
+
+
+	@Override
+	public List<Product> findByNames(List<String> products) {
+		// TODO Auto-generated method stub
+		return this.productRepository.findByNames(products);
+	}
 	
 	
 }

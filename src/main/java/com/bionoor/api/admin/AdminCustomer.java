@@ -23,10 +23,7 @@ import com.bionoor.api.services.ProductService;
 @Controller
 public class AdminCustomer {
 	
-	@Value("${app.name}")
-	private String name;
-	@Value("${app.logo}")
-	 private String logo;
+	
 	
 	@Autowired
 	private CustomerService customerService;
@@ -41,7 +38,7 @@ public class AdminCustomer {
 	public String customers(Model model) 
 	{
 		List<Customer> customers = this.customerService.getCustomers();
-		model.addAttribute("name", name);
+		
 		model.addAttribute("customers", customers);
 		return "customers/customers";
 		
@@ -52,7 +49,7 @@ public class AdminCustomer {
 	{
 	
 		Customer customer = this.customerService.getCustomerById(id);
-		model.addAttribute("name", name);
+		
 		model.addAttribute("customer", customer);
 		
 		List<Product> products = new ArrayList<>();

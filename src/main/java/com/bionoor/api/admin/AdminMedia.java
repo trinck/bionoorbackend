@@ -18,10 +18,6 @@ import com.bionoor.api.services.MediaService;
 public class AdminMedia {
 
 	
-	@Value("${app.name}")
-	private String name;
-	@Value("${app.logo}")
-	 private String logo;
 	
 	@Autowired
 	private MediaService mediaService;
@@ -30,7 +26,7 @@ public class AdminMedia {
 	public String getMedias(Model model) {
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		model.addAttribute("name", name);
+	
 		
 		List<Media>  listmedias = this.mediaService.getAll();
 		

@@ -1,6 +1,5 @@
 package com.bionoor.api.services;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -9,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bionoor.api.dto.InputDiscountCustomerDTO;
-import com.bionoor.api.exceptions.FieldsAlreadyExistsException;
+import com.bionoor.api.exceptions.EntityNotFoundException;
 import com.bionoor.api.models.Category;
 import com.bionoor.api.models.Customer;
 import com.bionoor.api.models.DiscountCode;
@@ -20,22 +19,20 @@ import com.bionoor.api.repositories.DiscountCodeRepository;
 import com.bionoor.api.web.RestDiscount.InputDiscountCategory;
 import com.bionoor.api.web.RestDiscount.InputDiscountProduct;
 
-import jakarta.persistence.EntityNotFoundException;
-
 @Service
-public class DiscountCodeService{
+public class DiscountCodeService implements DiscountCodeServiceIn{
 
 	@Autowired
 	private DiscountCodeRepository codeRepository;
 	
 	@Autowired
-	private ProductService productService;
+	private ProductServiceIn productService;
 	
 	@Autowired
-	private CategoryService categoryService;
+	private CategoryServiceIn categoryService;
 	
 	@Autowired
-	private CustomerService customerService;
+	private CustomerServiceIn customerService;
 	
 	public DiscountCode add(DiscountCode toSave) {
 		
@@ -120,13 +117,13 @@ public class DiscountCodeService{
 		
 		 final DiscountCode discountCode = new DiscountDCC(inputDiscount); 
 		  
-		  List<Product> products = new ArrayList<>();
+		  List<Product> products = new ArrayList();
 		  List<Category> categories = new ArrayList<>();
 		  Customer customer = this.customerService.getCustomerById(inputDiscount.getCustomerId());
 		  
 			 
-		  products = this.productService.getProductRepository().findByNames(inputDiscount.getProducts());	 
-		  categories =this.categoryService.getCategoryRepository().findByNames(inputDiscount.getCategories());
+		  products = this.productService.findByNames(inputDiscount.getProducts());	 
+		  categories =this.categoryService.findByNames(inputDiscount.getCategories());
 		  
 		  
 		//  product.getDiscountCodes().add(discountCode);

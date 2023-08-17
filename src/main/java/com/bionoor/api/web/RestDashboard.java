@@ -57,7 +57,7 @@ public class RestDashboard {
 	private OrderServiceIn orderServiceIn;
 	@Autowired
 	private CustomerServiceIn customerServiceIn;
-	@Value("${app.stock-average}")
+	@Value("${app.param.stock-average}")
 	private int stockAverage;
 	
 	

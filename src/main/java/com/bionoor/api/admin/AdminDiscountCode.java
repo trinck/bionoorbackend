@@ -32,18 +32,13 @@ public class AdminDiscountCode {
 	
 	
 	
-	@Value("${app.name}")
-	private String name;
-	@Value("${app.logo}")
-	 private String logo;
-	
 	
 	
 
 	@GetMapping(value = "/discounts")
 	public String discounts(Model model) {
 		 List<DiscountCode> discountCodes = this.discountCodeService.all();
-		model.addAttribute("name", name);
+	
 		model.addAttribute("discountCodes", discountCodes);
 		//System.out.println(categories);
 		return "";
@@ -51,10 +46,7 @@ public class AdminDiscountCode {
 	
 	@GetMapping(value = "/discountForm")
 	public String discountForm(Model model) {
-		/*
-		 * DiscountCode discountCode = new DiscountCode(); model.addAttribute("name",
-		 * name); model.addAttribute("discountCode", discountCode);
-		 */
+		
 		return "";
 	}
 	
@@ -65,7 +57,6 @@ public class AdminDiscountCode {
 		DiscountCode discountCode = this.discountCodeService.getById(id);	
 		model.addAttribute("discountCode", discountCode);
 	
-		model.addAttribute("name", name);
 		return "";
 	}
 	

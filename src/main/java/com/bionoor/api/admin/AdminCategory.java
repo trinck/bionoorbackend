@@ -24,6 +24,7 @@ import com.bionoor.api.models.DiscountCode;
 import com.bionoor.api.models.Order;
 import com.bionoor.api.repositories.MediaRepository;
 import com.bionoor.api.repositories.ProductRepository;
+import com.bionoor.api.security.AppConfig;
 import com.bionoor.api.services.CategoryService;
 import com.bionoor.api.services.CategoryServiceIn;
 import com.bionoor.api.services.DiscountCodeService;
@@ -49,16 +50,8 @@ public class AdminCategory {
 	@Autowired
 	DiscountCodeService discountCodeService;
 	
-	
-	
-	
-	
-	
-	@Value("${app.name}")
-	private String name;
-	@Value("${app.logo}")
-	 private String logo;
-	
+	@Autowired
+	private AppConfig appConfig;
 	 
 	
 	
@@ -89,8 +82,7 @@ public class AdminCategory {
 				categories = this.categoryService.findByName(page, size, sort, mc);
 			} 
 
-			model.addAttribute("logo", logo);
-			model.addAttribute("name", name);
+			
 			model.addAttribute("by", by);
 			model.addAttribute("totalElements", categories.getTotalElements());
 			model.addAttribute("pages", new int[categories.getTotalPages()]);
@@ -112,7 +104,7 @@ public class AdminCategory {
 	public String categoryForm(Model model) {
 		InputCategory newCategory = new InputCategory();
 		 List<Category> categories = this.categoryService.allCategories();
-		model.addAttribute("name", name);
+		
 		model.addAttribute("category", newCategory);
 		model.addAttribute("categories", categories);
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -133,7 +125,7 @@ public class AdminCategory {
 		model.addAttribute("category", category);
 		model.addAttribute("categories", categories);
 		model.addAttribute("discountCodes",discountCodes);
-		model.addAttribute("name", name);
+	
 		return "categories/categoryview.html";
 	}
 	

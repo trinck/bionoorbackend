@@ -45,11 +45,6 @@ import lombok.NoArgsConstructor;
 public class AdminProduct {
 
 	
-	@Value("${app.name}")
-	private String name;
-	@Value("${app.logo}")
-	 private String logo;
-	
 	@Autowired
 	private CategoryServiceIn categoryService;
 	@Autowired
@@ -60,10 +55,10 @@ public class AdminProduct {
 	public String product(Model model,@RequestParam(name = "id") Long id) {
 		
 		Product product = this.productService.getById(id);
-		model.addAttribute("name", name);
+	
 		model.addAttribute("id",id);
 		model.addAttribute("product", product);
-		model.addAttribute("logo",logo);
+		
 		return "products/productview.html";
 	}
 	
@@ -74,9 +69,7 @@ public class AdminProduct {
 		
 		List<Category> categories = this.categoryService.allCategories();
 		model.addAttribute("categories", categories);
-		model.addAttribute("name", name);
-		
-		model.addAttribute("logo",logo);
+	
 		InputProductDto  inputProductDto = new InputProductDto();
 		model.addAttribute("product", inputProductDto);
 		
@@ -89,8 +82,7 @@ public class AdminProduct {
 		
 		List<Category> categories = this.categoryService.allCategories();
 		model.addAttribute("categories", categories);
-		model.addAttribute("logo",logo);
-		model.addAttribute("name", name);
+	
 		
 		InputProductDto  newinputProductDto = new InputProductDto();
 		model.addAttribute("product", newinputProductDto);
@@ -137,8 +129,7 @@ public class AdminProduct {
 		}
 		
 		
-		model.addAttribute("logo", logo);
-		model.addAttribute("name", name);
+	
 		model.addAttribute("by", by);
 		model.addAttribute("totalElements", products.getTotalElements());
 		model.addAttribute("pages", new int[products.getTotalPages()]);

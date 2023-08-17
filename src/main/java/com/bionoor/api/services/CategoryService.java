@@ -23,9 +23,13 @@ import com.bionoor.api.repositories.ProductRepository;
 import com.bionoor.api.utils.ServiceStorageIn;
 
 import jakarta.persistence.EntityNotFoundException;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Data
+
+@NoArgsConstructor
+@AllArgsConstructor
 @Service
 public class CategoryService implements CategoryServiceIn{
     
@@ -197,6 +201,17 @@ public class CategoryService implements CategoryServiceIn{
 		
 				
 		 return	pages;
-	} 
+	}
+
+
+
+	@Override
+	public List<Category> findByNames(List<String> categories) {
+		// TODO Auto-generated method stub
+		return this.categoryRepository.findByNames(categories);
+	}
+
+
+	
 }
 

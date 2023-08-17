@@ -22,6 +22,7 @@ import com.bionoor.api.utils.ServiceStorageIn;
 @SpringBootApplication
 @EnableJpaAuditing
 
+
 public class BionoorApplication  implements CommandLineRunner{
 
 	@Autowired

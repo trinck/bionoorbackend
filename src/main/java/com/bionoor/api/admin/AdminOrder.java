@@ -27,10 +27,7 @@ import com.bionoor.api.utils.InvoiceProcessingIn;
 public class AdminOrder {
 
 	
-	@Value("${app.name}")
-	private String name;
-	@Value("${app.logo}")
-	 private String logo;
+	
 	
 	@Autowired
 	private OrderServiceIn orderService;
@@ -43,7 +40,7 @@ public class AdminOrder {
 	@GetMapping(value = "/order")
 	public String order(Model model,@RequestParam(name = "id") int id) {
 		
-		model.addAttribute("name", name);
+		
 		model.addAttribute("id",id);
 		
 		return "orders/orderview.html";
@@ -89,8 +86,7 @@ public class AdminOrder {
 		}
 		
 		
-		model.addAttribute("logo", logo);
-		model.addAttribute("name", name);
+	
 		model.addAttribute("by", by);
 		model.addAttribute("totalElements", orders.getTotalElements());
 		model.addAttribute("pages", new int[orders.getTotalPages()]);
@@ -113,8 +109,7 @@ public class AdminOrder {
 		
 		model.addAttribute("order", order);
 		model.addAttribute("invoice", order.getInvoice());
-		model.addAttribute("logo", logo);
-		model.addAttribute("name", name);
+		
 		
 		return "invoices/invoiceview.html";
 	}

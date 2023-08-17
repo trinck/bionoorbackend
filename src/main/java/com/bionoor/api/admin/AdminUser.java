@@ -11,14 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdminUser {
 
 	
-	@Value("${app.name}")
-	private String name;
-	@Value("${app.logo}")
-	 private String logo;
+	
 	
 	@GetMapping(value = "/users")
 	public String users(Model model) {
-		model.addAttribute("name", name);
+		
 		
 		return "users/users.html";
 	}

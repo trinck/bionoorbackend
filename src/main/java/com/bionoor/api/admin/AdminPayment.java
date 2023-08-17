@@ -27,10 +27,7 @@ import com.bionoor.api.services.PaymentServiceIn;
 @Controller
 public class AdminPayment {
 
-	@Value("${app.name}")
-	private String name;
-	@Value("${app.logo}")
-	 private String logo;
+	
 	
 	@Autowired
 	private PaymentServiceIn paymentServiceImpl;
@@ -138,9 +135,7 @@ public class AdminPayment {
 		
 		
 	
-		model.addAttribute("logo", logo);
 	
-		model.addAttribute("name", name);
 		model.addAttribute("by", by);
 		model.addAttribute("now", new Date());
 		model.addAttribute("totalElements", payments.getTotalElements());

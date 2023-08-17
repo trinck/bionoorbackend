@@ -59,15 +59,6 @@ public class RestDiscount {
 	DiscountCodeService discountCodeService;
 	
 	
-	
-	
-	@Value("${app.name}")
-	private String name;
-	@Value("${app.logo}")
-	 private String logo;
-	
-	
-	
 
 	@GetMapping(value = "/all")
 	public List<DiscountCode> discountCodes() {

@@ -12,14 +12,10 @@ public class AdminShop {
 	
 	
 
-	@Value("${app.name}")
-	private String name;
-	@Value("${app.logo}")
-	 private String logo;
+	
 	
 	@GetMapping(value = "/shop")
 	public String shop(Model model) {
-		model.addAttribute("name", name);
 		
 		return "shop/shop";
 	}

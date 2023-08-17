@@ -14,15 +14,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 public class AdminController {
 
-	@Value("${app.name}")
-	private String name;
-	@Value("${app.logo}")
-	 private String logo;
 	
 	@GetMapping(value = "/")
 	public String index(Model model) {
 		
-		model.addAttribute("name", name);
+		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		model.addAttribute("authentication", authentication);
 		return "index";
@@ -32,7 +28,7 @@ public class AdminController {
 	@GetMapping(value = "/login")
 	public String login(Model model) {
 		
-		model.addAttribute("name", name);
+		
 		
 		return "login";
 	}
