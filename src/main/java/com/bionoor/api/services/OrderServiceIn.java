@@ -36,7 +36,7 @@ public interface OrderServiceIn {
 	
 	public List<Order> allOrders() ;
 	
-	public Order putStatus(String status, Long id) ;
+	public Order putStatus(OrderStatus status, Long id) ;
 	
 	public Order toogleFilfilled(Boolean fulfilled , Long id) ;
 	/*************put discountcode*********************************************

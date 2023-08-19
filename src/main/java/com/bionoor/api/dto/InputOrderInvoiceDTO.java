@@ -4,6 +4,8 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.bionoor.api.models.Order.OrderStatus;
+
 import jakarta.annotation.Nonnull;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.Min;
@@ -19,6 +21,7 @@ public class InputOrderInvoiceDTO{
 	private Long order;
 	private Long id;
 	
+	private OrderStatus status;
 	
 	private Boolean paid;
 

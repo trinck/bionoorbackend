@@ -67,9 +67,9 @@ public class RestOrder {
 	@PostMapping(value = "/cancel")
 	public OutputOrderDTO cancel(@RequestParam Long id) {
 		
+		Order order = this.orderService.getById(id);
 		
-		
-		 Order order = this.orderService.putStatus(OrderStatus.CANCELED.name(),id);
+		 order = this.orderService.cancelOrder(order);
 		
 	   return	 new OutputOrderDTO(order);
 	}
@@ -165,7 +165,7 @@ public class RestOrder {
 	@PostMapping(value = "/invoice/save")
 	public OutputOrderDTO addOrderInvoice(@ModelAttribute @Valid InputOrderInvoiceDTO inputOrderInvoiceDTO) {
 		
-		
+	
 		 Order order =  this.orderService.addOrderInvoice(inputOrderInvoiceDTO);
 		 OutputOrderDTO outputOrderDTO = new OutputOrderDTO(order);
 		
@@ -199,7 +199,7 @@ public class RestOrder {
 	
 	
 	@PostMapping(value = "/put/status")
-	public OutputOrderDTO putStatus(@RequestParam String status, @RequestParam long id) {
+	public OutputOrderDTO putStatus(@RequestParam OrderStatus status, @RequestParam long id) {
 		
 	   return new OutputOrderDTO(this.orderService.putStatus(status, id))	;
 	}

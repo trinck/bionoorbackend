@@ -87,43 +87,43 @@ public class OrderService implements OrderServiceIn {
 		return this.orderRepository.findAll();
 	}
 
-	public Order putStatus(String status, Long id) {
+	public Order putStatus(OrderStatus status, Long id) {
 
 		Order order = this.getById(id);
-		
-		if(order.getStatus()==OrderStatus.CANCELED) {return order;}
+		if(!isEnable(id)) {throw new IllegalOperationException("You cann't modify this order");}
 
-		switch (status.toUpperCase()) {
-		case "RETURNED": if(order.getStatus()==OrderStatus.READY || order.getStatus()==OrderStatus.DELIVERED) {
+		switch (status) {
+		case RETURNED : if(order.getStatus()==OrderStatus.READY || order.getStatus()==OrderStatus.DELIVERED) {
 							order.setStatus(OrderStatus.RETURNED);}
 			break;
-		case "PENDING": if(order.getStatus()== OrderStatus.PROCESSING  )
+		case PENDING: if(order.getStatus()== OrderStatus.PROCESSING  )
 			   order.setStatus(OrderStatus.PENDING);
 			break;
-		case "READY": if(order.getStatus()==OrderStatus.PROCESSING  && order.getInvoice()!=null)
+		case READY: if(order.getStatus()==OrderStatus.PROCESSING  && order.getInvoice()!=null)
 								order.setStatus(OrderStatus.READY); 
 			break;
-		case "DELIVERED": if(order.getStatus()==OrderStatus.READY)
+		case DELIVERED: if(order.getStatus()==OrderStatus.READY)
 						order.setStatus(OrderStatus.DELIVERED);
 			break;
-		case "PROCESSING": if(order.getStatus()==OrderStatus.PENDING )
+		case PROCESSING: if(order.getStatus()==OrderStatus.PENDING )
 								order.setStatus(OrderStatus.PROCESSING);
 			break;
 			
-		case "CANCELED": if(order.getStatus()==OrderStatus.PENDING || order.getStatus()==OrderStatus.PROCESSING) {
-						order.setStatus(OrderStatus.CANCELED);
-						return cancelOrder(order);
-					}
-						
-			break;
 		default:
 			break;
 		}
-		return this.add(order);
+		return order;
 	}
 
 	public Order cancelOrder(Order order) {
 
+		if(order.getStatus()!=OrderStatus.PENDING || order.getStatus()!=OrderStatus.PROCESSING) {
+			
+			throw new IllegalOperationException("This order cann't be canceled! you maybe meant RETURNED");
+		}
+		
+		order.setStatus(OrderStatus.CANCELED);
+		
 		List<OrderItem> items = order.getOrderItems();
 
 		items.forEach(item -> {
@@ -294,11 +294,19 @@ public class OrderService implements OrderServiceIn {
 	}
 
 	
-//add invoice to order***********************************
+	//add invoice to order***********************************
 	public Order addOrderInvoice(InputOrderInvoiceDTO inputOrderInvoiceDTO) {
 
+		if(!isEnable(inputOrderInvoiceDTO.getOrder())) {throw new IllegalOperationException("You cann't modify this order");}
 		Order order = this.getById(inputOrderInvoiceDTO.getOrder());
-
+		
+	
+		//update status order
+		if(order.getStatus()!= inputOrderInvoiceDTO.getStatus() &&  order.getStatus()!=null) {
+			order =   this.putStatus(inputOrderInvoiceDTO.getStatus(), inputOrderInvoiceDTO.getOrder());
+			
+	}
+		
 		if (inputOrderInvoiceDTO.getId() != null) {
 			this.invoiceService.modify(inputOrderInvoiceDTO);
 			return this.add(order);
@@ -308,6 +316,19 @@ public class OrderService implements OrderServiceIn {
 
 		return this.add(order);
 	}
+	
+	
+	public boolean isEnable(Long id) {
+		
+		
+		Order order = this.getById(id);
+		if(order.getStatus()==OrderStatus.CANCELED) {
+			return false;
+		}
+		
+		return true;
+	}
+	
 
 	/*************************************************************************
 	 * put Payment method***************************************************

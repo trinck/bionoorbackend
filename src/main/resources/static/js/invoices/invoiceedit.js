@@ -329,8 +329,6 @@ async function updateOrderStatus(element, id){
 	f.set("status",element.value)
 	f.set("id", id)
 	
-	
-	
 	try{
 			fetchFunction(url,"POST", f,resultat => console.log("status updated to "+resultat.status))
 			
@@ -359,7 +357,7 @@ async function createOrderInvoice(event){
 	
 	
 	f.set("order",Number( orderInfo.id))
-	f.delete("status")
+	//f.delete("status")
 	console.log(...f.entries())
 	
 	try{
